@@ -7,16 +7,19 @@ class Navbar extends Component{
         super(props);
 
         this.state = {
-            currentUser : undefined
+            currentUser : undefined,
+            userName : undefined,
         }
     }
 
     componentDidMount(){
-        if(localStorage.getItem('userToken')!==null){
-            const user = jwt_decode(localStorage.getItem('userToken'));
+        const user = localStorage.getItem('userToken');
+        if(user!==null){
+            const userName = jwt_decode(user).userName;
             if(user){
                 this.setState({
-                    currentUser: user
+                    currentUser: user,
+                    userName:userName,
                 });
             }
         }
@@ -38,12 +41,11 @@ class Navbar extends Component{
                 </ul>
             ):(
                 <ul>
-                    
-                    <li><NavLink to={`/profile/${this.state.currentUser.userName}`}>{this.state.currentUser.userName}</NavLink></li>
+                    <li><NavLink to={`/profile/${this.state.userName}`}>{this.state.userName}</NavLink></li>
                     <li><NavLink to="/posts">Posts</NavLink></li>
                     <li><NavLink to="/" onClick={this.userLogout}>Logout</NavLink></li>
                 </ul>
-            )
+            );
         return (
             <header className="header">
                 <div className="brand">
@@ -53,7 +55,6 @@ class Navbar extends Component{
                 {content}
             </div>
             </header>
-            
         )
     }
 }

@@ -1,0 +1,8 @@
+.profile-content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+.employee-content{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}

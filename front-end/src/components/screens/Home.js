@@ -60,14 +60,14 @@ class Home extends Component{
                         Atmanirbhar pledges you to make atmanirbhar. We bridge the gap between enthusiastic, talented individuals and the destination expecting them, taking them to their target and kissing the glorifying success. Connecting these individuals with the organization will ultimately help it to grow and reach the sky. We identify the best talents to work for you in highly professional and organized establishments sector of India through our services.
                     </p>
                     <h4>A recruiter can post job opportunities in the following categories:</h4>
-                    <div class="list">
-                        <div class="block">Full Time Job</div>
-                        <div class="block">Part Time Job</div>
-                        <div class="block">Work from home</div>
-                        <div class="block">Temporary Jobs</div>
-                        <div class="block">Internships</div>
-                        <div class="block">Campus placements</div>
-                        <div class="block">One time service</div>
+                    <div className="list">
+                        <div className="block">Full Time Job</div>
+                        <div className="block">Part Time Job</div>
+                        <div className="block">Work from home</div>
+                        <div className="block">Temporary Jobs</div>
+                        <div className="block">Internships</div>
+                        <div className="block">Campus placements</div>
+                        <div className="block">One time service</div>
                     </div>
                 </div>
             </div>                

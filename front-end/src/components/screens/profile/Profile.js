@@ -1,7 +1,8 @@
 import React,{ Component } from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
+import NotificationTab from './NotificationTab';
+import UserDetails from "./UserDetails";
 
 class Profile extends Component{
 
@@ -9,8 +10,7 @@ class Profile extends Component{
         super(props);
 
         this.state = {
-            userToken : localStorage.getItem('userToken'),
-            userData : undefined
+            userData : undefined,
         };
     }
 
@@ -21,6 +21,7 @@ class Profile extends Component{
         }
         axios.get('/api/user/profile', { headers: headers }).then(res => {
             if(!res.error){
+                console.log(res.data);
                 this.setState({
                     userData: res.data.userData
                 });
@@ -35,21 +36,21 @@ class Profile extends Component{
         });
     }
 
-    displayContent(){
-        var category = this.state.userData ? this.state.userData.category : undefined;
-        
+    displayContent(category){
         return category==='Employee'?
             this.showEmployeeContent() : category==='Employer'?
-            this.showEmployerContent() : <div>No Content</div>
+            this.showEmployerContent() : category==='Admin'?
+            this.showAdminContent() : <div>No Content</div>
     }
 
     showEmployeeContent(){
-        console.log(this.state.userData)
-        const userData = this.state.userData.userEmployeeInfo;
+        const info = this.state.userData.userEmployeeInfo;
+        console.log(this.state.userData);
         return(
             <div className="employee-content">
-                <h1>{userData.firstName}{" "}{userData.lastName}</h1>
-                <p>Gender : {userData.gender}</p>
+                <h1><span>{info.firstName}</span>{" "}{info.lastName}</h1>
+
+                <UserDetails details={info.details}/>
             </div>
         )
     }
@@ -64,12 +65,23 @@ class Profile extends Component{
         )
     }
 
+    showAdminContent(){
+        return(
+            <div>
+                This is the admin panel.
+            </div>
+        )
+    }
+
     render(){
+        var category = this.state.userData ? this.state.userData.category : undefined;
+
         return(
             <main className="main">
-            <div className="content">
-                {this.displayContent()}
-            </div>
+                <div className="profile-content">
+                    {this.displayContent(category)}
+                    <NotificationTab category={category} />
+                </div>
             </main>
         )
     }

@@ -1,9 +1,9 @@
 var express = require('express');
 var mongoose = require('mongoose');
-var userRouter = require('./routes/userRouter');
-//var jobsRouter = require('./routes/jobsRouter');
 var cors = require('cors')
 var bodyParser = require('body-parser')
+
+var userRouter = require('./routes/userRouter');
 
 var app = express();
 var port = process.env.PORT || 5000;

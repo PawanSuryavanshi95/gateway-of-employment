@@ -144,7 +144,7 @@ body{
   width: 100%;
 }
 
-.form input[type=submit] {
+.form input[type=submit], input[type=button] {
   background-color: #0094d9;
   color: #ffffff;
   font-weight: 600;
@@ -156,6 +156,10 @@ body{
   align-self: center;
   font-size: 2rem;
   margin-top: 20px;
+}
+
+.form input[type=button] {
+  background-color: #c91b0e;
 }
 
 .center {
@@ -364,4 +368,190 @@ body{
   font-size: 30px;
   font-weight: bolder;
   transition: all 0.3s;
+}
+
+.profile-content{
+  display: grid; 
+  height: 100%;
+  grid-gap: 10px;
+  grid-template-columns: 1fr .5fr;
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
+.employee-content{
+  margin: 30px;
+  margin-right: 5px;
+  border-style: groove;
+  border-radius: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.employee-content h1{
+  padding-left: 50px;
+  padding-bottom: 10px;
+  margin-bottom: 30px;
+  color: #0039ab;
+  border-bottom-color: #4f5559;
+  border-width: 1.5px;
+  border-bottom-style: solid;
+}
+
+.employee-content h1 span {
+  color: #0f0f0f;
+}
+
+.employee-content .user-details{
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.employee-content .user-details .field-name {
+  font-weight: bolder;
+  width: 200px;
+}
+
+.employee-content .user-details .field-value {
+  padding-left: 60px;
+}
+
+.employee-content .user-details .field {
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+}
+
+.notification-tab{
+  margin: 30px;
+  margin-left: 5px;
+  border-style: groove;
+  border-radius: 20px;
+}
+
+.notification-tab .menu-bar{
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  background-color: #2e2f30;
+}
+
+.menu-bar h2{
+  text-align: center;
+  color: #ffffff;
+  margin: 0px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.notification-tab .notification-msg{
+  display: flex;
+  flex-direction: column;
+}
+
+.notification-tab .notification-msg .notification{
+  border-bottom-style: solid;
+  border-bottom-color: gray;
+  border-bottom-width: 1px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: #ffffff;
+}
+
+.notification-tab .notification-msg .notification[id="1"]{
+  background-color: #bad3ff;
+}
+
+.admin-panel{
+  margin: 20px;
+  padding: 20px;
+  height: 100%;
+  margin-left: 20%;
+  margin-right: 20%;
+  border-left: solid;
+  border-right: solid;
+  border-color: gray;
+  border-width: 1.5px;
+}
+
+.admin-panel h1 {
+  text-align: center;
+  color: #0094d9;
+  font-size: 300%;
+}
+
+.nav-menu-items{
+  transition: all .3s;
+}
+
+.nav-menu-items ul {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  background-color: #e8e8e8;
+  padding-left: 10%;
+  padding-right: 10%;
+  overflow: hidden;
+  list-style-type: none;
+  transition: all .3s;
+}
+
+.nav-menu-items li {
+  float: left;
+  transition: .3s; 
+}
+
+.nav-menu-items li :hover {
+  background-color: #d4d4d4;
+  transition: all .3s;
+}
+
+.nav-menu-items a {
+  font-size: 30px;
+  padding: 10px;
+  display: block;
+  cursor: pointer;
+  transition: all .3s;
+}
+
+.entries {
+  padding-right: 5%;
+  padding-left: 5%;
+}
+
+.entry {
+  padding: 10px;
+  border-style: solid;
+  border-color: gray;
+  border-radius: 10px;
+  border-width: .5px;
+  margin-bottom: 20px;
+  background-color: #f7f7f7;
+  cursor: pointer;
+}
+
+.entry button {
+  position: static;
+  right: 5%;
+  background-color: #f72828;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  color: #ffffff;
+  padding: 5px;
+  padding-right: 20px;
+  padding-left: 20px;
+  cursor: pointer;
+  margin:0px;
+}
+
+.entry-name {
+  font-weight: 800;
+  padding-left: 10%;
+  padding-right: 30%;
+}
+
+.entries :hover {
+  background-image: linear-gradient(rgba(199, 248, 255,.6), rgba(199, 248, 255,.5), rgba(199, 248, 255,.4), rgba(247, 247, 247,1));
 }

@@ -14,39 +14,39 @@ var newUser ={}
 userRouter.use(cors());
 userRouter.post('/register',(req, res) => {
     newUser = {
-        userName: req.body.userName,
-        email: req.body.email,
-        password: req.body.password,
-        category: req.body.category,
+        userName: req.body.info.userName,
+        email: req.body.info.email,
+        password: req.body.info.password,
+        category: req.body.info.category,
     }
 
     User.findOne({
-        $or:[{email: req.body.email}, {userName: req.body.userName}]        
+        $or:[{email: req.body.info.email}, {userName: req.body.info.userName}]        
     }).then( user => {
         if(!user){
             if(req.body.create==="USER_EMPLOYEE"){
                 newUser.userEmployeeInfo = {
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    gender: req.body.gender,
+                    firstName: req.body.info.firstName,
+                    lastName: req.body.info.lastName,
+                    gender: req.body.info.gender,
                 }
             }
             else if(req.body.create==="USER_EMPLOYER_INDIVIDUAL"){
                 newUser.userEmployerInfo = {
                     firm: false,
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    gender: req.body.gender,
+                    firstName: req.body.info.firstName,
+                    lastName: req.body.info.lastName,
+                    gender: req.body.info.gender,
                 }
             }
             else if(req.body.create==="USER_EMPLOYER_FIRM"){
                 newUser.userEmployerInfo = {
                     firm: true,
-                    firmName: req.body.firmName,
+                    firmName: req.body.info.firmName,
                 }
             }
 
-            bcrypt.hash(req.body.password, 10, (error, hash) => {
+            bcrypt.hash(req.body.info.password, 10, (error, hash) => {
                 newUser.password = hash;
                 User.create(newUser).then(user => {
                     res.json({status: `${user.email} has been registered.`});
@@ -136,7 +136,6 @@ userRouter.post('/createjob', (req, res) => {
 userRouter.get('/jobList', (req,res)=> {
     Job.find({}).then(jobs => {
         res.json({"jobs": jobs});
-        console.log(req.headers);
     });
 })
 
@@ -144,6 +143,144 @@ userRouter.get('/userList', (req,res) => {
   User.find({}).then(users => {
         res.json({"users":users})
   });
+});
+
+userRouter.post('/apply', (req,res) => {
+    const token = req.body.headers['X-access-token'];
+    const employer = req.body.employer;
+    const jobTitle = req.body.jobTitle;
+    const proposal = req.body.proposal;
+    if(token){
+        jwt.verify(token, authConfig.secret, (e,decoded) => {
+            if(e){
+                return res.status(403).send({error:e});
+            }
+            if(decoded){
+                User.findById(employer).then(user => {
+                    user.notifications.push({msg: `${decoded.userName} has applied for ${jobTitle}.`, proposal: proposal});
+                    user.save();
+                    return res.send("Success");
+                });
+            }
+        });
+    }
+});
+
+userRouter.get('/notifications', (req,res) => {
+    const token = req.headers['x-access-token'];
+    if(token){
+        jwt.verify(token, authConfig.secret, (e,decoded) => {
+            if(e){
+                return res.status(403).send({error:e});
+            }
+            if(decoded){
+                User.findById(decoded._id).then(user => {
+                    if(user){
+                        res.send({ notifications : user.notifications });
+                    }
+                    else{
+                        res.send({message:'User not found'})
+                    }
+                });
+            }
+        })
+    }
+});
+
+userRouter.post('/details', (req,res) => {
+    const token = req.body.headers['x-access-token'];
+    jwt.verify(token, authConfig.secret, (e,decoded) => {
+        if(e){
+            return res.status(403).send({error:e});
+        }
+        if(decoded){
+            User.findById(decoded._id).then(user => {
+                if(user.category==="Employee"){
+                    user.userEmployeeInfo.details = req.body.details
+                    user.save();
+                }
+            });
+        }
+    });
+});
+
+userRouter.post('/admin', async (req,res) => {
+    const userName = req.body.userName, password = req.body.password;
+    await User.findOne({userName:userName}).then(async user => {
+        if(user){
+            if(user.category.substr(0,5)==="Admin"){
+                if(bcrypt.compareSync(password, user.password)){
+                    var userList = await User.find({});
+                    var jobList = await Job.find({});
+                    const payLoad = {
+                        _id: user._id,
+                        userName: user.userName,
+                    }
+                    const token = jwt.sign(payLoad, authConfig.secret);
+                    return res.send({ verified:true, token:token, userList:userList, jobList:jobList});
+                }
+                else{
+                    return res.send({ verified:false, message:"The username or password is incorrect." });
+                }
+            }
+            else{
+                return res.send({ verified: false, message:"This user is not a registered admin."});
+            }
+        }
+        else{
+            return res.send({ verified:false, message:"The username or password is incorrect." });
+        }
+    });
+});
+
+userRouter.post('/create-admin', async (req,res)=>{
+    adminUser = {
+        userName:res.body.info.userName,
+        category:"Admin",
+        email:"#NOEMAIL",
+        password:req.body.info.password,
+    }
+
+    await bcrypt.hash(adminUser.password,10, async (e,hash)=>{
+        adminUser.password = hash;
+        await User.create(adminUser).then(user=>{
+            return res.json(user);
+        });
+    })
+});
+
+userRouter.post('/remove', async (req,res)=>{
+    const token = req.body.headers['x-access-token'];
+    const query = req.body.query;
+    jwt.verify(token, authConfig.secret, async(e,decoded) => {
+        if(e){
+            return res.send({error:e});
+        }
+        if(decoded){
+            await User.findById(decoded._id).then(async user => {
+                if(user.category.substr(0,5)==="Admin"){
+                    if(query.type==="User"){
+                        await User.findById(query.id).then(async user=>{
+                            await User.deleteOne({_id:user._id});
+                            return res.send({success:true}); 
+                        });
+                    }
+                    else if(query.type==="Job"){
+                        await Job.findById(query.id).then(async job=>{
+                            await Job.deleteOne({_id:job._id});
+                            return res.send({success:true}); 
+                        });
+                    }
+                }
+                else{
+                     return res.send({success:false,message:"Invalid Request"})
+                }
+            });
+        }
+        else{
+            return res.send({success:false,message:"Invalid Request"})
+        }
+    });
 });
 
 module.exports = userRouter;

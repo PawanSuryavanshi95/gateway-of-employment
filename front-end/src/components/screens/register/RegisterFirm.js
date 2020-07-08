@@ -1,30 +1,82 @@
 import React,{Component} from 'react';
 import Axios from 'axios';
+import MessageBox from '../../MessageBox';
 
 class RegisterFirm extends Component{
-    state={
-        email:'',
-        firmName:'',
-        userName:'',
-        password:'',
-        password2:'',
+    
+    constructor(props){
+        super(props);
+
+        this.state={
+            email:'',
+            firmName:'',
+            userName:'',
+            password:'',
+            password2:'',
+            msgBox: false,
+        }
+
+        this.messages = [];
     }
 
     submitHandler = (e) =>{
         e.preventDefault();
         const reg = this.props.match.params.reg_id;
-        return Axios.post('/api/user/register', {
+        var info = {
             firmName: this.state.firmName,
             email: this.state.email,
             userName: this.state.userName,
             password: this.state.password,
-            create: reg==="1"?"USER_EMPLOYER_FIRM":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
             category: "Employer",
-        }).then(res => {
-            console.log('Registeration data sent');
-        }).catch(e => {
-            console.log('Could not send Registeration data');
-        })
+        }
+        if(this.checkForm(info)){
+            this.setState({
+                msgBox:false
+            })
+            return Axios.post('/api/user/register', {
+                info: info,
+                create: reg==="1"?"USER_EMPLOYER_FIRM":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
+            }).then(res => {
+                console.log('Registeration data sent');
+            }).catch(e => {
+                console.log('Could not send Registeration data');
+            });
+        }
+        else{
+            this.setState({
+                msgBox:true
+            });
+        }
+    }
+
+    checkForm(info){
+        var submit = true;
+        this.messages = [];
+        if(!info.firmName){
+            submit = false;
+            this.messages.push("First Name's field is empty.");
+        }
+        if(!info.userName){
+            submit = false;
+            this.messages.push("User Name's field is empty.");
+        }
+        if(!info.password){
+            submit = false;
+            this.messages.push("Password field is empty.");
+        }
+        if(!info.password2){
+            submit = false;
+            this.messages.push("Please confirm the password");
+        }
+        if(!info.email){
+            submit = false;
+            this.messages.push("Email's field is empty.");
+        }
+        if(info.password!==info.password2){
+            submit=false;
+            this.messages.push("Passwords don't match");
+        }
+        return submit;
     }
 
     changeHandler = (type,e) =>{
@@ -69,6 +121,8 @@ class RegisterFirm extends Component{
                         onChange={(e) => { this.changeHandler("password2",e) }}>
                         </input><br/>
                     
+                    <MessageBox messages={this.messages} />
+
                     <input type="submit" value="Register"></input><br/>
                 </form>
                 

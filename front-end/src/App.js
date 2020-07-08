@@ -1,9 +1,10 @@
 import React,{ Component } from 'react';
 import {BrowserRouter,Switch,Route} from 'react-router-dom';
 import Home from './components/screens/Home';
+import Admin from './components/screens/admin/Admin';
 import Navbar from './components/Navbar';
 import Posts from './components/screens/Posts';
-import Profile from './components/screens/Profile';
+import Profile from './components/screens/profile/Profile';
 import Footer from './components/Footer';
 import SignIn from './components/screens/SignIn';
 import RegisterPerson from './components/screens/register/RegisterPerson';
@@ -19,6 +20,7 @@ class App extends Component {
             <Navbar/>
             <Switch>
               <Route exact path="/" component={Home}/>
+              <Route exact path='/admin' component={Admin}/>
               <Route path='/posts' component={Posts}/>
               <Route exact path='/profile/:userName' component={Profile}/>
               <Route path='/profile/:userName/create' component={CreateJobOffer}/>
