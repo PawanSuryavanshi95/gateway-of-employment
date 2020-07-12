@@ -56,10 +56,10 @@ class Panel extends Component{
                         </div>
                     )
                 }) :
-                <div className="no-data">There are no jobs to show</div>
+                <div className="no-content">There are no jobs to show</div>
         }
         else{
-            jobs = <div className="no-data"> Loading Data </div>;
+            jobs = <div className="no-content"> Loading Data </div>;
         }
         return jobs;
     }

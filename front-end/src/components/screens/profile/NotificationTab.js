@@ -47,10 +47,10 @@ class NotificationTab extends Component{
                     </div>
                 )
             }) :
-            <div>
+            <div className="no-content" >
                 There are no notifications to show
             </div> :
-            <div>
+            <div className="no-content" >
                 There are no notifications to show
             </div>
         return(

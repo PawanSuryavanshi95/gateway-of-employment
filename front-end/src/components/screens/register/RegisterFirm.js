@@ -121,7 +121,7 @@ class RegisterFirm extends Component{
                         onChange={(e) => { this.changeHandler("password2",e) }}>
                         </input><br/>
                     
-                    <MessageBox messages={this.messages} />
+                    {this.state.msgBox?<MessageBox messages={this.messages} type="negative" /> : <div></div>}
 
                     <input type="submit" value="Register"></input><br/>
                 </form>

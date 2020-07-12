@@ -33,8 +33,9 @@ class RegisterPerson extends Component{
             lastName: this.state.lastName,
             gender: this.state.gender,
         }
+        var password2 = this.state.password2;
         
-        if(this.checkForm(info)){
+        if(this.checkForm(info,password2)){
             this.setState({
                 msgBox: false
             });
@@ -42,7 +43,13 @@ class RegisterPerson extends Component{
                 info: info,
                 create: reg==="1"?"USER_EMPLOYER_INDIVIDUAL":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
             }).then(res => {
-                console.log('Registeration data sent');
+                if(res.error){
+                    this.messages = ["Registration failed"];
+                    this.setState({ msgBox: true });
+                }
+                else{
+                    this.props.history.push('/signin');
+                }
             }).catch(e => {
                 console.log('Could not send Registeration data');
             })
@@ -54,7 +61,7 @@ class RegisterPerson extends Component{
         }
     }
 
-    checkForm(info){
+    checkForm(info,password2){
         var submit = true;
         this.messages = [];
         if(!info.firstName){
@@ -73,7 +80,7 @@ class RegisterPerson extends Component{
             submit = false;
             this.messages.push("Password field is empty.");
         }
-        if(!info.password2){
+        if(!password2){
             submit = false;
             this.messages.push("Please confirm the password");
         }
@@ -85,7 +92,7 @@ class RegisterPerson extends Component{
             submit = false;
             this.messages.push("Please select your gender");
         }
-        if(info.password!==info.password2){
+        if(info.password!==password2 && info.password!=="" && password2!==""){
             submit=false;
             this.messages.push("Passwords don't match");
         }
@@ -145,7 +152,7 @@ class RegisterPerson extends Component{
                     <input 
                         type="password" 
                         placeholder="Confirm Password"
-                        onChange={(e) => { this.changeHandler("password",e) }}>
+                        onChange={(e) => { this.changeHandler("password2",e) }}>
                         </input><br/>
 
                     <input 
@@ -164,7 +171,7 @@ class RegisterPerson extends Component{
                         onChange={ (e) => { this.changeHandler("radio2",e) } }/>
                         <label htmlFor="female">Female</label><br/>
 
-                    {this.state.msgBox?<MessageBox messages={this.messages} />:null}
+                    {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}
                     
                     <input type="submit" value="Register"></input><br/>
                 </form>

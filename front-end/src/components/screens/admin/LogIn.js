@@ -75,7 +75,7 @@ class LogIn extends Component{
                     <form onSubmit={this.handleSubmit}>
                         <input id="userName" type="text" placeholder="Admin UserName" onChange={(e)=>{ this.handleChange(e) }}/>
                         <input id="password" type="password" placeholder="Password" onChange={(e)=>{ this.handleChange(e) }}/>
-                        {this.state.msgBox?<MessageBox messages={this.messages}/>:<div></div>}
+                        {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:<div></div>}
                         <input type="submit" value="Log In" />
                     </form>
                 </div>

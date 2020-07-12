@@ -19,17 +19,20 @@ class CreateJobOffer extends Component{
 
     submitHandler = (e) =>{
         e.preventDefault();
-        const userID = jwt_decode(JSON.parse(localStorage.userToken))._id;
-        return Axios.post('/api/user/createjob', {
-            employer: userID,
+        const info = {
             title: this.state.title,
             desc: this.state.desc,
             reqs: this.state.req,
             reason: this.state.reason,
             fullTime: this.state.fullTime,
             fromHome: this.state.fromHome,
-        }).then(res => {
-            console.log('CreateJobOffer data sent');
+        }
+        const headers = {
+            'X-access-token': localStorage.getItem("userToken"),
+        }
+        console.log(info,headers);
+        return Axios.post('/api/user/createjob', { info:info, headers:headers }).then(res => {
+            console.log(res.body);
         }).catch(e => {
             console.log('Could not send CreateJobOffer data');
         })

@@ -56,7 +56,7 @@ class UserDetails extends Component{
                 "X-access-token": localStorage.getItem('userToken')
             }
             Axios.post('/api/user/details', { headers: headers, details: details}).then(res => {
-                console.log(res);
+                this.setState({ editDetail:false });
             }).catch(e => {
                 console.log(e);
             });
@@ -133,7 +133,7 @@ class UserDetails extends Component{
                     </div> :
                     <div className="complete-profile">
                         <button className="button" onClick={() => { this.setState({ editDetail:true }) }}>
-                            <div>Complete Your Profile</div>
+                            <span>Complete Your Profile</span>
                         </button>
                     </div>
         )
@@ -141,8 +141,9 @@ class UserDetails extends Component{
 
     showForm(){
         return(
+            <div className="edit-details">
             <div className="form">
-                <h1>Complete your Profile</h1>
+                <div className="form-heading"><h2>Complete your Profile</h2></div>
                 <form onSubmit={this.handleSubmit}>
                     <input id="fatherName" type="text" placeholder="Father's Name" onChange={(e)=>{this.handleChange(e)}} />
                     
@@ -194,11 +195,12 @@ class UserDetails extends Component{
                         <h1>Terms and Conditions</h1>
                     </Modal>
 
-                    {this.state.msgBox?<MessageBox messages={this.messages} />:null}
+                    {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}
 
                     <input type="submit" value="Submit"></input>
                     <input type="button" value="Cancel" onClick={()=>{ this.setState({ editDetail:false }) }}></input>
                 </form>
+            </div>
             </div>
         )
     }

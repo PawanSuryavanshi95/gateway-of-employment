@@ -122,8 +122,10 @@ body{
 }
 
 .form form {
-  width:600px;
-  padding:20px;
+  width:500px;
+  padding:10px;
+  padding-right: 50px;
+  padding-left: 50px;
   display: flex;
   flex-direction: column;
   margin-top: 50px;
@@ -134,14 +136,14 @@ body{
   font-weight: 400;
 }
 
-.form input[type=text], input[type=password], input[type=email], textarea {
+.form input[type=text], input[type=password], input[type=email], input[type=number], input[type=date], textarea {
   padding: 10px;
   margin: 5px;
   border: 1.5px;
   border-color: #66696b;
   border-style: solid;
   border-radius: 10px;
-  width: 100%;
+  width: 90%;
 }
 
 .form input[type=submit], input[type=button] {
@@ -160,6 +162,18 @@ body{
 
 .form input[type=button] {
   background-color: #c91b0e;
+}
+
+.form .form-heading h2{
+  color: #ffffff;
+  margin:0px;
+  padding-bottom: 20px;
+  padding-top: 30px;
+  background-color: #2e2f30;
+  text-align: center;
+  border-bottom: solid;
+  border-width: 1px;
+  border-color: #2e2f30;
 }
 
 .center {
@@ -375,11 +389,11 @@ body{
   height: 100%;
   grid-gap: 10px;
   grid-template-columns: 1fr .5fr;
-  margin-left: 100px;
-  margin-right: 100px;
+  margin-left: 15%;
+  margin-right: 15%;
 }
 
-.employee-content{
+.user-content{
   margin: 30px;
   margin-right: 5px;
   border-style: groove;
@@ -388,7 +402,7 @@ body{
   padding-right: 30px;
 }
 
-.employee-content h1{
+.user-content h1{
   padding-left: 50px;
   padding-bottom: 10px;
   margin-bottom: 30px;
@@ -398,28 +412,39 @@ body{
   border-bottom-style: solid;
 }
 
-.employee-content h1 span {
+.user-content h1 span {
   color: #0f0f0f;
 }
 
-.employee-content .user-details{
+.user-content .details{
   padding-right: 20px;
   padding-left: 20px;
 }
 
-.employee-content .user-details .field-name {
+.user-content .details .field-name {
   font-weight: bolder;
   width: 200px;
 }
 
-.employee-content .user-details .field-value {
+.user-content .details .field-value {
   padding-left: 60px;
 }
 
-.employee-content .user-details .field {
+.user-content .details .field {
   padding-bottom: 10px;
   display: flex;
   flex-direction: row;
+}
+
+.user-content .edit-details {
+  border: solid;
+  border-radius: 5px;
+  border-width: 1px;
+  margin: 20px;
+}
+
+.user-content .complete-profile {
+  text-align: center;
 }
 
 .notification-tab{
@@ -427,6 +452,8 @@ body{
   margin-left: 5px;
   border-style: groove;
   border-radius: 20px;
+  min-width: 100%;
+  min-height: 50%;
 }
 
 .notification-tab .menu-bar{
@@ -554,4 +581,45 @@ body{
 
 .entries :hover {
   background-image: linear-gradient(rgba(199, 248, 255,.6), rgba(199, 248, 255,.5), rgba(199, 248, 255,.4), rgba(247, 247, 247,1));
+}
+
+.msgbox {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  padding: 20px;
+  align-content: center;
+  padding-left: 30px;
+}
+
+.msg {
+  padding-bottom: 5px;
+  margin-left: 20px;
+  margin-right: 50px;
+}
+
+.msgbox.negative {
+  background-color: #ff9696;
+  color: #d12424;
+}
+
+.msgbox.positive {
+  background-color: #b3ffad;
+  color: #15820d;
+}
+
+.admin-login {
+  margin-left: 30%;
+  margin-right: 30%;
+}
+
+.no-content {
+  width: 100%;
+  height: 100%;
+  color: #2e2f30;
+  font-size: 30px;
+  padding-right: 5%;
+  padding-left: 5%;
+  padding-top: 40%;
+  padding-bottom: 60%;
 }

@@ -2,7 +2,8 @@ import React,{ Component } from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import NotificationTab from './NotificationTab';
-import UserDetails from "./UserDetails";
+import EmployeeDetails from "./EmployeeDetails";
+import EmployerDetails from "./EmployerDetails";
 
 class Profile extends Component{
 
@@ -39,36 +40,29 @@ class Profile extends Component{
     displayContent(category){
         return category==='Employee'?
             this.showEmployeeContent() : category==='Employer'?
-            this.showEmployerContent() : category==='Admin'?
-            this.showAdminContent() : <div>No Content</div>
+            this.showEmployerContent() : <div className="no-content" >No Content</div>
     }
 
     showEmployeeContent(){
         const info = this.state.userData.userEmployeeInfo;
-        console.log(this.state.userData);
         return(
-            <div className="employee-content">
+            <div className="user-content">
                 <h1><span>{info.firstName}</span>{" "}{info.lastName}</h1>
 
-                <UserDetails details={info.details}/>
+                <EmployeeDetails details={info.details}/>
             </div>
         )
     }
 
     showEmployerContent(){
         const url = `/profile/${this.props.match.params.userName}/create`;
+        const info = this.state.userData.userEmployerInfo;
+        console.log(this.state.userData);
         return(
-            <div className="employer-content">
-                This is the employer's content
+            <div className="user-content">
+                <h1><span>{info.firmName}</span></h1>
+                <EmployerDetails />
                 <Link to={url}><button className="button"><span>Post a job Offer</span></button></Link>
-            </div>
-        )
-    }
-
-    showAdminContent(){
-        return(
-            <div>
-                This is the admin panel.
             </div>
         )
     }
@@ -80,7 +74,9 @@ class Profile extends Component{
             <main className="main">
                 <div className="profile-content">
                     {this.displayContent(category)}
+                    <div className="side-tab">
                     <NotificationTab category={category} />
+                    </div>
                 </div>
             </main>
         )
