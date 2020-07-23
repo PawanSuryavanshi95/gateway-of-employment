@@ -14,6 +14,7 @@ class UserDetails extends Component{
                 1 : "",
                 2 : "",
             },
+            cb: false,
             modal: false,
             editDetail: undefined,
             msgBox: false,
@@ -114,16 +115,18 @@ class UserDetails extends Component{
 
     displayContent(){
         var {details} = this.props;
+        var pub = this.props.public;
+        console.log(pub)
         return(
             this.state.editDetail ?
                 this.showForm() :
                 details ?
                     <div className="details">
                         <div className="field"><div className="field-name">Father's Name</div> : <span className="field-value">{details.fatherName}</span></div><br/>
-                        <div className="field"><div className="field-name">Mother's Name</div> : <span className="field-value">{details.MotherName}</span></div><br/>
-                        <div className="field"><div className="field-name">Date of Birth</div> : <span className="field-value">{details.dob}</span></div><br/>
-                        <div className="field"><div className="field-name">Aadhaar Number</div> : <span className="field-value">{details.aadhaar}</span></div><br/>
-                        <div className="field"><div className="field-name">Mobile Number</div> : <span className="field-value">{details.mobNum}</span></div><br/>
+                        <div className="field"><div className="field-name">Mother's Name</div> : <span className="field-value">{details.motherName}</span></div><br/>
+                        {!pub?<div className="field"><div className="field-name">Date of Birth</div> : <span className="field-value">{details.dob}</span><br/></div>:<div></div>}
+                        {!pub?<div className="field"><div className="field-name">Aadhaar Number</div> : <span className="field-value">{details.aadhaar}</span><br/></div>:<div></div>}
+                        {!pub?<div className="field"><div className="field-name">Mobile Number</div> : <span className="field-value">{details.mobNum}</span><br/></div>:<div></div>}
                         <div className="field"><div className="field-name">Experience</div> : <span className="field-value">{details.exp}</span></div><br/>
                         <div className="field">{details.skilled?"I am a skilled worker":"I am a non skilled worker"}</div><br/>
                         <div className="field">{details.permanent?"Looking for a permanent job.":"Looking for a temporary job."}</div><br/>
@@ -185,7 +188,8 @@ class UserDetails extends Component{
                     <label htmlFor="R22">Temporary</label><br/>
                     
                     <input id="terms" type="checkbox" value="terms" 
-                        onClick={()=>{ this.terms = !this.terms }}
+                        checked={this.state.cb}
+                        onClick={()=>{ this.terms = !this.terms; this.setState({ cb: !this.state.cb }); }}
                     />
                     <label>I accept the 
                     <span className="terms" onClick={() => { this.setModal(true) }}>terms and conditions</span>
@@ -193,6 +197,14 @@ class UserDetails extends Component{
 
                     <Modal isOpen={this.state.modal} onRequestClose={() => { this.setModal(false) }} >
                         <h1>Terms and Conditions</h1>
+                        <object width="100%" height="100%" data={process.env.PUBLIC_URL + '/html/tnc.html'} type="text/html"></object>
+                        <input id="terms" type="checkbox" value="terms" 
+                            checked={this.state.cb}
+                            onClick={()=>{ this.terms = !this.terms; this.setState({ cb: !this.state.cb }); }}
+                        />
+                        <label>I accept the 
+                        <span className="terms" onClick={() => { this.setModal(true) }}>terms and conditions</span>
+                        of Aatma Nirbhar.</label>
                     </Modal>
 
                     {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}

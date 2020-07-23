@@ -12,6 +12,7 @@ class Profile extends Component{
 
         this.state = {
             userData : undefined,
+            public: undefined,
         };
     }
 
@@ -20,11 +21,13 @@ class Profile extends Component{
         const headers = {
             'X-access-token': userToken
         }
-        axios.get('/api/user/profile', { headers: headers }).then(res => {
+        axios.get('/api/user/profile', { headers: headers, params: { userName: this.props.match.params.userName } })
+        .then(res => {
             if(!res.error){
                 console.log(res.data);
                 this.setState({
-                    userData: res.data.userData
+                    userData: res.data.userData,
+                    public: res.data.public,
                 });
             }
             else{
@@ -49,7 +52,7 @@ class Profile extends Component{
             <div className="user-content">
                 <h1><span>{info.firstName}</span>{" "}{info.lastName}</h1>
 
-                <EmployeeDetails details={info.details}/>
+                <EmployeeDetails details={info.details} public={this.state.public}/>
             </div>
         )
     }

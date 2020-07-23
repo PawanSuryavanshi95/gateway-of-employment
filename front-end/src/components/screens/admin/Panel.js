@@ -10,7 +10,7 @@ class Panel extends Component{
     }
 
     userEntries = () => {
-        var data = this.props.data,users;
+        var data = this.props.data, users;
         if(data){
             users = data.userList ? 
                 data.userList.map(user => {
