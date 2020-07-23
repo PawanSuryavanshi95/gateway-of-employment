@@ -78,7 +78,7 @@ class Profile extends Component{
                 <div className="profile-content">
                     {this.displayContent(category)}
                     <div className="side-tab">
-                    <NotificationTab category={category} />
+                    {!this.state.public ? <NotificationTab category={category} />:<div></div>}
                     </div>
                 </div>
             </main>

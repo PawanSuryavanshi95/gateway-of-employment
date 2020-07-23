@@ -116,7 +116,6 @@ class UserDetails extends Component{
     displayContent(){
         var {details} = this.props;
         var pub = this.props.public;
-        console.log(pub)
         return(
             this.state.editDetail ?
                 this.showForm() :
@@ -130,15 +129,16 @@ class UserDetails extends Component{
                         <div className="field"><div className="field-name">Experience</div> : <span className="field-value">{details.exp}</span></div><br/>
                         <div className="field">{details.skilled?"I am a skilled worker":"I am a non skilled worker"}</div><br/>
                         <div className="field">{details.permanent?"Looking for a permanent job.":"Looking for a temporary job."}</div><br/>
-                        <button className="button" onClick={() => { this.setState({ editDetail:true }) }}>
+                        {!pub?<button className="button" onClick={() => { this.setState({ editDetail:true }) }}>
                             <span>Edit Profile</span>
-                        </button>
-                    </div> :
+                        </button>:<div></div>}
+                    </div> : !pub ?
                     <div className="complete-profile">
                         <button className="button" onClick={() => { this.setState({ editDetail:true }) }}>
                             <span>Complete Your Profile</span>
                         </button>
-                    </div>
+                    </div> : 
+                    <div> There is no data to show </div>
         )
     }
 

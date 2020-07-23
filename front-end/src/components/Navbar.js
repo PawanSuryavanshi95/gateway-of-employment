@@ -35,6 +35,7 @@ class Navbar extends Component{
     }
 
     render(){
+        const admin = this.props.location.pathname;
         const content = this.state.currentUser===undefined?(
                 <ul>
                     <li><NavLink to="/signin">Sign In</NavLink></li>
@@ -52,7 +53,7 @@ class Navbar extends Component{
                 <Link to="/">Aatma Nirbhar</Link>
             </div>
             <div className="header-links">
-                {content}
+                {admin ==="/admin" ? <ul></ul> : content}
             </div>
             </header>
         )
