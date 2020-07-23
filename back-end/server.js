@@ -3,7 +3,9 @@ var mongoose = require('mongoose');
 var cors = require('cors')
 var bodyParser = require('body-parser')
 
+var authRouter = require('./routes/authRouter');
 var userRouter = require('./routes/userRouter');
+var jobRouter = require('./routes/jobRouter');
 
 var app = express();
 var port = process.env.PORT || 5000;
@@ -23,7 +25,11 @@ app.use(
   })
 )
 
-app.use('/api/user',userRouter);
+app.use('/api/auth', authRouter);
+
+app.use('/api/user', userRouter);
+
+app.use('/api/job', jobRouter);
 
 app.listen(port, ()=>{
     console.log(`Server started at port ${port}`);

@@ -17,7 +17,7 @@ class Posts extends Component{
     }
 
     componentDidMount(){
-        Axios.get('api/user/jobList').then(res=>{
+        Axios.get('api/job/jobList').then(res=>{
             this.setState({
                 jobs:res.data.jobs
             })
@@ -34,7 +34,7 @@ class Posts extends Component{
         var proposal = this.state.proposal;
         if(proposal){
             console.log(proposal)
-            Axios.post('api/user/apply', {headers : headers, employer: employer, jobTitle: title, proposal: proposal}).then(res => {
+            Axios.post('api/job/apply', {headers : headers, employer: employer, jobTitle: title, proposal: proposal}).then(res => {
                 if(res.error){
                     return <div>
                         Error occurered {res.error}

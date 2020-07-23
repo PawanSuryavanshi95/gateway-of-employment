@@ -43,7 +43,7 @@ class LogIn extends Component{
         if(this.checkForm(info)){
             this.setState({ msgBox:false });
             this.messages = [];
-            Axios.post("/api/user/admin", { userName:info.userName, password:info.password }).then(res => {
+            Axios.post("/api/auth/admin", { userName:info.userName, password:info.password }).then(res => {
                 if(!res.error){
                     if(res.data.verified){
                         const data = {

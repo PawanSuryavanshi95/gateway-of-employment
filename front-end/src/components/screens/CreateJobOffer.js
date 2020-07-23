@@ -31,7 +31,7 @@ class CreateJobOffer extends Component{
             'X-access-token': localStorage.getItem("userToken"),
         }
         console.log(info,headers);
-        return Axios.post('/api/user/createjob', { info:info, headers:headers }).then(res => {
+        return Axios.post('/api/job/createjob', { info:info, headers:headers }).then(res => {
             console.log(res.body);
         }).catch(e => {
             console.log('Could not send CreateJobOffer data');

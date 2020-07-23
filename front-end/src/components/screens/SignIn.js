@@ -12,7 +12,7 @@ class SignIn extends Component{
 
     submitHandler = (e) =>{
         e.preventDefault();
-        return Axios.post('/api/user/signin', {
+        return Axios.post('/api/auth/signin', {
             id: this.state.id,
             password: this.state.password,
         }).then(res => {

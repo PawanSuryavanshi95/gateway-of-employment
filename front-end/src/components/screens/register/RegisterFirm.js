@@ -33,7 +33,7 @@ class RegisterFirm extends Component{
             this.setState({
                 msgBox:false
             })
-            return Axios.post('/api/user/register', {
+            return Axios.post('/api/auth/register', {
                 info: info,
                 create: reg==="1"?"USER_EMPLOYER_FIRM":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
             }).then(res => {
