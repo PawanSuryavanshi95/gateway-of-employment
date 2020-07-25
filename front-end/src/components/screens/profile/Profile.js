@@ -18,13 +18,26 @@ class Profile extends Component{
 
     componentDidMount(){
         const userToken = localStorage.getItem('userToken');
+        console.log(userToken);
         const headers = {
-            'X-access-token': userToken
+            'X-access-token': userToken,
         }
-        axios.get('/api/user/profile', { headers: headers, params: { userName: this.props.match.params.userName } })
+        var bool;
+        if(userToken){
+            console.log("A");
+            bool = false;
+        }
+        else{
+            console.log("B");
+            bool = true;
+        }
+        const params = {
+            userName: this.props.match.params.userName,
+            public: bool,
+        }
+        axios.get('/api/user/profile', { headers: headers, params: params })
         .then(res => {
             if(!res.error){
-                console.log(res.data);
                 this.setState({
                     userData: res.data.userData,
                     public: res.data.public,

@@ -55,7 +55,7 @@ exports.apply = (req,res) => {
             }
             if(decoded){
                 User.findById(employer).then(user => {
-                    user.notifications.push({msg: `${decoded.userName} has applied for ${jobTitle}.`, proposal: proposal});
+                    user.notifications.push({msg: `${decoded.userName} has applied for ${jobTitle}.`, proposal: proposal, candidate:decoded.userName});
                     user.save();
                     return res.send("Success");
                 });

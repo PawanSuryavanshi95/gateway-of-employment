@@ -24,12 +24,12 @@ class NotificationTab extends Component{
         });
     }
 
-    handleClick = (proposal) => {
+    handleClick = (proposal,candidate) => {
         return(
             <div className="proposal">
                 {proposal}
                 <br/>
-                <button>Open Profile</button>
+                <button onClick={()=>{ window.open(`http://localhost:3000/profile/${candidate}`,"_blank") }}>Open Profile</button>
                 <button>Reject</button>
             </div>
         )
@@ -38,12 +38,12 @@ class NotificationTab extends Component{
     render(){
         const notifications = this.state.notifications;
         const content = notifications? notifications.length ? 
-            notifications.map(notification => {
+            notifications.map(ntf => { // ntf = Notification
                 return(
-                    <div id={notification.new ? 1 : 2} className="notification"  key={notification._id}
-                        onClick={() => { this.setState({ selectedID: notification._id }) }} >
-                        {notification.msg}
-                        {this.state.selectedID===notification._id && this.props.category==="Employer"? this.handleClick(notification.proposal) : null}
+                    <div id={ntf.new ? 1 : 2} className="notification"  key={ntf._id}
+                        onClick={() => { this.setState({ selectedID: ntf._id }) }} >
+                        {ntf.msg}
+                        {this.state.selectedID===ntf._id && this.props.category==="Employer"? this.handleClick(ntf.proposal,ntf.candidate) : null}
                     </div>
                 )
             }) :

@@ -33,6 +33,7 @@ const notificationSchema = new mongoose.Schema({
     msg: { type:String, required:true},
     proposal: { type:String, required:false},
     new: { type:Boolean, default:true },
+    candidate: { type:String, default:null },
 });
 
 const userSchema = new mongoose.Schema({

@@ -7,10 +7,18 @@ const MessageBox = (props) => {
         return <div className="msg" key={key++}>{message}<br/></div>
     }) : null : null
     return(
-        <div className={`msgbox ${type}`} >
-            {messages}
+        <div>
+            {displayContent(messages,type)}
         </div>
     )
 }
 
-export default MessageBox;//{`msgbox ${type}`}
+const displayContent = (messages,type) => {
+    return messages!=null ?
+        <div className={`msgbox ${type}`} >
+            {messages}
+        </div> :
+        <div></div> 
+}
+
+export default MessageBox;

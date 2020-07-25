@@ -1,6 +1,7 @@
 import React,{ Component } from 'react';
 import Axios from 'axios';
 import Modal from 'react-modal';
+import MessageBox from '../MessageBox';
 
 //Modal.setAppElement("#root");
 
@@ -13,7 +14,11 @@ class Posts extends Component{
             jobs:"",
             proposal:undefined,
             modal:false,
+            modalMsgBox:false,
         }
+
+        this.job = {};
+        this.messages = [];
     }
 
     componentDidMount(){
@@ -26,7 +31,8 @@ class Posts extends Component{
         });
     }
 
-    handleApply = (employer,title) => {
+    handleApply = () => {
+        const employer = this.job.employer, title = this.job.title;
         const userToken = localStorage.getItem("userToken");
         const headers = {
             'X-access-token' : userToken
@@ -43,7 +49,11 @@ class Posts extends Component{
             });
         }
         else{
-            console.log("Enter Proposal");
+            this.setState({
+                modalMsgBox:true
+            });
+            this.messages = [];
+            this.messages.push("Proposal cannot be empty");
         }
     }
 
@@ -66,13 +76,7 @@ class Posts extends Component{
                             <p>Reason(s) to join : {job.reason}</p>
                             <span>This is a {job.fullTime?"Full Time":"Part Time"} job.</span><br/>
                             <span>{job.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
-                            <button className="button" onClick={() => { this.setState({ modal:true }) }}><span>Apply</span></button>
-                            <Modal isOpen={this.state.modal} onRequestClose={() => { this.setState({ modal:false }) }}>
-                                <textarea id="proposal" rows="3" cols="30"
-                                    placeholder="Enter a short proposal of maximum 150 words." 
-                                    onChange={(e) => { this.handleChange(e) }} />
-                                <button className="button" onClick={() => { this.handleApply(job.employer,job.title) }}><span>Apply</span></button>
-                            </Modal>
+                            <button className="button" onClick={() => { this.messages=[]; this.job = job; this.setState({ modal:true }); }}><span>Apply</span></button>
                         </div>
                     </div>
                 )
@@ -84,6 +88,13 @@ class Posts extends Component{
             <main className="main">
             <div className="content">
                 {jobList}
+                <Modal isOpen={this.state.modal} onRequestClose={() => { this.setState({ modal:false }) }}>
+                    <textarea id="proposal" rows="3" cols="30"
+                        placeholder="Enter a short proposal of maximum 150 words." 
+                        onChange={(e) => { this.handleChange(e) }} />
+                    {this.state.modalMsgBox ? <MessageBox messages={this.messages} type="negative" /> : <div></div>}
+                    <button className="button" onClick={() => { this.handleApply() }}><span>Apply</span></button>
+                </Modal>
             </div>
             </main>
         )
