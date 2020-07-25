@@ -18,17 +18,14 @@ class Profile extends Component{
 
     componentDidMount(){
         const userToken = localStorage.getItem('userToken');
-        console.log(userToken);
         const headers = {
             'X-access-token': userToken,
         }
         var bool;
         if(userToken){
-            console.log("A");
             bool = false;
         }
         else{
-            console.log("B");
             bool = true;
         }
         const params = {
