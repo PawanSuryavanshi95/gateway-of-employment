@@ -54,10 +54,7 @@ class NotificationTab extends Component{
                 There are no notifications to show
             </div>
         return(
-            <div className="notification-tab">
-                <div className="menu-bar">
-                    <h2>Notifications</h2>
-                </div>
+            <div className="tab">
                 <div className="notification-msg">
                     {content}
                 </div>

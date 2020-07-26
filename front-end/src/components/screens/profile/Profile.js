@@ -2,8 +2,11 @@ import React,{ Component } from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import NotificationTab from './NotificationTab';
-import EmployeeDetails from "./EmployeeDetails";
-import EmployerDetails from "./EmployerDetails";
+import EmployerNav from "./EmployerNav";
+import Stats from "./Stats";
+import SideNav from './SideNav';
+import Chats from './Chats';
+import Details from './Details';
 
 class Profile extends Component{
 
@@ -12,8 +15,11 @@ class Profile extends Component{
 
         this.state = {
             userData : undefined,
-            public: undefined,
+            public: true,
+            side:"ntf",
         };
+
+        this.editTitle = "";
     }
 
     componentDidMount(){
@@ -61,8 +67,7 @@ class Profile extends Component{
         return(
             <div className="user-content">
                 <h1><span>{info.firstName}</span>{" "}{info.lastName}</h1>
-
-                <EmployeeDetails details={info.details} public={this.state.public}/>
+                {<Details details={info.details} public={this.state.public} setEditDetails={this.setEditDetails} />}
             </div>
         )
     }
@@ -74,22 +79,46 @@ class Profile extends Component{
         return(
             <div className="user-content">
                 <h1><span>{info.firmName}</span></h1>
-                <EmployerDetails />
+                <EmployerNav/>
                 <Link to={url}><button className="button"><span>Post a job Offer</span></button></Link>
             </div>
         )
     }
 
+    setEditDetails = (value,title) => {
+        this.setState({
+            editDetails:value
+        });
+        this.editTitle = title;
+    }
+
+    sideTabSelector = (value) => {
+        this.setState({
+            side:value
+        });
+    }
+
+    displaySideContent(category){
+        return(
+            !this.state.public?
+                <div className="side-tab">
+                    <SideNav sideTabSelector={this.sideTabSelector} />
+                    { this.state.side ? <NotificationTab category={category} /> : <Chats/>}
+                </div> :
+                <div className="side-tab"> <Stats/> </div>
+        )
+    }
+
     render(){
         var category = this.state.userData ? this.state.userData.category : undefined;
-
         return(
             <main className="main">
                 <div className="profile-content">
                     {this.displayContent(category)}
-                    <div className="side-tab">
-                    {!this.state.public ? <NotificationTab category={category} />:<div></div>}
+                    <div className="side-container">
+                        {this.displaySideContent(category)}
                     </div>
+                    {!this.state.public?<Stats/>:<div></div>}
                 </div>
             </main>
         )
