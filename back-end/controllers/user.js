@@ -11,7 +11,8 @@ exports.profile = (req,res) => {
     if(query.public==="true"){
         User.findOne({ userName: query.userName }).then(user => {
             var userData = createPublicProfile(user);
-            return res.send({ userData: userData, public: true});
+            const stats = getStats(user);
+            return res.send({ userData: userData, public: true, stats:stats });
         });
     }
     else{
@@ -23,12 +24,14 @@ exports.profile = (req,res) => {
                 if(decoded){
                     User.findById(decoded._id).then(user => {
                         if(user.userName===query.userName){
-                            return res.send({ userData: user, public: false });
+                            const stats = getStats(user);
+                            return res.send({ userData: user, public: false, stats:stats });
                         }
                         else{
                             User.findOne({ userName: query.userName }).then(user => {
                                 var userData = createPublicProfile(user);
-                                return res.send({ userData: userData, public: true});
+                                const stats = getStats(user);
+                                return res.send({ userData: userData, public: true, stats:stats });
                             });
                         }
                     });
@@ -57,6 +60,12 @@ exports.notifications = (req,res) => {
             }
         })
     }
+}
+
+exports.userList = (req,res) => {
+    User.find({}).then(users => {
+        res.json({"users":users})
+    });
 }
 
 exports.details = (req,res) => {
@@ -96,4 +105,17 @@ const createPublicProfile = function(user){
         userData.userEmployeeInfo.details.permanent = user.userEmployeeInfo.details.permanent;
     }
     return userData;
+}
+
+const getStats = (user) => {
+    var stats = {};
+    if(user.category==="Employer"){
+        stats.jobs = user.userEmployerInfo.jobs.length;
+        stats.internships = 0;
+    }
+    else if(user.category==="Employee"){
+        stats = user.userEmployeeInfo.stats;
+    }
+    console.log(stats);
+    return stats;
 }

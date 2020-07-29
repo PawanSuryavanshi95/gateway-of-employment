@@ -447,7 +447,7 @@ body{
   height: 400px;
 }
 
-.nav-menu-items.profile ul{
+.nav-menu-items.side-nav ul{
   background-color: #2e2f30;
   margin-top: 0px;
   margin-bottom: 0px;
@@ -455,14 +455,41 @@ body{
   border-top-left-radius: 10px;
 }
 
-.nav-menu-items.profile a{
+.nav-menu-items.side-nav a{
   padding-top: 15px;
   padding-bottom: 15px;
   text-decoration: none;
   color: #ffffff;
 }
-.nav-menu-items.profile li :hover {
+.nav-menu-items.side-nav li :hover {
   background-color: #5c5c5c;
+}
+
+.nav-menu-items.user-nav ul{
+  background-color: #4fd0ff;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.nav-menu-items.user-nav a{
+  padding-top: 15px;
+  padding-bottom: 15px;
+  text-decoration: none;
+  color: #ffffff;
+}
+.nav-menu-items.user-nav li :hover {
+  background-color: #0ba4db;
+}
+
+.user-tab{
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-right-style: solid;
+  border-color: gray;
+  border-width: 1.5px;
+  height: 300px;
 }
 
 .tab{
@@ -477,6 +504,8 @@ body{
 .tab .notification-msg{
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
+  max-height: 300px;
 }
 
 .tab .notification-msg .notification{
@@ -555,6 +584,10 @@ body{
 .entries {
   padding-right: 5%;
   padding-left: 5%;
+  overflow-y: scroll;
+  height: 550px;
+  max-height: 550px;
+  border-bottom-style: groove;
 }
 
 .entry {
@@ -569,7 +602,7 @@ body{
 }
 
 .entry button {
-  position: static;
+  position: 50%;
   right: 5%;
   background-color: #f72828;
   border: none;
@@ -589,8 +622,8 @@ body{
   padding-right: 30%;
 }
 
-.entries :hover {
-  background-image: linear-gradient(rgba(199, 248, 255,.6), rgba(199, 248, 255,.5), rgba(199, 248, 255,.4), rgba(247, 247, 247,1));
+.entries .entry:hover {
+  background-image: linear-gradient(rgba(177, 178, 179,.6), rgba(177, 178, 179,.5), rgba(177, 178, 179,.4), rgba(247, 247, 247,1));
 }
 
 .msgbox {

@@ -17,6 +17,10 @@ const userEmployeeSchema = new mongoose.Schema({
     lastName: { type:String, required:false },
     gender: { type:String, required:false },
     details: detailSchema,
+    stats:{
+        applied: { type: Number, default:0 },
+        selected: { type: Number, default:0 },
+    }
 });
 
 const userEmployerSchema = new mongoose.Schema({
@@ -36,11 +40,17 @@ const notificationSchema = new mongoose.Schema({
     candidate: { type:String, default:null },
 });
 
+const reportSchema = new mongoose.Schema({
+    created: {type:Date, default:Date.now },
+    msg: { type:String, required:true },
+})
+
 const userSchema = new mongoose.Schema({
     email: { type:String, required:false, unique:true },
     userName: { type:String, required:true, unique:true },
     password: { type:String, required:true },
     created: { type:Date, default: Date.now },
+    reported: [reportSchema],
 
     userEmployeeInfo: userEmployeeSchema,
 

@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import Modal from 'react-modal';
 import Axios from 'axios';
-import MessageBox from '../../MessageBox';
+import MessageBox from '../../../MessageBox';
 
 class EditDetails extends Component{
     constructor(props){

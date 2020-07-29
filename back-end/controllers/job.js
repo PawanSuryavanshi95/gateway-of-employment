@@ -6,7 +6,7 @@ const database = require('../models/model');
 const User = database.User;
 const Job = database.Job;
 
-exports.createjob = (req, res) => {
+exports.createjob = async (req, res) => {
     const token = req.body.headers['X-access-token'];
     const newJob = {
       title: req.body.info.title,
@@ -17,19 +17,20 @@ exports.createjob = (req, res) => {
       fromHome: req.body.info.fromHome,
     }
     var success=false,message;
-    jwt.verify(token, authConfig.secret, (e,decoded) => {
+    jwt.verify(token, authConfig.secret, async (e,decoded) => {
         if(e){
             return res.status(403).send({success:false, error:e})
         }
         if(decoded){
-            User.findById(decoded._id).then(user => {
+            User.findById(decoded._id).then(async user => {
                 if(user.category==="Employer"){
                     newJob.employer = decoded._id;
                     Job.create(newJob).then(async (job) => {
-                        var user = await User.findById(decoded._id);
-                        user.userEmployerInfo.jobs.push(job._id).then(() => {
+                        User.update({ _id:decoded._id }, { $push: { 'userEmployerInfo.jobs' : job._id } }).then(async user=>{
                             success = true;
                             message = `${job.title} has been created by ${decoded._id}.`;
+                        }).catch(e =>{
+                            message = e;
                         });
                       }).catch(error => {
                         if(Object.keys({}).length){
@@ -40,7 +41,7 @@ exports.createjob = (req, res) => {
             })
         }
     })
-    return res.send({ success:success,message:message })
+    return await res.send({ success:success,message:message })
 }
 
 exports.apply = (req,res) => {
@@ -64,8 +65,15 @@ exports.apply = (req,res) => {
     }
 }
 
-exports.jobList = (req,res)=> {
-    Job.find({}).then(jobs => {
-        res.json({"jobs": jobs});
-    });
+exports.jobList = (req,res) => {
+    if(req.query.employer!==null && req.query.employer!==undefined){
+        Job.find({ employer:req.query.employer }).then(jobs => {
+            res.json({"jobs":jobs})
+        });
+    }
+    else{
+        Job.find({}).then(jobs => {
+            res.json({"jobs":jobs})
+        });
+    }
 }

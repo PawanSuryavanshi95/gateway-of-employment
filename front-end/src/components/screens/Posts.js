@@ -1,7 +1,7 @@
 import React,{ Component } from 'react';
 import Axios from 'axios';
 import Modal from 'react-modal';
-import MessageBox from '../MessageBox';
+import MessageBox from './../MessageBox';
 
 //Modal.setAppElement("#root");
 

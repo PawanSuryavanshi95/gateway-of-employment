@@ -16,12 +16,6 @@ authRouter.post('/register', controller.register);
 
 authRouter.post('/signin', controller.signin);
 
-authRouter.get('/userList', (req,res) => {
-  User.find({}).then(users => {
-        res.json({"users":users})
-  });
-});
-
 authRouter.post('/admin', controller.admin);
 
 authRouter.post('/create-admin', async (req,res)=>{

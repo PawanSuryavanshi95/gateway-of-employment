@@ -2,11 +2,13 @@ import React,{ Component } from 'react';
 import axios from 'axios';
 import {Link} from 'react-router-dom';
 import NotificationTab from './NotificationTab';
-import EmployerNav from "./EmployerNav";
+import EmployerNav from "./Employer/EmployerNav";
 import Stats from "./Stats";
-import SideNav from './SideNav';
+import SideNav from './Employee/SideNav';
 import Chats from './Chats';
-import Details from './Details';
+import Details from './Employee/Details';
+import Jobs from './Employer/Jobs';
+import Internships from './Employer/Internships'
 
 class Profile extends Component{
 
@@ -15,8 +17,11 @@ class Profile extends Component{
 
         this.state = {
             userData : undefined,
+            stats: null,
             public: true,
             side:"ntf",
+            nav:true,
+            jobs:null,
         };
 
         this.editTitle = "";
@@ -44,6 +49,13 @@ class Profile extends Component{
                 this.setState({
                     userData: res.data.userData,
                     public: res.data.public,
+                    stats: res.data.stats,
+                });
+                const employer = res.data.userData._id
+                axios.get('/api/job/joblist', { params: { employer: employer ? employer : null } }).then(res =>{
+                    this.setState({
+                        jobs:res.data.jobs,
+                    })
                 });
             }
             else{
@@ -75,21 +87,22 @@ class Profile extends Component{
     showEmployerContent(){
         const url = `/profile/${this.props.match.params.userName}/create`;
         const info = this.state.userData.userEmployerInfo;
-        console.log(this.state.userData);
         return(
             <div className="user-content">
                 <h1><span>{info.firmName}</span></h1>
-                <EmployerNav/>
+                <EmployerNav setNav={this.setNav} />
+                {this.state.nav ? <Jobs jobs={this.state.jobs} /> : <Internships data={""}/>}
+                <div className="create-offers">
                 <Link to={url}><button className="button"><span>Post a job Offer</span></button></Link>
+                </div>
             </div>
         )
     }
 
-    setEditDetails = (value,title) => {
+    setNav = (value) => {
         this.setState({
-            editDetails:value
+            nav:value,
         });
-        this.editTitle = title;
     }
 
     sideTabSelector = (value) => {
@@ -105,7 +118,7 @@ class Profile extends Component{
                     <SideNav sideTabSelector={this.sideTabSelector} />
                     { this.state.side ? <NotificationTab category={category} /> : <Chats/>}
                 </div> :
-                <div className="side-tab"> <Stats/> </div>
+                <div className="side-tab"> <Stats data={this.state.stats} type={category} /> </div>
         )
     }
 
@@ -118,7 +131,7 @@ class Profile extends Component{
                     <div className="side-container">
                         {this.displaySideContent(category)}
                     </div>
-                    {!this.state.public?<Stats/>:<div></div>}
+                    {!this.state.public?<Stats data={this.state.stats} type={category} />:<div></div>}
                 </div>
             </main>
         )

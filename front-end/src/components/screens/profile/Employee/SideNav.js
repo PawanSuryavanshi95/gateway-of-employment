@@ -11,7 +11,7 @@ class SideNav extends Component{
 
     render(){
         return(
-            <div className="nav-menu-items profile">
+            <div className="nav-menu-items side-nav">
                 <ul>
                     <li><Link onClick={()=>{ this.props.sideTabSelector(true) }}>Notifications</Link></li>
                     <li><Link onClick={()=>{ this.props.sideTabSelector(false) }}>Chats</Link></li>

@@ -9,10 +9,10 @@ class EmployerNav extends Component {
 
     render(){
         return(
-            <div className="nav-menu-items profile">
+            <div className="nav-menu-items user-nav">
                 <ul>
-                    <li><a>Jobs</a></li>
-                    <li><a>Internships</a></li>
+                    <li><a onClick={()=>{ this.props.setNav(true) }} >Jobs</a></li>
+                    <li><a onClick={()=>{ this.props.setNav(false) }} >Internships</a></li>
                 </ul>
             </div>
         )
