@@ -5,7 +5,8 @@ var bodyParser = require('body-parser')
 
 var authRouter = require('./routes/authRouter');
 var userRouter = require('./routes/userRouter');
-var jobRouter = require('./routes/jobRouter');
+var offerRouter = require('./routes/offerRouter');
+var adminRouter = require('./routes/adminRouter');
 
 var app = express();
 var port = process.env.PORT || 5000;
@@ -27,9 +28,11 @@ app.use(
 
 app.use('/api/auth', authRouter);
 
+app.use('/api/admin', adminRouter);
+
 app.use('/api/user', userRouter);
 
-app.use('/api/job', jobRouter);
+app.use('/api/offer', offerRouter);
 
 app.listen(port, ()=>{
     console.log(`Server started at port ${port}`);

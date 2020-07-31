@@ -9,7 +9,7 @@ class Posts extends Component{
     
     constructor(props){
         super(props);
-
+   
         this.state = {
             jobs:"",
             proposal:undefined,
@@ -22,7 +22,7 @@ class Posts extends Component{
     }
 
     componentDidMount(){
-        Axios.get('api/job/jobList').then(res=>{
+        Axios.get('api/offer/job-List').then(res=>{
             this.setState({
                 jobs:res.data.jobs
             })

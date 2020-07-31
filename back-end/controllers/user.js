@@ -116,6 +116,5 @@ const getStats = (user) => {
     else if(user.category==="Employee"){
         stats = user.userEmployeeInfo.stats;
     }
-    console.log(stats);
     return stats;
 }

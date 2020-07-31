@@ -9,4 +9,6 @@ database.User = require('./userModel');
 
 database.Job = require('./jobModel');
 
+database.Internship = require('./internshipModel');
+
 module.exports = database;

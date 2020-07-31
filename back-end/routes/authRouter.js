@@ -16,8 +16,6 @@ authRouter.post('/register', controller.register);
 
 authRouter.post('/signin', controller.signin);
 
-authRouter.post('/admin', controller.admin);
-
 authRouter.post('/create-admin', async (req,res)=>{
     adminUser = {
         userName:res.body.info.userName,
@@ -33,7 +31,5 @@ authRouter.post('/create-admin', async (req,res)=>{
         });
     })
 });
-
-authRouter.post('/remove', controller.remove);
 
 module.exports = authRouter;

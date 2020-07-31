@@ -7,9 +7,20 @@ class Internships extends Component{
     }
 
     render(){
+        var key = 0;
+        var internships = this.props.internships;
+        console.log(internships);
+        internships = internships!=null && internships.length>0 ? internships.map(internship => {
+            ++key;
+            return(
+                <div key={key}>
+                    <div className="title">{internship.title}</div>
+                </div>
+            )
+        }) : <div>Nothing to show</div>;
         return(
             <div className="user-tab">
-                These are the Internships.
+                {internships}
             </div>
         )
     }

@@ -12,6 +12,7 @@ import RegisterFirm from './components/screens/register/RegisterFirm';
 import Register from './components/screens/register/Register';
 import CreateEmployer from './components/screens/register/CreateEmployer';
 import CreateJobOffer from './components/screens/CreateJobOffer';
+import CreateInternship from './components/screens/CreateInternship';
 
 class App extends Component {
   render(){
@@ -23,7 +24,8 @@ class App extends Component {
               <Route exact path='/admin' component={Admin}/>
               <Route path='/posts' component={Posts}/>
               <Route exact path='/profile/:userName' component={Profile}/>
-              <Route path='/profile/:userName/create' component={CreateJobOffer}/>
+              <Route path='/profile/:userName/create-job' component={CreateJobOffer}/>
+              <Route path='/profile/:userName/create-internship' component={CreateInternship}/>
               <Route path="/signin" component={SignIn}/>
               <Route exact path="/register" component={Register}/>
               <Route exact path="/register/1" component={CreateEmployer}/>

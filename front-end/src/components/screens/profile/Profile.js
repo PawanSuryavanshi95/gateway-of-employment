@@ -22,6 +22,7 @@ class Profile extends Component{
             side:"ntf",
             nav:true,
             jobs:null,
+            internships:null,
         };
 
         this.editTitle = "";
@@ -52,9 +53,14 @@ class Profile extends Component{
                     stats: res.data.stats,
                 });
                 const employer = res.data.userData._id
-                axios.get('/api/job/joblist', { params: { employer: employer ? employer : null } }).then(res =>{
+                axios.get('/api/offer/job-list', { params: { employer: employer ? employer : null } }).then(res =>{
                     this.setState({
                         jobs:res.data.jobs,
+                    })
+                });
+                axios.get('/api/offer/internship-list', { params: { employer: employer ? employer : null } }).then(res =>{
+                    this.setState({
+                        internships:res.data.internships,
                     })
                 });
             }
@@ -91,9 +97,10 @@ class Profile extends Component{
             <div className="user-content">
                 <h1><span>{info.firmName}</span></h1>
                 <EmployerNav setNav={this.setNav} />
-                {this.state.nav ? <Jobs jobs={this.state.jobs} /> : <Internships data={""}/>}
+                {this.state.nav ? <Jobs jobs={this.state.jobs} /> : <Internships internships={this.state.internships}/>}
                 <div className="create-offers">
-                <Link to={url}><button className="button"><span>Post a job Offer</span></button></Link>
+                <Link to={url+'-job'}><button className="button"><span>Post a Job</span></button></Link>
+                <Link to={url+'-internship'}><button className="button"><span>Post an Internship</span></button></Link>
                 </div>
             </div>
         )

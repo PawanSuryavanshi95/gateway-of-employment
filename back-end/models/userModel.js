@@ -30,6 +30,7 @@ const userEmployerSchema = new mongoose.Schema({
     firmName: { type:String, required:false },
     gender: { type:String, required:false },
     jobs: [{ type: Schema.Types.ObjectId, ref: 'Job' }],
+    internships: [{ type: Schema.Types.ObjectId, ref: 'Internship' }],
 });
 
 const notificationSchema = new mongoose.Schema({
