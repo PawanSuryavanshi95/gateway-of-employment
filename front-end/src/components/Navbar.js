@@ -43,7 +43,7 @@ class Navbar extends Component{
             ):(
                 <ul>
                     <li><NavLink to={`/profile/${this.state.userName}`}>{this.state.userName}</NavLink></li>
-                    <li><NavLink to="/posts">Posts</NavLink></li>
+                    <li><NavLink to="/jobs">Jobs</NavLink></li>
                     <li><NavLink to="/" onClick={this.userLogout}>Logout</NavLink></li>
                 </ul>
             );

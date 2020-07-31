@@ -86,6 +86,35 @@ exports.details = (req,res) => {
     });
 }
 
+exports.selectUser = (req,res) => {
+    const token = req.body.headers['X-access-token'];
+    var success = true, message;
+    jwt.verify(token, authConfig.secret, (e,decoded) => {
+        if(e){
+            return res.status(403).send({success:false, error:e});
+        }
+        if(decoded){
+            User.findById(decoded._id).then(user => {
+                if(user.category==="Employer"){
+                    var ntfData = req.body.ntfData;
+                    var type = ntfData.category ? ntfData.category.substr(12) : "Nothing";
+                    var notification = {
+                        msg: `You have been selected for the ${type} ${ntfData.workName} by ${decoded.userName}`,
+                        category: "SELECTION",
+                    };
+                    User.updateOne({ userName: ntfData.candidate }, { $push: { 'notifications' : notification } }).then(user => {
+                        message = `Notification Sent to ${ntfData.candidate} by ${decoded.userName}`;
+                        return res.send({success:success, message:message})
+                    }).catch(e => {
+                        console.log(e);
+                        return res.send({success:success, error:e.message});
+                    })
+                }
+            });
+        }
+    });
+}
+
 const createPublicProfile = function(user){
     var userData = {};
     userData = {

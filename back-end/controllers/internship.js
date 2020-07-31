@@ -49,7 +49,8 @@ exports.applyIn = (req,res) => {
             }
             if(decoded){
                 User.findById(employer).then(user => {
-                    user.notifications.push({msg: `${decoded.userName} has applied for ${inTitle}.`, proposal: proposal, candidate:decoded.userName});
+                    user.notifications.push({msg: `${decoded.userName} has applied for the internship ${inTitle}.`, category: "APPLICATION_INTERNSHIP",
+                    proposal: proposal, candidate:decoded.userName, workName: inTitle });
                     user.save();
                     return res.send("Success");
                 });

@@ -3,7 +3,7 @@ import {BrowserRouter,Switch,Route} from 'react-router-dom';
 import Home from './components/screens/Home';
 import Admin from './components/screens/admin/Admin';
 import Navbar from './components/Navbar';
-import Posts from './components/screens/Posts';
+import JobOffers from './components/screens/JobOffers';
 import Profile from './components/screens/profile/Profile';
 import Footer from './components/Footer';
 import SignIn from './components/screens/SignIn';
@@ -22,7 +22,7 @@ class App extends Component {
             <Switch>
               <Route exact path="/" component={Home}/>
               <Route exact path='/admin' component={Admin}/>
-              <Route path='/posts' component={Posts}/>
+              <Route path='/jobs' component={JobOffers}/>
               <Route exact path='/profile/:userName' component={Profile}/>
               <Route path='/profile/:userName/create-job' component={CreateJobOffer}/>
               <Route path='/profile/:userName/create-internship' component={CreateInternship}/>

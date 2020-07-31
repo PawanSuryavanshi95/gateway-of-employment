@@ -36,9 +36,11 @@ const userEmployerSchema = new mongoose.Schema({
 const notificationSchema = new mongoose.Schema({
     created: { type:Date, default: Date.now },
     msg: { type:String, required:true},
+    category: { type:String, required:true },
     proposal: { type:String, required:false},
     new: { type:Boolean, default:true },
-    candidate: { type:String, default:null },
+    candidate: { type:String, required:false},
+    workName: { type:String, required:false },
 });
 
 const reportSchema = new mongoose.Schema({

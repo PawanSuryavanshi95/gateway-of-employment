@@ -24,15 +24,28 @@ class NotificationTab extends Component{
         });
     }
 
-    handleClick = (proposal,candidate) => {
+    handleClick = (ntf) => {
         return(
             <div className="proposal">
-                {proposal}
+                {ntf.proposal}
                 <br/>
-                <button onClick={()=>{ window.open(`http://localhost:3000/profile/${candidate}`,"_blank") }}>Open Profile</button>
+                <button onClick={()=>{ window.open(`http://localhost:3000/profile/${ntf.candidate}`,"_blank") }}>Open Profile</button>
+                <button onClick={ () => { this.handleSelect(ntf) }}>Select</button>
                 <button>Reject</button>
             </div>
         )
+    }
+
+    handleSelect = (ntf) => {
+        const headers = {
+            'X-access-token': localStorage.getItem('userToken')
+        };
+        const type = "Job";
+        Axios.post('/api/user/select-user', { headers: headers, ntfData:ntf }).then(res => {
+            console.log(res);
+        }).catch(e => {
+            console.log(e);
+        });
     }
 
     render(){
@@ -43,7 +56,7 @@ class NotificationTab extends Component{
                     <div id={ntf.new ? 1 : 2} className="notification"  key={ntf._id}
                         onClick={() => { this.setState({ selectedID: ntf._id }) }} >
                         {ntf.msg}
-                        {this.state.selectedID===ntf._id && this.props.category==="Employer"? this.handleClick(ntf.proposal,ntf.candidate) : null}
+                        {this.state.selectedID===ntf._id && this.props.category==="Employer"? this.handleClick(ntf) : null}
                     </div>
                 )
             }) :

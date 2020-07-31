@@ -1,11 +1,11 @@
 import React,{ Component } from 'react';
 import Axios from 'axios';
 import Modal from 'react-modal';
-import MessageBox from './../MessageBox';
+import MessageBox from '../MessageBox';
 
-//Modal.setAppElement("#root");
+Modal.setAppElement("#root");
 
-class Posts extends Component{
+class JobOffers extends Component{
     
     constructor(props){
         super(props);
@@ -101,4 +101,4 @@ class Posts extends Component{
     }
 }
 
-export default Posts;
+export default JobOffers;

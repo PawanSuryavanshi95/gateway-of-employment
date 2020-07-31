@@ -15,4 +15,6 @@ userRouter.get('/userList', controller.userList);
 
 userRouter.post('/details', controller.details);
 
+userRouter.post('/select-user', controller.selectUser);
+
 module.exports = userRouter;
