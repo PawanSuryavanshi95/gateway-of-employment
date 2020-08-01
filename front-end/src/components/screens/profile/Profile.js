@@ -122,10 +122,11 @@ class Profile extends Component{
         return(
             !this.state.public?
                 <div className="side-tab">
-                    <SideNav sideTabSelector={this.sideTabSelector} />
+                    <div className="nav"> <SideNav sideTabSelector={this.sideTabSelector} /> </div>
                     { this.state.side ? <NotificationTab category={category} /> : <Chats/>}
+                    <div className="foot" ></div>
                 </div> :
-                <div className="side-tab"> <Stats data={this.state.stats} type={category} /> </div>
+                <Stats data={this.state.stats} />
         )
     }
 
@@ -138,7 +139,7 @@ class Profile extends Component{
                     <div className="side-container">
                         {this.displaySideContent(category)}
                     </div>
-                    {!this.state.public?<Stats data={this.state.stats} type={category} />:<div></div>}
+                    {!this.state.public ? <div className="stats-container"><Stats data={this.state.stats} type={category} /></div>:<div></div>}
                 </div>
             </main>
         )

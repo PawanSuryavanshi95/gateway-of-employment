@@ -52,10 +52,10 @@ class SignIn extends Component{
 
                             <input type="submit" value="Sign In"></input>
                         </form>
-                    </div>
-                    <div className="register-link">
-                        <h2> Don't have an account? </h2>
-                        <Link to="/register"><button className="button"><span>Register</span></button></Link>
+                        <div className="register-link">
+                            <h2> Don't have an account? </h2>
+                            <Link to="/register"><button className="button"><span>Register</span></button></Link>
+                        </div>
                     </div>
                 </div>
             </main>

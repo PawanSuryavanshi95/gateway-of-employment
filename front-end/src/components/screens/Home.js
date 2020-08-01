@@ -37,7 +37,20 @@ class Home extends Component{
             <main className="main">
             <div className="content">
                 <div className="content welcome">
-                    <h1>Welcome to Aatma Nirbhar</h1>
+                    <ul class="box-area">
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                        <li></li>
+                    </ul>
+                    <h1 className="h11">Welcome</h1>
+                    <h2>to the</h2>
+                    <h1 className="h12">Gateway of Employment</h1>
                     {this.state.loggedIn ? 
                     <div></div> : 
                     <div>

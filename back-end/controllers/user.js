@@ -139,11 +139,12 @@ const createPublicProfile = function(user){
 const getStats = (user) => {
     var stats = {};
     if(user.category==="Employer"){
-        stats.jobs = user.userEmployerInfo.jobs.length;
-        stats.internships = 0;
+        stats = [{ name: "Number of jobs posted", value: user.userEmployerInfo.jobs.length },
+        { name: "Number of internships posted", value: user.userEmployerInfo.internships.length }];
     }
     else if(user.category==="Employee"){
-        stats = user.userEmployeeInfo.stats;
+        stats = [{ name: "Total Applications", value: user.userEmployeeInfo.stats.applied },
+        { name: "Successfull Applications", value: user.userEmployeeInfo.stats.selected }];
     }
     return stats;
 }

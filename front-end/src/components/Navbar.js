@@ -50,7 +50,7 @@ class Navbar extends Component{
         return (
             <header className="header">
                 <div className="brand">
-                <Link to="/">Aatma Nirbhar</Link>
+                <Link to="/">Gateway <span>of Employment</span></Link>
             </div>
             <div className="header-links">
                 {admin ==="/admin" ? <ul></ul> : content}

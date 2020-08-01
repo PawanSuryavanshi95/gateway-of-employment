@@ -68,9 +68,7 @@ class NotificationTab extends Component{
             </div>
         return(
             <div className="tab">
-                <div className="notification-msg">
-                    {content}
-                </div>
+                {content}
             </div>
         )
     }

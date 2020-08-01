@@ -6,50 +6,28 @@ class Stats extends Component{
         super(props);
         this.state = {}
     }
-
-    employer = (data) => {
-        return(
-            <div className="stats">
-                <div className="item">
-                    <h3>No. of Jobs :</h3>
-                    <span>{data.jobs}</span>
-                </div>
-                <div className="item">
-                    <h3>No. of Internships :</h3>
-                    <span>{data.internships}</span>
-                </div>
-            </div>
-        )
-    }
     
-    employee = (data) =>{
+    render(){
+        const {data} = this.props;
+        var stats = <div> Nothing to show </div>, key = 0;
+        if(data){
+            stats = data.map(item => {
+                ++key;
+                return(
+                    <div className="box" key={key}>
+                        <div className="item">
+                            <h3 className="name">{item.name}</h3>
+                            <p className="value">{item.value}</p>
+                        </div>
+                    </div>
+                )
+            });
+        }
         return(
             <div className="stats">
-                <div className="item">
-                    <h3>No. of Applications :</h3>
-                    <span>{data.applied}</span>
-                </div>
-                <div className="item">
-                    <h3>No. of times selected :</h3>
-                    <span>{data.selected}</span>
-                </div>
+                {stats}
             </div>
         )
-    }
-
-    render(){
-        const {data,type} = this.props;
-        if(type==="Employer"){
-            return this.employer(data);
-        }
-        else if(type==="Employee"){
-            return this.employee(data);
-        }
-        else{
-            return <div>
-                Nothing to show.
-            </div>
-        }
     }
 }
 
