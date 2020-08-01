@@ -9,6 +9,7 @@ class Navbar extends Component{
         this.state = {
             currentUser : undefined,
             userName : undefined,
+            selected:'',
         }
     }
 
@@ -28,23 +29,27 @@ class Navbar extends Component{
     userLogout = () => {
         localStorage.removeItem('userToken');
         this.setState({
-            currentUser:undefined
+            currentUser:undefined,
+            selected:"",
         })
         this.props.history.push('/');
         window.location.reload(false);
     }
 
     render(){
-        const admin = this.props.location.pathname;
+        const admin = this.props.location.pathname,selected=this.state.selected;
         const content = this.state.currentUser===undefined?(
                 <ul>
-                    <li><NavLink to="/signin">Sign In</NavLink></li>
+                    <li className={selected==="signin" ? "Y":"N" }><NavLink to="/signin" onClick={()=>{this.setState({selected:"signin"})}}>Sign In</NavLink></li>
+                    <li className={selected==="in" ? "Y":"N" }><NavLink to="/internships" onClick={()=>{this.setState({selected:"in"})}}>Internships</NavLink></li>
+                    <li className={selected==="job" ? "Y":"N" }><NavLink to="/jobs" onClick={()=>{this.setState({selected:"job"})}}>Jobs</NavLink></li>
                 </ul>
             ):(
                 <ul>
-                    <li><NavLink to={`/profile/${this.state.userName}`}>{this.state.userName}</NavLink></li>
-                    <li><NavLink to="/jobs">Jobs</NavLink></li>
-                    <li><NavLink to="/" onClick={this.userLogout}>Logout</NavLink></li>
+                    <li className={selected==="profile" ? "Y":"N" }><NavLink to={`/profile/${this.state.userName}`} onClick={()=>{this.setState({selected:"profile"})}}>{this.state.userName}</NavLink></li>
+                    <li className={selected==="in" ? "Y":"N" }><NavLink to="/internships" onClick={()=>{this.setState({selected:"in"})}}>Internships</NavLink></li>
+                    <li className={selected==="job" ? "Y":"N" }><NavLink to="/jobs" onClick={()=>{this.setState({selected:"job"})}}>Jobs</NavLink></li>
+                    <li className="N"><NavLink to="/" onClick={this.userLogout}>Logout</NavLink></li>
                 </ul>
             );
         return (

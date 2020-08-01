@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import NotificationTab from './NotificationTab';
 import EmployerNav from "./Employer/EmployerNav";
 import Stats from "./Stats";
-import SideNav from './Employee/SideNav';
+import SideNav from './SideNav';
 import Chats from './Chats';
 import Details from './Employee/Details';
 import Jobs from './Employer/Jobs';
@@ -99,8 +99,8 @@ class Profile extends Component{
                 <EmployerNav setNav={this.setNav} />
                 {this.state.nav ? <Jobs jobs={this.state.jobs} /> : <Internships internships={this.state.internships}/>}
                 <div className="create-offers">
-                <Link to={url+'-job'}><button className="button"><span>Post a Job</span></button></Link>
-                <Link to={url+'-internship'}><button className="button"><span>Post an Internship</span></button></Link>
+                {this.state.public===true ? null : <Link to={url+'-job'}><button className="button"><span>Post a Job</span></button></Link> }
+                {this.state.public===true ? null : <Link to={url+'-internship'}><button className="button"><span>Post an Internship</span></button></Link> }
                 </div>
             </div>
         )

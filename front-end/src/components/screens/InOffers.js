@@ -5,26 +5,26 @@ import MessageBox from '../MessageBox';
 
 Modal.setAppElement("#root");
 
-class JobOffers extends Component{
+class InOffers extends Component{
     
     constructor(props){
         super(props);
    
         this.state = {
-            jobs:"",
+            internships:"",
             proposal:undefined,
             modal:false,
             modalMsgBox:false,
         }
 
-        this.job = {};
+        this.internship = {};
         this.messages = [];
     }
 
     componentDidMount(){
-        Axios.get('api/offer/job-List').then(res=>{
+        Axios.get('api/offer/internship-list').then(res=>{
             this.setState({
-                jobs:res.data.jobs
+                internships:res.data.internships
             })
         }).catch(e=>{
             console.log(e);
@@ -32,7 +32,7 @@ class JobOffers extends Component{
     }
 
     handleApply = () => {
-        const employer = this.job.employer, title = this.job.title;
+        const employer = this.internship.employer, title = this.internship.title;
         const userToken = localStorage.getItem("userToken");
         const headers = {
             'X-access-token' : userToken
@@ -40,7 +40,7 @@ class JobOffers extends Component{
         var proposal = this.state.proposal;
         if(proposal){
             console.log(proposal)
-            Axios.post('api/offer/apply-job', {headers : headers, employer: employer, jobTitle: title, proposal: proposal}).then(res => {
+            Axios.post('api/offer/apply-internship', {headers : headers, employer: employer, inTitle: title, proposal: proposal}).then(res => {
                 if(res.error){
                     return <div>
                         Error occurered {res.error}
@@ -64,30 +64,30 @@ class JobOffers extends Component{
     }
 
     render(){
-        const jobs = this.state.jobs;
-        const jobList = jobs.length ? (
-            jobs.map(job => {
+        const internships = this.state.internships;
+        const inList = internships.length ? (
+            internships.map(internship => {
                 return (
-                    <div key={job._id} className="job">
-                        <h3>{job.title}</h3><br/>
-                        <div className="job-info">
-                            <p>Description : {job.desc}</p>
-                            <p>Requirement : {job.reqs}</p>
-                            <p>Reason(s) to join : {job.reason}</p>
-                            <span>This is a {job.fullTime?"Full Time":"Part Time"} job.</span><br/>
-                            <span>{job.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
-                            <button className="button" onClick={() => { this.messages=[]; this.job = job; this.setState({ modal:true }); }}><span>Apply</span></button>
+                    <div key={internship._id} className="internship">
+                        <h3>{internship.title}</h3><br/>
+                        <div className="internship-info">
+                            <p>Description : {internship.desc}</p>
+                            <p>Requirement : {internship.reqs}</p>
+                            <p>Reason(s) to join : {internship.reason}</p>
+                            <span>This is a {internship.fullTime?"Full Time":"Part Time"} internship.</span><br/>
+                            <span>{internship.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
+                            <button className="button" onClick={() => { this.messages=[]; this.internship = internship; this.setState({ modal:true }); }}><span>Apply</span></button>
                         </div>
                     </div>
                 )
             })
         ):(
-            <div>There are no jobs to show.</div>
+            <div>There are no internships to show.</div>
         )
         return(
             <main className="main">
             <div className="content">
-                {jobList}
+                {inList}
                 <Modal isOpen={this.state.modal} onRequestClose={() => { this.setState({ modal:false }) }}>
                     <textarea id="proposal" rows="3" cols="30"
                         placeholder="Enter a short proposal of maximum 150 words." 
@@ -101,4 +101,4 @@ class JobOffers extends Component{
     }
 }
 
-export default JobOffers;
+export default InOffers;

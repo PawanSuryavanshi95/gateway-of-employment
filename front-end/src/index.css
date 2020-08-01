@@ -60,6 +60,14 @@ body{
 }
 
 .header-links li a:hover {
+  background-color: #46c1e3;
+}
+
+.header-links .Y{
+  background-color: #0f0f0f;
+}
+
+.header-links .Y :hover{
   background-color: #0f0f0f;
 }
 

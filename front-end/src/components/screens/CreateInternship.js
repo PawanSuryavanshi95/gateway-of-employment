@@ -38,9 +38,9 @@ class CreateInternship extends Component{
             duration: this.state.duration,
         }
         if(this.state.otherDetails!==''){
-            info.otherDetails = this.setState.otherDetails;
+            info.otherDetails = this.state.otherDetails;
         }
-        if(info.fromHome===true){
+        if(info.fromHome===false){
             info.address = this.state.address;
         }
         if(info.stipend.available===true){
@@ -69,11 +69,11 @@ class CreateInternship extends Component{
             this.messages = ['Enter all the details to continue'];
             return false;
         }
-        if(info.stipend.available===true && this.state.amount===''){
+        if(info.stipend.available===true && info.stipend.amount===''){
             this.messages = ['Enter all the details to continue'];
             return false;
         }
-        if(info.fromHome===true && this.state.address===''){
+        if(info.fromHome===true && info.address===''){
             this.messages = ['Enter all the details to continue'];
             return false;
         }
