@@ -6,6 +6,7 @@ const database = require('../models/model');
 
 const User = database.User;
 const Job = database.Job;
+const Internship = database.Internship;
 
 exports.login = async (req,res) => {
     const userName = req.body.userName, password = req.body.password;
@@ -15,12 +16,13 @@ exports.login = async (req,res) => {
                 if(bcrypt.compareSync(password, user.password)){
                     var userList = await User.find({});
                     var jobList = await Job.find({});
+                    var inList = await Internship.find({});
                     const payLoad = {
                         _id: user._id,
                         userName: user.userName,
                     }
                     const token = jwt.sign(payLoad, authConfig.secret);
-                    return res.send({ verified:true, token:token, userList:userList, jobList:jobList});
+                    return res.send({ verified:true, token:token, userList:userList, jobList:jobList, inList:inList});
                 }
                 else{
                     return res.send({ verified:false, message:"The username or password is incorrect." });
@@ -60,6 +62,15 @@ exports.remove =  async (req,res)=>{
                             await Job.deleteOne({_id:job._id});
                             return res.send({success:true}); 
                         });
+                    }
+                    else if(query.type==="Internship"){
+                        await Internship.findById(query.id).then(async internhsip=>{
+                            await Internship.deleteOne({_id:internhsip._id});
+                            return res.send({success:true}); 
+                        });
+                    }
+                    else{
+                        return res.send("Invalid type was given.");
                     }
                 }
                 else{

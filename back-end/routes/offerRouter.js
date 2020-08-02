@@ -23,10 +23,4 @@ offerRouter.post('/apply-internship', controllerIn.applyIn);
 
 offerRouter.get('/internship-list', controllerIn.inList);
 
-offerRouter.get('/delete', (req,res)=>{
-    User.updateOne({userName:"wehire1"}, { $set: { notifications:[] } }).then(user=>{
-        res.send(user);
-    });
-});
-
 module.exports = offerRouter;

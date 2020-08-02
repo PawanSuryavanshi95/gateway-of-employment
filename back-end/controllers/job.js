@@ -43,6 +43,7 @@ exports.applyJob = (req,res) => {
     const employer = req.body.employer;
     const jobTitle = req.body.jobTitle;
     const proposal = req.body.proposal;
+    console.log(token)
     if(token){
         jwt.verify(token, authConfig.secret, (e,decoded) => {
             if(e){
@@ -57,6 +58,9 @@ exports.applyJob = (req,res) => {
                 });
             }
         });
+    }
+    else{
+        return res.send("No token was sent");
     }
 }
 

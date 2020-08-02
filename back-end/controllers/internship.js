@@ -57,6 +57,9 @@ exports.applyIn = (req,res) => {
             }
         });
     }
+    else{
+        return res.send("No token was sent.");
+    }
 }
 
 exports.inList = (req,res) => {

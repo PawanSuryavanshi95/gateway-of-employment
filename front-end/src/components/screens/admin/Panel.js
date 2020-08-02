@@ -64,18 +64,47 @@ class Panel extends Component{
         return jobs;
     }
 
+    inEntries = () => {
+        var data = this.props.data,internships;
+        if(data){
+            internships = data.inList ? 
+                data.inList.map(internship => {
+                    return(
+                        <div key={internship._id} className="entry" id={internship._id===this.state.sel_ID?1:0}  onClick={()=>{ this.setState({ sel_ID: internship._id }) }}>
+                            <span className="entry-name"> {internship.title} </span>
+                            <button onClick={()=>{ this.props.remove(internship._id,"Internship") }}>Remove</button><br/>
+                            {internship._id===this.state.sel_ID?
+                            <div className="entry-info">
+                                <div className="field"><div className="field-name">Title</div> : <span className="field-value">{internship.title}</span></div><br/>
+                                <div className="field"><div className="field-name">Recruiter</div> : <span className="field-value">{internship.employer}</span></div><br/>
+                                <div className="field"><div className="field-name">Description</div> : <span className="field-value">{internship.desc}</span></div><br/>
+                            </div>:
+                            <div></div>}
+                        </div>
+                    )
+                }) :
+                <div className="no-content">There are no internships to show</div>
+        }
+        else{
+            internships = <div className="no-content"> Loading Data </div>;
+        }
+        return internships;
+    }
+
     render(){
         return(
             <div className="admin-panel">
                 <h1>Admin Panel</h1>
                 <div className="nav-menu-items">
                     <ul>
-                        <li><a className={this.state.show==="User"?1:0} onClick={() => { this.setState({ show:"User" }) }}>Users</a></li>
-                        <li><a className={this.state.show==="Job"?1:0} onClick={() => { this.setState({ show:"Job" }) }}>Jobs</a></li>
+                        <li><a className={this.state.show==="User"?"Y":"N"} onClick={() => { this.setState({ show:"User" }) }}>Users</a></li>
+                        <li><a className={this.state.show==="Job"?"Y":"N"} onClick={() => { this.setState({ show:"Job" }) }}>Jobs</a></li>
+                        <li><a className={this.state.show==="In"?"Y":"N"} onClick={() => { this.setState({ show:"In" }) }}>Internships</a></li>
                     </ul>
                 </div>
                 <div className="entries">
-                    {this.state.show==="User"? this.userEntries(): this.state.show==="Job"? this.jobEntries(): <div></div>}
+                    {this.state.show==="User"? this.userEntries(): this.state.show==="Job"? this.jobEntries() : this.state.show==="In"?
+                    this.inEntries() : <div></div>}
                 </div>
             </div>
         )

@@ -49,6 +49,7 @@ class LogIn extends Component{
                         const data = {
                             userList:res.data.userList,
                             jobList:res.data.jobList,
+                            inList:res.data.inList,
                         };
                         this.setState({ msgBox:false });
                         this.messages = [];
