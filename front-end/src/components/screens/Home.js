@@ -37,7 +37,7 @@ class Home extends Component{
             <main className="main">
             <div className="content">
                 <div className="content welcome">
-                    <ul class="box-area">
+                    <ul classname="box-area">
                         <li></li>
                         <li></li>
                         <li></li>

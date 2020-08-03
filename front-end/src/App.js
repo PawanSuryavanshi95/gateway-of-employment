@@ -25,7 +25,7 @@ class App extends Component {
               <Route exact path='/admin' component={Admin}/>
               <Route path='/jobs' component={JobOffers}/>
               <Route path='/internships' component={InOffers}/>
-              <Route path='/profile/:userName' component={Profile}/>
+              <Route exact path='/profile/:userName' component={Profile}/>
               <Route path='/profile/:userName/create-job' component={CreateJobOffer}/>
               <Route path='/profile/:userName/create-internship' component={CreateInternship}/>
               <Route path="/signin" component={SignIn}/>
