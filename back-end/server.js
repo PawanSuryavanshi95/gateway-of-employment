@@ -8,10 +8,13 @@ var userRouter = require('./routes/userRouter');
 var offerRouter = require('./routes/offerRouter');
 var adminRouter = require('./routes/adminRouter');
 
-var app = express();
-var port = process.env.PORT || 5000;
+const config = require('./configs/server');
 
-mongoose.connect('mongodb://localhost/abcdefghi', {
+var app = express();
+const port = config.port;
+const mongoURI = config.mongoURI;
+
+mongoose.connect(mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
