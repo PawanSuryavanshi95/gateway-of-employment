@@ -62,11 +62,13 @@ class InOffers extends Component{
         )
         return(
             <main className="main">
+            <div className="content">
             <div className="offers">
                 {inList}
                 <Modal isOpen={this.state.modal || bool} onRequestClose={() => { this.setState({ modal:false }); this.props.history.push('/jobs'); }}>
                     <InDetails internship={this.internship} />
                 </Modal>
+            </div>
             </div>
             </main>
         )

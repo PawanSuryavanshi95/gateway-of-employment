@@ -54,8 +54,9 @@ class Navbar extends Component{
             );
         return (
             <header className="header">
-                <div className="brand">
-                <Link to="/">Gateway <span>of Employment</span></Link>
+            <div className="brand">
+                <div className="img-container"><img src={process.env.PUBLIC_URL + '/images/logo_G.o.e_1.png'}/></div>
+                <Link to="/">Gateway<span>of Employment</span></Link>
             </div>
             <div className="header-links">
                 {admin ==="/admin" ? <ul></ul> : content}
@@ -64,5 +65,4 @@ class Navbar extends Component{
         )
     }
 }
-
 export default withRouter(Navbar);

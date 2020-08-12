@@ -10,14 +10,15 @@ class Jobs extends Component{
     render(){
         var key = 0;
         var jobs = this.props.jobs;
-        jobs = jobs!=null ? jobs.map(job => {
+        var bool = jobs!=null ? jobs.length>0 ? true : false : false ;
+        jobs = bool ? jobs.map(job => {
             ++key;
             return(
                 <div key={key}>
                     <div className="title">{job.title}</div>
                 </div>
             )
-        }) : <div>Nothing to show</div>;
+        }) : <div className="no-content">Nothing to show</div>;
         return(
             <div className="user-tab">
                 {jobs}

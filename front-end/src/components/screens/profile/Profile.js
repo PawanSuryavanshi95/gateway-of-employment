@@ -93,9 +93,11 @@ class Profile extends Component{
     showEmployerContent(){
         const url = `/profile/${this.props.match.params.userName}/create`;
         const info = this.state.userData.userEmployerInfo;
+        console.log(info);
+        var employerName = info.firm ? info.firmName : (info.firstName + " " + info.lastName);
         return(
             <div className="user-content">
-                <h1><span>{info.firmName}</span></h1>
+                <h1><span>{employerName}</span></h1>
                 <EmployerNav setNav={this.setNav} />
                 {this.state.nav ? <Jobs jobs={this.state.jobs} /> : <Internships internships={this.state.internships}/>}
                 <div className="create-offers">

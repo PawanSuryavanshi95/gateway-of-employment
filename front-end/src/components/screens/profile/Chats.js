@@ -11,7 +11,9 @@ class Chats extends Component{
     render(){
         return(
             <div className="tab">
+                <div className="no-content">
                 This service is unavailable right now,<br/> we are currently working on it.
+                </div>
             </div>
         )
     }

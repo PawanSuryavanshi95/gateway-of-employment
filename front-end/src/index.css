@@ -26,15 +26,53 @@ body{
   align-items: center;
 }
 
+.brand{
+  height: 6rem;
+  width: 470px;
+  background-color: #c7f2ff;
+  display: flex;
+  flex-direction: row;
+  box-shadow: 2px 0px 20px 1px #3f3f41;
+}
+
+.img-container{
+  background-color: #22add4;
+  border-top-right-radius: 28px;
+  border-bottom-right-radius: 28px;
+  padding-top: 6px;
+  padding-left: 10px;
+  padding-right: 9px;
+  height: 5.45rem;
+  width: 5rem;
+  box-shadow: 3px 1px 8px 1px #201f1f;
+  margin-right: 10px;
+}
+
+.brand img{
+  float: left;
+  max-width:5rem;
+  max-height:5rem;
+  object-fit: cover;
+  border-radius: 40px;
+}
+
 .brand a{
-  color: #ffffff;
+  position: relative;
+  color: #034766;
+  background-color: #c7f2ff;
   font-size: 35px;
   font-weight: bold;
   text-decoration: none;
+  height: 100%;
+  display: flex;
+  text-align: center;
+  align-items: center;
 }
 
 .brand a span{
-  color: #000;
+  color: #108bad;
+  margin-left: 8px;
+  margin-right: 10px;
 }
 
 .header-links a{
@@ -125,6 +163,8 @@ body{
   justify-content: center;
   align-items: center;
   align-content: space-around;
+  box-shadow: 1px 0px 6px 1px #413f3f inset;
+  height: 100%;
 }
 
 .content div {
@@ -462,6 +502,10 @@ body{
 .get-started:hover h2:after {
   opacity: 1;
   right: 0;
+}
+
+.content.about{
+  box-shadow: none;
 }
 
 .content.about h1 {
@@ -925,12 +969,10 @@ body{
 }
 
 .no-content {
-  width: 100%;
-  height: 100%;
   color: #2e2f30;
-  font-size: 30px;
+  font-size: 20px;
   padding-right: 5%;
   padding-left: 5%;
-  padding-top: 40%;
-  padding-bottom: 60%;
+  padding-top: 20%;
+  padding-bottom: 30%;
 }
