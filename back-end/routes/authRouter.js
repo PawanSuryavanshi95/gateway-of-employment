@@ -6,7 +6,6 @@ const controller = require('../controllers/auth');
 // -------  To be removed Later  --------
 const database = require('../models/model');
 const User = database.User;
-const Job = database.Job;
 // ---------------------------------------
 
 var authRouter = express.Router();

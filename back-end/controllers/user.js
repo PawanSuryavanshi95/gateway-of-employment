@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const authConfig = require('../configs/auth');
 
+const sendMail = require('../utility/sendMail');
 const database = require('../models/model');
 
 const User = database.User;
@@ -104,7 +105,18 @@ exports.selectUser = (req,res) => {
                     };
                     User.updateOne({ userName: ntfData.candidate }, { $push: { 'notifications' : notification } }).then(user => {
                         message = `Notification Sent to ${ntfData.candidate} by ${decoded.userName}`;
-                        return res.send({success:success, message:message})
+                        
+                        var text = `You have been selected for the ${type} ${ntfData.workName} posted by ${decoded.userName}.\nWe advise you to get in touch with them and get started with your work.`;
+                        var to = `${user.email}`;
+                        var subject = `You have been selected for ${type==="JOB"?"a":"an"} ${type}`;
+                        const mailResult1 = sendMail.sendMail(to, subject, text);
+                        
+                        text = `You have selected a recruit ${decoded.userName} for the ${type} ${ntfData.workName}.\nWe advice that you start communicating with the recruit and start your work as soon as possible.`;
+                        to = `${decoded.email}`;
+                        subject = `You selected a recruit for ${type==="JOB"?"a":"an"} ${type}`;
+
+                        const mailResult2 = sendMail.sendMail(to, subject, text);
+                        return res.send({success:success, message:{ntf: message, mail:{ recruit: mailResult1, employer:mailResult2}}});
                     }).catch(e => {
                         console.log(e);
                         return res.send({success:success, error:e.message});
