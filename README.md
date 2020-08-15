@@ -6,4 +6,8 @@ Download and install nodejs.
 
 Clone this project using command : git clone https://github.com/PawanSuryavanshi95/gateway-of-employment.git
 
-download the dependencies using command : npm install "package-name"
+Install the dependencies using command : npm install "package-name"
+
+Run client side application with command (inside front-end folder) : npm start
+
+Run Server using command (inside back-end server) : nodemon server
