@@ -15,8 +15,8 @@ class SideNav extends Component{
         return(
             <div className="nav-menu-items side-nav">
                 <ul>
-                    <li className={this.state.selected==="Ntf"?"Y2":"N"}><Link onClick={()=>{ this.props.sideTabSelector(true); this.setState({selected:"Ntf"});  }}>Notifications</Link></li>
-                    <li className={this.state.selected==="Chat"?"Y2":"N"}><Link onClick={()=>{ this.props.sideTabSelector(false); this.setState({selected:"Chat"});  }}>Chats</Link></li>
+                    <li className={this.state.selected==="Ntf"?"Y2":"N"}><Link to="/" onClick={(e)=>{ e.preventDefault(); this.props.sideTabSelector(true); this.setState({selected:"Ntf"});  }}>Notifications</Link></li>
+                    <li className={this.state.selected==="Chat"?"Y2":"N"}><Link to="/" onClick={(e)=>{ e.preventDefault(); this.props.sideTabSelector(false); this.setState({selected:"Chat"});  }}>Chats</Link></li>
                 </ul>
             </div>
         )

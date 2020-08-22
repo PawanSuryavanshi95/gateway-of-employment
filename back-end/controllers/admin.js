@@ -21,7 +21,7 @@ exports.login = async (req,res) => {
                         _id: user._id,
                         userName: user.userName,
                     }
-                    const token = jwt.sign(payLoad, authConfig.secret);
+                    const token = jwt.sign(payLoad, authConfig.user_secret);
                     return res.send({ verified:true, token:token, userList:userList, jobList:jobList, inList:inList});
                 }
                 else{
@@ -41,7 +41,7 @@ exports.login = async (req,res) => {
 exports.remove =  async (req,res)=>{
     const token = req.body.headers['x-access-token'];
     const query = req.body.query;
-    jwt.verify(token, authConfig.secret, async(e,decoded) => {
+    jwt.verify(token, authConfig.user_secret, async(e,decoded) => {
         if(e){
             return res.send({error:e});
         }

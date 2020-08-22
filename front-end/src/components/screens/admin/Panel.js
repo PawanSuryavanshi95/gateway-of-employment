@@ -97,9 +97,9 @@ class Panel extends Component{
                 <h1>Admin Panel</h1>
                 <div className="nav-menu-items">
                     <ul>
-                        <li className={this.state.show==="User"?"Y":"N"} ><a onClick={() => { this.setState({ show:"User" }) }}>Users</a></li>
-                        <li className={this.state.show==="Job"?"Y":"N"} ><a onClick={() => { this.setState({ show:"Job" }) }}>Jobs</a></li>
-                        <li className={this.state.show==="In"?"Y":"N"} ><a onClick={() => { this.setState({ show:"In" }) }}>Internships</a></li>
+                        <li className={this.state.show==="User"?"Y":"N"} ><a href="/admin" onClick={(e) => { e.preventDefault(); this.setState({ show:"User" }); }}>Users</a></li>
+                        <li className={this.state.show==="Job"?"Y":"N"} ><a href="/admin" onClick={(e) => { e.preventDefault(); this.setState({ show:"Job" }); }}>Jobs</a></li>
+                        <li className={this.state.show==="In"?"Y":"N"} ><a href="/admin" onClick={(e) => { e.preventDefault(); this.setState({ show:"In" }); }}>Internships</a></li>
                     </ul>
                 </div>
                 <div className="entries">
