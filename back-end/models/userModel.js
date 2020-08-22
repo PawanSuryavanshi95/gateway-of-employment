@@ -54,6 +54,7 @@ const userSchema = new mongoose.Schema({
     password: { type:String, required:true },
     created: { type:Date, default: Date.now },
     reported: [reportSchema],
+    confirmed: { type:Boolean, default:false },
 
     userEmployeeInfo: userEmployeeSchema,
 

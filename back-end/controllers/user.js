@@ -18,7 +18,7 @@ exports.profile = (req,res) => {
     }
     else{
         if(token){
-            jwt.verify(token, authConfig.secret, (e,decoded)=>{
+            jwt.verify(token, authConfig.user_secret, (e,decoded)=>{
                 if(e){
                     return res.status(403).send({error:e})
                 }
@@ -45,7 +45,7 @@ exports.profile = (req,res) => {
 exports.notifications = (req,res) => {
     const token = req.headers['x-access-token'];
     if(token){
-        jwt.verify(token, authConfig.secret, (e,decoded) => {
+        jwt.verify(token, authConfig.user_secret, (e,decoded) => {
             if(e){
                 return res.status(403).send({error:e});
             }
@@ -71,7 +71,7 @@ exports.userList = (req,res) => {
 
 exports.details = (req,res) => {
     const token = req.body.headers['X-access-token'];
-    jwt.verify(token, authConfig.secret, (e,decoded) => {
+    jwt.verify(token, authConfig.user_secret, (e,decoded) => {
         if(e){
             return res.status(403).send({success:false, error:e});
         }
@@ -90,7 +90,7 @@ exports.details = (req,res) => {
 exports.selectUser = (req,res) => {
     const token = req.body.headers['X-access-token'];
     var success = true, message;
-    jwt.verify(token, authConfig.secret, (e,decoded) => {
+    jwt.verify(token, authConfig.user_secret, (e,decoded) => {
         if(e){
             return res.status(403).send({success:false, error:e});
         }

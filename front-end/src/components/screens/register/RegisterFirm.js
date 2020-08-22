@@ -17,6 +17,7 @@ class RegisterFirm extends Component{
         }
 
         this.messages = [];
+        this.msgType = "neutral";
     }
 
     submitHandler = (e) =>{
@@ -32,12 +33,26 @@ class RegisterFirm extends Component{
         if(this.checkForm(info)){
             this.setState({
                 msgBox:false
-            })
+            });
+
             return Axios.post('/api/auth/register', {
                 info: info,
                 create: reg==="1"?"USER_EMPLOYER_FIRM":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
             }).then(res => {
-                console.log('Registeration data sent');
+                if(res.data.success===true){
+                    this.setState({msgBox:true});
+                    this.messages = ["Your id has been registered"];
+                    this.msgType = "positive";
+                    Axios.post('/api/auth/send-link', { _id:res.data._id }).then(res => {
+                        localStorage.setItem("userToken", res.data.userToken);
+                    }).catch(e=>{
+                        console.log(e);
+                    });
+                }
+                else{
+                    console.log("Registration Failed");
+                }
+                console.log('Registeration API call Successfull');
             }).catch(e => {
                 console.log('Could not send Registeration data');
             });
@@ -46,6 +61,7 @@ class RegisterFirm extends Component{
             this.setState({
                 msgBox:true
             });
+            this.msgType = "negative";
         }
     }
 
@@ -121,7 +137,7 @@ class RegisterFirm extends Component{
                         onChange={(e) => { this.changeHandler("password2",e) }}>
                         </input><br/>
                     
-                    {this.state.msgBox?<MessageBox messages={this.messages} type="negative" /> : <div></div>}
+                    {this.state.msgBox?<MessageBox messages={this.messages} type={this.msgType} /> : <div></div>}
 
                     <input type="submit" value="Register"></input><br/>
                 </form>

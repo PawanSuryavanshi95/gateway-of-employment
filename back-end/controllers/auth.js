@@ -1,13 +1,13 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const authConfig = require('../configs/auth');
+const sendMail = require('../utility/sendMail');
 
 const database = require('../models/model');
 
 const User = database.User;
-const Job = database.Job;
 
-exports.register = (req,res) => {
+exports.register = async (req,res) => {
     var newUser = {
         userName: req.body.info.userName,
         email: req.body.info.email,
@@ -44,9 +44,9 @@ exports.register = (req,res) => {
             bcrypt.hash(req.body.info.password, 10, (error, hash) => {
                 newUser.password = hash;
                 User.create(newUser).then(user => {
-                    res.json({status: `${user.email} has been registered.`});
+                    res.json({success:true, message: `${user.email} has been registered.`, _id:user._id});
                 }).catch(error => {
-                    res.send(`error : ${error}`);
+                    res.send({success:false, error:`${error}`});
                 });
             });
         }
@@ -54,11 +54,12 @@ exports.register = (req,res) => {
             res.json({status: 'This email or username has been already registered.'});
         }
     }).catch(error => {
-        res.send(`error : ${error}`);
+        res.send({success:false, error:`${error}`});
     });
 }
 
 exports.signin = (req, res) => {
+    console.log(req.body.id);
     User.findOne({
         $or: [
             { userName: req.body.id },
@@ -67,23 +68,51 @@ exports.signin = (req, res) => {
     }).then(user => {
         if(user){
             if(bcrypt.compareSync(req.body.password, user.password)){
-                var payLoad = {
-                    _id: user._id,
-                    userName: user.userName,
-                };
-                var token = jwt.sign(payLoad, authConfig.secret, {
-                    expiresIn: 60*60*24
-                });
-                res.send(token);
+                if(user.confirmed===true){
+                    var payLoad = {
+                        _id: user._id,
+                        userName: user.userName,
+                    };
+                    var token = jwt.sign(payLoad, authConfig.user_secret, {
+                        expiresIn: 60*60*24
+                    });
+                    res.send({success:true, token:token, userName:user.userName});
+                }
+                else{
+                    res.send({success:false, message:'Id is not confirmed', _id:user._id});
+                }
             }
             else{
-                res.json({error: 'Passwords did not matched.'});
+                res.json({success:false, error: 'Passwords did not matched.'});
             }
         }
         else{
-            res.json({error: 'User not found'});
+            res.json({success:false, error: 'User not found'});
         }
     }).catch(error => {
-        res.send(`error : ${error}`);
+        res.send({success:false, error : error});
     });
+}
+
+exports.confirmMail = async (req,res) => {
+    try {
+        const { _id } = jwt.verify(req.params.token, authConfig.email_secret);
+        await User.updateOne({_id:_id}, {confirmed:true});
+        await User.findById(_id).then(user=>{
+            return res.redirect(`http://localhost:3000/signin`)
+        })
+    } catch (e) {
+        res.send('error');
+    }
+}
+
+exports.sendLink = async (req,res)=>{
+    const emailToken = jwt.sign({ _id: req.body._id }, authConfig.email_secret, { expiresIn:'1d' });
+    const confirmLink = authConfig.confirmLink + emailToken;
+    const text = "Click this link to confirm your email and activate your Gateway of Employment ID " + confirmLink;
+    var email="";
+    User.findById(req.body._id).then(async user=>{
+        email = user.email;
+    });
+    await sendMail.sendMail(email, "Confirm Email", text);
 }

@@ -10,7 +10,7 @@ exports.createJob = async (req, res) => {
     const token = req.body.headers['X-access-token'];
     var newJob = req.body.info;
     var success=false,message;
-    jwt.verify(token, authConfig.secret, async (e,decoded) => {
+    jwt.verify(token, authConfig.user_secret, async (e,decoded) => {
         if(e){
             return res.status(403).send({success:false, error:e})
         }
@@ -45,7 +45,7 @@ exports.applyJob = (req,res) => {
     const proposal = req.body.proposal;
     console.log(token)
     if(token){
-        jwt.verify(token, authConfig.secret, (e,decoded) => {
+        jwt.verify(token, authConfig.user_secret, (e,decoded) => {
             if(e){
                 return res.status(403).send({error:e});
             }

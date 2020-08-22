@@ -1,13 +1,14 @@
 import React,{Component} from 'react';
 import { withRouter, Link } from "react-router-dom";
 import Axios from 'axios';
-import jwt_decode from 'jwt-decode';
 
 class SignIn extends Component{
 
     state = {
         id:'',
         password:'',
+        bool:false,
+        _id:"",
     }
 
     submitHandler = (e) =>{
@@ -16,16 +17,27 @@ class SignIn extends Component{
             id: this.state.id,
             password: this.state.password,
         }).then(res => {
-            console.log('SignIn data sent');
-            localStorage.setItem('userToken',res.data);
-            const userName = jwt_decode(res.data).userName;
-            this.props.history.push(`/profile/${userName}`);
-            window.location.reload(false);  
-            return res.data
+            if(res.data.success===true){
+                localStorage.setItem('userToken',res.data.token);
+                const userName = res.data.userName;
+                this.props.history.push(`/profile/${userName}`);
+                window.location.reload(false);  
+                return res.data
+            }
+            else {
+                this.setState({bool:true, _id:res.data._id});
+            }
         }).catch(e => {
             console.log('Error');
         })
     }
+
+    sendConfirmLink = ()=>{
+        Axios.post('/api/auth/send-link', { _id: this.state._id }).then(res => {
+            console.log(res.message);
+        }).catch(e=>{ console.log(e) });
+    }
+
     changeHandler = (type,e) =>{
         this.setState({
             [type]: e.target.value
@@ -49,7 +61,10 @@ class SignIn extends Component{
                                 placeholder="Password"
                                 onChange={(e) => { this.changeHandler("password",e) }}>
                                 </input>
-
+                            {this.state.bool===true?<div className="confirm-id">
+                                This id has not been activated, to use it you must confirm your email id.<br/>
+                                Do you want us to send another confirmation link. <button onClick={this.sendConfirmLink}>Send</button>
+                            </div> : null }
                             <input type="submit" value="Sign In"></input>
                         </form>
                         <div className="register-link">

@@ -15,6 +15,10 @@ authRouter.post('/register', controller.register);
 
 authRouter.post('/signin', controller.signin);
 
+authRouter.get('/confirmation/:token', controller.confirmMail);
+
+authRouter.post('/send-link', controller.sendLink);
+
 authRouter.post('/create-admin', async (req,res)=>{
     adminUser = {
         userName:res.body.info.userName,

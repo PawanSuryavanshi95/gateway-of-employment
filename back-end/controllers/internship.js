@@ -10,7 +10,7 @@ exports.createIn = async (req, res) => {
     const token = req.body.headers['X-access-token'];
     var newIn = req.body.info;
     var success=false,message;
-    jwt.verify(token, authConfig.secret, async (e,decoded) => {
+    jwt.verify(token, authConfig.user_secret, async (e,decoded) => {
         if(e){
             return res.status(403).send({success:false, error:e})
         }
@@ -43,7 +43,7 @@ exports.applyIn = (req,res) => {
     const inTitle = req.body.inTitle;
     const proposal = req.body.proposal;
     if(token){
-        jwt.verify(token, authConfig.secret, (e,decoded) => {
+        jwt.verify(token, authConfig.user_secret, (e,decoded) => {
             if(e){
                 return res.status(403).send({error:e});
             }
