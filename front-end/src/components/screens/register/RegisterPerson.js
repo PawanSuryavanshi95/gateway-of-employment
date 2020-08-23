@@ -19,6 +19,7 @@ class RegisterPerson extends Component{
         }
 
         this.messages = [];
+        this.msgType = "neutral";
     }
 
     submitHandler = (e) =>{
@@ -43,21 +44,27 @@ class RegisterPerson extends Component{
                 info: info,
                 create: reg==="1"?"USER_EMPLOYER_INDIVIDUAL":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
             }).then(res => {
-                if(res.error){
-                    this.messages = ["Registration failed"];
-                    this.setState({ msgBox: true });
+                if(res.data.success===true){
+                    this.setState({msgBox:true});
+                    this.messages = ["Your id has been registered"];
+                    this.msgType = "positive";
+                    Axios.post('https://goe-server.herokuapp.com/api/auth/send-link', { _id: res.data._id }).then(res => {
+                        console.log(res.message);
+                    }).catch(e=>{ console.log(e) });
                 }
                 else{
-                    this.props.history.push('/signin');
+                    console.log("Registration Failed");
                 }
+                console.log('Registeration API call Successfull');
             }).catch(e => {
-                console.log('Could not send Registeration data');
+                console.log('Error ',e);
             })
         }
         else{
             this.setState({
                 msgBox: true
             });
+            this.msgType = "negative"
         }
     }
 
@@ -171,7 +178,7 @@ class RegisterPerson extends Component{
                         onChange={ (e) => { this.changeHandler("radio2",e) } }/>
                         <label htmlFor="female">Female</label><br/>
 
-                    {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}
+                    {this.state.msgBox?<MessageBox messages={this.messages} type={this.msgType} />:null}
                     
                     <input type="submit" value="Register"></input><br/>
                 </form>

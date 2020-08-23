@@ -99,7 +99,7 @@ exports.confirmMail = async (req,res) => {
         const { _id } = jwt.verify(req.params.token, authConfig.email_secret);
         await User.updateOne({_id:_id}, {confirmed:true});
         await User.findById(_id).then(user=>{
-            return res.redirect(`http://localhost:3000/signin`)
+            return res.redirect(`https://www.findpathway.com/signin`)
         })
     } catch (e) {
         res.send('error');
@@ -115,4 +115,5 @@ exports.sendLink = async (req,res)=>{
         email = user.email;
     });
     await sendMail.sendMail(email, "Confirm Email", text);
+    return res.send({message:"Link Sent"});
 }

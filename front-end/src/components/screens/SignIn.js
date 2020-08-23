@@ -33,7 +33,7 @@ class SignIn extends Component{
     }
 
     sendConfirmLink = ()=>{
-        Axios.post('/api/auth/send-link', { _id: this.state._id }).then(res => {
+        Axios.post('https://goe-server.herokuapp.com/api/auth/send-link', { _id: this.state._id }).then(res => {
             console.log(res.message);
         }).catch(e=>{ console.log(e) });
     }

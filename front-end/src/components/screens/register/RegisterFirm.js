@@ -30,7 +30,7 @@ class RegisterFirm extends Component{
             password: this.state.password,
             category: "Employer",
         }
-        if(this.checkForm(info)){
+        if(this.checkForm(info, this.state.password2)){
             this.setState({
                 msgBox:false
             });
@@ -43,18 +43,16 @@ class RegisterFirm extends Component{
                     this.setState({msgBox:true});
                     this.messages = ["Your id has been registered"];
                     this.msgType = "positive";
-                    Axios.post('https://goe-server.herokuapp.com/api/auth/send-link', { _id:res.data._id }).then(res => {
-                        localStorage.setItem("userToken", res.data.userToken);
-                    }).catch(e=>{
-                        console.log(e);
-                    });
+                    Axios.post('https://goe-server.herokuapp.com/api/auth/send-link', { _id: res.data._id }).then(res => {
+                        console.log(res.message);
+                    }).catch(e=>{ console.log(e) });
                 }
                 else{
                     console.log("Registration Failed");
                 }
                 console.log('Registeration API call Successfull');
             }).catch(e => {
-                console.log('Could not send Registeration data');
+                console.log('Error',e);
             });
         }
         else{
@@ -65,7 +63,7 @@ class RegisterFirm extends Component{
         }
     }
 
-    checkForm(info){
+    checkForm(info, password2){
         var submit = true;
         this.messages = [];
         if(!info.firmName){
@@ -80,7 +78,7 @@ class RegisterFirm extends Component{
             submit = false;
             this.messages.push("Password field is empty.");
         }
-        if(!info.password2){
+        if(!password2){
             submit = false;
             this.messages.push("Please confirm the password");
         }
@@ -88,7 +86,7 @@ class RegisterFirm extends Component{
             submit = false;
             this.messages.push("Email's field is empty.");
         }
-        if(info.password!==info.password2){
+        if(info.password!==password2 && info.password!=="" && password2!==""){
             submit=false;
             this.messages.push("Passwords don't match");
         }
