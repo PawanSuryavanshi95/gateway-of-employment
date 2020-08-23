@@ -28,7 +28,7 @@ body{
 
 .brand{
   height: 6rem;
-  width: 470px;
+  width: 460px;
   background-color: #c7f2ff;
   display: flex;
   flex-direction: row;
@@ -60,13 +60,14 @@ body{
   position: relative;
   color: #034766;
   background-color: #c7f2ff;
-  font-size: 35px;
+  font-size: 30px;
   font-weight: bold;
   text-decoration: none;
   height: 100%;
   display: flex;
   text-align: center;
   align-items: center;
+  margin-left: 18px;
 }
 
 .brand a span{
@@ -130,6 +131,16 @@ body{
   transition: all 0.5s;
   cursor: pointer;
   margin: 15px;
+}
+
+.button.white{
+  background-color: #fff;
+  color: #0077c7;
+}
+
+.button.black{
+  background-color: #000;
+  color: #fff;
 }
 
 .button span {
@@ -246,6 +257,11 @@ body{
 .center {
   position: absolute;
   top:10%;
+  background-color: #3281dba2;
+  box-shadow: 1px 1px 8px 1px #062dadb0;
+  padding: 40px;
+  padding-left: 80px;
+  padding-right: 80px;
 }
 
 .center p {
@@ -253,8 +269,8 @@ body{
 }
 
 .center h1 {
-  color: #0094d9;
-  font-weight: bolder;
+  color: #fff;
+  font-weight: 500;
   font-size: 60px;
   margin-bottom: 30px;
 }
@@ -309,7 +325,6 @@ body{
   flex-direction: column;
   align-items: center;
   align-content: space-around;
-  padding-top: 30px;
 }
 
 .offer {
@@ -975,4 +990,8 @@ body{
   padding-left: 5%;
   padding-top: 20%;
   padding-bottom: 30%;
+}
+
+.bg1{
+  background-color: #f0f3f5;
 }

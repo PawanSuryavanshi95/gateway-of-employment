@@ -62,13 +62,11 @@ class JobOffers extends Component{
         )
         return(
             <main className="main">
-            <div className="content">
-            <div className="offers">
+            <div className="content offers">
                 {jobList}
                 <Modal isOpen={this.state.modal || bool} onRequestClose={() => {this.setState({ modal:false }); this.props.history.push('/jobs'); }}>
                     <JobDetails job={this.job} />
                 </Modal>
-            </div>
             </div>
             </main>
         )
