@@ -13,7 +13,7 @@ class SignIn extends Component{
 
     submitHandler = (e) =>{
         e.preventDefault();
-        return Axios.post('/api/auth/signin', {
+        return Axios.post('https://goe-server.herokuapp.com/api/auth/signin', {
             id: this.state.id,
             password: this.state.password,
         }).then(res => {

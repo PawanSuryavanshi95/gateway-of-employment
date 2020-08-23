@@ -35,7 +35,7 @@ class RegisterFirm extends Component{
                 msgBox:false
             });
 
-            return Axios.post('/api/auth/register', {
+            return Axios.post('https://goe-server.herokuapp.com/api/auth/register', {
                 info: info,
                 create: reg==="1"?"USER_EMPLOYER_FIRM":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
             }).then(res => {
@@ -43,7 +43,7 @@ class RegisterFirm extends Component{
                     this.setState({msgBox:true});
                     this.messages = ["Your id has been registered"];
                     this.msgType = "positive";
-                    Axios.post('/api/auth/send-link', { _id:res.data._id }).then(res => {
+                    Axios.post('https://goe-server.herokuapp.com/api/auth/send-link', { _id:res.data._id }).then(res => {
                         localStorage.setItem("userToken", res.data.userToken);
                     }).catch(e=>{
                         console.log(e);

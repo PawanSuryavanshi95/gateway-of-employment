@@ -43,7 +43,7 @@ class LogIn extends Component{
         if(this.checkForm(info)){
             this.setState({ msgBox:false });
             this.messages = [];
-            Axios.post("/api/admin/login", { userName:info.userName, password:info.password }).then(res => {
+            Axios.post("https://goe-server.herokuapp.com/api/admin/login", { userName:info.userName, password:info.password }).then(res => {
                 if(!res.error){
                     if(res.data.verified){
                         const data = {

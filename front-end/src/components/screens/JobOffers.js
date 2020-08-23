@@ -17,7 +17,7 @@ class JobOffers extends Component{
     }
 
     componentDidMount(){
-        Axios.get('/api/offer/job-List').then(res=>{
+        Axios.get('https://goe-server.herokuapp.com/api/offer/job-List').then(res=>{
             this.setState({
                 jobs:res.data.jobs
             })

@@ -53,7 +53,7 @@ class EditDetails extends Component{
             const headers = {
                 "X-access-token": localStorage.getItem('userToken')
             }
-            Axios.post('/api/user/details', { headers: headers, details: details}).then(res => {
+            Axios.post('https://goe-server.herokuapp.com/api/user/details', { headers: headers, details: details}).then(res => {
                 this.props.setModal(false);
             }).catch(e => {
                 console.log(e);

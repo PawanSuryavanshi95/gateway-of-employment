@@ -24,7 +24,7 @@ class InDetails extends Component{
         if(proposal){
             this.messages = [];
             this.setState({msgBox:false});
-            Axios.post('/api/offer/apply-internship', {headers : headers, employer: employer, inTitle: title, proposal: proposal}).then(res => {
+            Axios.post('https://goe-server.herokuapp.com/api/offer/apply-internship', {headers : headers, employer: employer, inTitle: title, proposal: proposal}).then(res => {
                 if(res.error){
                     return <div>
                         Error occurered {res.error}

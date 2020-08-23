@@ -44,7 +44,7 @@ class Profile extends Component{
             userName: this.props.match.params.userName,
             public: bool,
         }
-        axios.get('/api/user/profile', { headers: headers, params: params })
+        axios.get('https://goe-server.herokuapp.com/api/user/profile', { headers: headers, params: params })
         .then(res => {
             if(!res.error){
                 this.setState({
@@ -53,12 +53,12 @@ class Profile extends Component{
                     stats: res.data.stats,
                 });
                 const employer = res.data.userData._id
-                axios.get('/api/offer/job-list', { params: { employer: employer ? employer : null } }).then(res =>{
+                axios.get('https://goe-server.herokuapp.com/api/offer/job-list', { params: { employer: employer ? employer : null } }).then(res =>{
                     this.setState({
                         jobs:res.data.jobs,
                     })
                 });
-                axios.get('/api/offer/internship-list', { params: { employer: employer ? employer : null } }).then(res =>{
+                axios.get('https://goe-server.herokuapp.com/api/offer/internship-list', { params: { employer: employer ? employer : null } }).then(res =>{
                     this.setState({
                         internships:res.data.internships,
                     })

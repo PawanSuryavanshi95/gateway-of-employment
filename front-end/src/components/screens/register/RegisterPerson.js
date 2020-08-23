@@ -39,7 +39,7 @@ class RegisterPerson extends Component{
             this.setState({
                 msgBox: false
             });
-            return Axios.post('/api/auth/register', {
+            return Axios.post('https://goe-server.herokuapp.com/api/auth/register', {
                 info: info,
                 create: reg==="1"?"USER_EMPLOYER_INDIVIDUAL":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
             }).then(res => {

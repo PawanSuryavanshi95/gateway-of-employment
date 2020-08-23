@@ -15,7 +15,7 @@ class NotificationTab extends Component{
         const headers = {
             'X-access-token': localStorage.getItem('userToken')
         }
-        Axios.get('/api/user/notifications', { headers : headers }).then(res => {
+        Axios.get('https://goe-server.herokuapp.com/api/user/notifications', { headers : headers }).then(res => {
             this.setState({
                 notifications: res.data.notifications
             });

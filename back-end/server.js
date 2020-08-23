@@ -29,13 +29,13 @@ app.use(
   })
 )
 
-app.use('/auth', authRouter);
+app.use('/api/auth', authRouter);
 
-app.use('/admin', adminRouter);
+app.use('/api/admin', adminRouter);
 
-app.use('/user', userRouter);
+app.use('/api/user', userRouter);
 
-app.use('/offer', offerRouter);
+app.use('/api/offer', offerRouter);
 
 app.listen(port, ()=>{
     console.log(`Server started at port ${port}`);

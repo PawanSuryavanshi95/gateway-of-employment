@@ -51,7 +51,7 @@ class CreateJobOffer extends Component{
         }
         if(this.checkForm(info)){
             console.log(info);
-            return Axios.post('/api/offer/create-job', { info:info, headers:headers }).then(res => {
+            return Axios.post('https://goe-server.herokuapp.com/api/offer/create-job', { info:info, headers:headers }).then(res => {
                 console.log(res.body);
             }).catch(e => {
                 console.log(e);

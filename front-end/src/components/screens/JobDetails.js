@@ -25,7 +25,7 @@ class JobDetails extends Component{
         if(proposal){
             this.messages = [];
             this.setState({msgBox:false});
-            Axios.post('/api/offer/apply-job', {headers : headers, employer: employer, jobTitle: title, proposal: proposal}).then(res => {
+            Axios.post('https://goe-server.herokuapp.com/api/offer/apply-job', {headers : headers, employer: employer, jobTitle: title, proposal: proposal}).then(res => {
                 if(res.error){
                     return <div>
                         Error occurered {res.error}

@@ -51,7 +51,7 @@ class CreateInternship extends Component{
         }
 
         if(this.checkForm(info)){
-            return Axios.post('/api/offer/create-internship', { info:info, headers:headers }).then(res => {
+            return Axios.post('https://goe-server.herokuapp.com/api/offer/create-internship', { info:info, headers:headers }).then(res => {
                 console.log(res.body);
             }).catch(e => {
                 console.log(e);

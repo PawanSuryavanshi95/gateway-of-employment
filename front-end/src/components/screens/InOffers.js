@@ -17,7 +17,7 @@ class InOffers extends Component{
     }
 
     componentDidMount(){
-        Axios.get('/api/offer/internship-list').then(res=>{
+        Axios.get('https://goe-server.herokuapp.com/api/offer/internship-list').then(res=>{
             this.setState({
                 internships:res.data.internships
             })
