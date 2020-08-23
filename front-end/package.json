@@ -45,5 +45,5 @@
   },
   "author": "",
   "license": "ISC",
-  "proxy": "http://localhost:5000"
+  "proxy": "https://goe-server.herokuapp.com/"
 }
