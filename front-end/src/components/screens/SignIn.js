@@ -33,7 +33,12 @@ class SignIn extends Component{
     }
 
     sendConfirmLink = ()=>{
-        Axios.post('https://goe-server.herokuapp.com/api/auth/send-link', { _id: this.state._id }).then(res => {
+        const service = Axios.create({
+            baseURL: "https://www.findpathway.com",
+            withCredentials: true,
+            timeout: 5000,
+        });
+        service.post('/api/auth/send-link', { _id: this.state._id }).then(res => {
             console.log(res.message);
         }).catch(e=>{ console.log(e) });
     }
