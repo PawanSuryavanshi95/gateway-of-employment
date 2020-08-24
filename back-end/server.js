@@ -20,15 +20,23 @@ mongoose.connect(mongoURI, {
     useCreateIndex: true,
     }, () => console.log('MongoDB Connected')).catch((error) => console.log(error.reason) );
 
+
+const cors_white_list = ["https://www.findpathway.com/"];
+
 app.use(express.json());
 app.use(bodyParser.json())
-app.use(cors())
+app.use(cors({
+  origin:cors_white_list,
+  credentials:true
+}))
 app.use(
   bodyParser.urlencoded({
     extended: false
   })
 )
 
+console.log(process.env);
+/*
 app.use(function (req, res, next) {
 
   // Website you wish to allow to connect
@@ -47,6 +55,7 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
+*/
 
 app.use('/api/auth', authRouter);
 
