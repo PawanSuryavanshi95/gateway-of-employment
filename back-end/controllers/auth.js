@@ -114,6 +114,6 @@ exports.sendLink = async (req,res)=>{
     User.findById(req.body._id).then(async user=>{
         email = user.email;
     });
-    sendMail.sendMail(email, "Confirm Email", text);
+    /*sendMail.sendMail(email, "Confirm Email", text);*/
     return res.send({message:"Link Sent"});
 }
