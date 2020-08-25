@@ -36,7 +36,7 @@ class SignIn extends Component{
         e.preventDefault();
         const service = Axios.create({
             baseURL: "https://www.findpathway.com",
-            withCredentials: true,
+            withCredentials: false,
             timeout: 5000,
         });
         service.post('/api/auth/send-link', { _id: this.state._id }).then(res => {
