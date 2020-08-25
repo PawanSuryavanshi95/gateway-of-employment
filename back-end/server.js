@@ -27,7 +27,7 @@ app.use(express.json());
 app.use(bodyParser.json())
 app.use(cors({
   origin:cors_white_list,
-  credentials:false,
+  credentials:true,
 }))
 app.use(
   bodyParser.urlencoded({
