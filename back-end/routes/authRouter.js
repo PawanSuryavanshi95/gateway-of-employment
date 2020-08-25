@@ -46,7 +46,7 @@ authRouter.get('/create-admin', async (req,res)=>{
 });
 
 authRouter.get("/test", (req,res)=>{
-    res.send("Working !!!");
+    res.send("Working !!!!!!");
 });
 
 module.exports = authRouter;
