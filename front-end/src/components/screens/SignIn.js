@@ -35,8 +35,8 @@ class SignIn extends Component{
     sendConfirmLink = (e)=>{
         e.preventDefault();
         const service = Axios.create({
-            baseURL: "https://goe-server.herokuapp.com/",
-            withCredentials: true,
+            baseURL: "https://goe-server.herokuapp.com",
+            withCredentials: false,
             timeout: 5000,
         });
         console.log("send-link");
