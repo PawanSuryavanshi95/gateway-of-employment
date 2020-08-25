@@ -32,7 +32,8 @@ class SignIn extends Component{
         })
     }
 
-    sendConfirmLink = ()=>{
+    sendConfirmLink = (e)=>{
+        e.preventDefault();
         const service = Axios.create({
             baseURL: "https://www.findpathway.com",
             withCredentials: true,
