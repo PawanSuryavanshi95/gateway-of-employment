@@ -35,10 +35,11 @@ class SignIn extends Component{
     sendConfirmLink = (e)=>{
         e.preventDefault();
         const service = Axios.create({
-            baseURL: "https://www.findpathway.com",
+            baseURL: "https://www.findpathway.com/",
             withCredentials: false,
             timeout: 5000,
         });
+        console.log("send-link");
         service.post('/api/auth/send-link', { _id: this.state._id }).then(res => {
             console.log(res.message);
         }).catch(e=>{ console.log(e) });
