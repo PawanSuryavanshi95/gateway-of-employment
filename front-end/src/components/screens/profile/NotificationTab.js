@@ -29,7 +29,7 @@ class NotificationTab extends Component{
             <div className="proposal">
                 {ntf.proposal}
                 <br/>
-                <button onClick={()=>{ window.open(`http://localhost:3000/profile/${ntf.candidate}`,"_blank") }}>Open Profile</button>
+                <button onClick={()=>{ window.open(`http://findpathway.com/profile/${ntf.candidate}`,"_blank") }}>Open Profile</button>
                 <button onClick={ () => { this.handleSelect(ntf) }}>Select</button>
                 <button>Reject</button>
             </div>

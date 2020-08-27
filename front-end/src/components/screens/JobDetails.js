@@ -59,10 +59,14 @@ class JobDetails extends Component{
                 <h2>{job.title}</h2>
                 <h3><span>from</span> Employer</h3>
                 <div className="offer-info">
+                    <span>This is a {job.permanent?"long term ,":""} {job.fullTime?"full time":"part time"} job {job.permanent?"":` for ${job.duration} days`}.</span><br/>
+                    <p>Description : {job.desc}</p>
                     <p>Requirement : {job.reqs}</p>
+                    <p>What's in it for you ? <br/>{job.reason}</p>
                     <p>Salary : {job.salary} Rs.</p>
-                    <span>This is a {job.fullTime?"Full Time":"Part Time"} job.</span><br/>
                     <span>{job.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
+                    {job.fromHome?"":<p>Workplace Address : {job.address}</p>}
+                    <p>Other Details : {job.otherDetails}</p>
                     <div className="form no-box"><form>
                     <textarea id="proposal" placeholder="Enter a proposal" onChange={(e)=>{this.handleChange(e)}} />
                     {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}

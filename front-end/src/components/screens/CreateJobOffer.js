@@ -23,6 +23,7 @@ class CreateJobOffer extends Component{
         }
 
         this.messages = [];
+        this.msgType = "neutral";
     }
 
     submitHandler = (e) =>{
@@ -52,13 +53,20 @@ class CreateJobOffer extends Component{
         if(this.checkForm(info)){
             console.log(info);
             return Axios.post('https://goe-server.herokuapp.com/api/offer/create-job', { info:info, headers:headers }).then(res => {
-                console.log(res.body);
+                if(res.data.success){
+                    this.messages=["Job created successfully"];
+                    this.msgType = "positive";
+                    this.setState({msgBox:true});
+                }
             }).catch(e => {
-                console.log(e);
+                this.messages=["Job could not be created"];
+                this.msgType = "negative";
+                this.setState({msgBox:true});
             })
         }
         else{
             this.setState({ msgBox:true });
+            this.msgType="negative";
         }
     }
 
@@ -162,7 +170,7 @@ class CreateJobOffer extends Component{
                         <textarea id="otherDetails" placeholder="Any other details (opional)" rows="3" cols="50"
                             onChange={(e) => { this.changeHandler("otherDetails",e) }} /> <br/>
 
-                        { this.state.msgBox ? <MessageBox messages={this.messages} type="negative" /> : <div></div> }
+                        { this.state.msgBox ? <MessageBox messages={this.messages} type={this.msgType} /> : <div></div> }
 
                         <input type="submit" value="Create Job Offer"></input>
                     </form>

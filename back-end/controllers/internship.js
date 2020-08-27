@@ -27,9 +27,7 @@ exports.createIn = async (req, res) => {
                             message = e;
                         });
                       }).catch(error => {
-                        if(Object.keys({}).length){
-                            return res.send({ success:success, message:`${newIn.title} internship could not be created.`, error:error});
-                        }
+                            return res.send({ success:false, message:`${newIn.title} internship could not be created.`, error:error});
                       });
                 }
             })

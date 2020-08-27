@@ -58,10 +58,15 @@ class InDetails extends Component{
                 <h2>{internship.title}</h2>
                 <h3><span>from</span> Employer</h3>
                 <div className="offer-info">
+                    <p>Description : {internship.desc}</p>
                     <p>Requirement : {internship.reqs}</p>
+                    <span>This will be a {internship.duration} day internship.</span>
+                    <p>What's in it for you ?<br/>{internship.reason}</p>
                     <span>Stipend is {internship.stipend.available?"available":"not available"}.</span><br/>
                     {internship.stipend.available?<p>Amount : {internship.stipend.amount} Rs.</p>:null}
                     <span>{internship.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
+                    {internship.fromHome?"":<p>Workplace Address : {internship.address}</p>}
+                    <p>Other Details : {internship.otherDetails}</p>
                     <div className="form no-box"><form>
                     <textarea id="proposal" placeholder="Enter a proposal" onChange={(e)=>{this.handleChange(e)}} />
                     {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}

@@ -27,10 +27,7 @@ exports.createJob = async (req, res) => {
                             message = e;
                         });
                       }).catch(error => {
-                        console.log(newJob,error)
-                        if(Object.keys({}).length){
-                            return res.send({ success:success, message:`${newJob.title} could not be created.`, error:error});
-                        }
+                            return res.send({ success:false, message:`${newJob.title} could not be created.`, error:error});
                       });
                 }
             })

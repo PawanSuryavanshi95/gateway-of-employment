@@ -1,14 +1,21 @@
 import React,{Component} from 'react';
 import { withRouter, Link } from "react-router-dom";
 import Axios from 'axios';
+import MessageBox from '../MessageBox';
 
 class SignIn extends Component{
 
-    state = {
-        id:'',
-        password:'',
-        bool:false,
-        _id:"",
+    constructor(props){
+        super(props);
+        this.state = {
+            id:'',
+            password:'',
+            bool:false,
+            _id:"",
+            msgBox:false,
+        }
+        this.messages = [];
+        this.msgType = [];
     }
 
     submitHandler = (e) =>{
@@ -25,7 +32,12 @@ class SignIn extends Component{
                 return res.data
             }
             else {
-                this.setState({bool:true, _id:res.data._id});
+                if(res.data._id!==undefined){
+                    this.setState({bool:true, _id:res.data._id});
+                }
+                this.messages = [res.data.message];
+                this.msgType = "nagative";
+                this.setState({msgBox:true});
             }
         }).catch(e => {
             console.log('Error');
@@ -41,7 +53,7 @@ class SignIn extends Component{
         });
         console.log("send-link");
         service.post('/api/auth/send-link', { _id: this.state._id }).then(res => {
-            console.log(res.message);
+            console.log(res.data);
         }).catch(e=>{ console.log(e) });
     }
 
@@ -72,6 +84,7 @@ class SignIn extends Component{
                                 This id has not been activated, to use it you must confirm your email id.<br/>
                                 Do you want us to send another confirmation link. <button onClick={this.sendConfirmLink}>Send</button>
                             </div> : null }
+                            {this.state.msgBox?<MessageBox messages={this.messages} type={this.msgType} />:""}
                             <input type="submit" value="Sign In"></input>
                         </form>
                         <div className="register-link">

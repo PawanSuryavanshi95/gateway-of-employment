@@ -22,6 +22,7 @@ class CreateInternship extends Component{
         }
 
         this.messages = [];
+        this.msgType = "neutral";
     }
 
     submitHandler = (e) =>{
@@ -52,13 +53,20 @@ class CreateInternship extends Component{
 
         if(this.checkForm(info)){
             return Axios.post('https://goe-server.herokuapp.com/api/offer/create-internship', { info:info, headers:headers }).then(res => {
-                console.log(res.body);
+                if(res.data.success){
+                    this.messages=["Internship created successfully"];
+                    this.msgType = "positive";
+                    this.setState({msgBox:true});
+                }
             }).catch(e => {
-                console.log(e);
+                this.messages=["Internship could not be created"];
+                this.msgType = "negative";
+                this.setState({msgBox:true});
             })
         }
         else{
             this.setState({ msgBox:true });
+            this.msgType = "negative";
         }
         console.log(info,headers);
     }
@@ -151,7 +159,7 @@ class CreateInternship extends Component{
                         <textarea id="otherDetails" placeholder="Other Details (optional)" rows="6" cols="500"
                             onChange={(e) => { this.changeHandler("otherDetails",e) }} /> <br/>
                         
-                        {this.state.msgBox===true?<MessageBox messages={this.messages} type="negative" />:<div></div>}
+                        {this.state.msgBox===true?<MessageBox messages={this.messages} type={this.msgType} />:<div></div>}
 
                         <input type="submit" value="Create Internship Offer"></input>
                     </form>

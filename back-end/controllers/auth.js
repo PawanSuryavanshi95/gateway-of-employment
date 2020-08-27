@@ -83,14 +83,14 @@ exports.signin = (req, res) => {
                 }
             }
             else{
-                res.json({success:false, error: 'Passwords did not matched.'});
+                res.json({success:false, message: 'Passwords did not matched.'});
             }
         }
         else{
-            res.json({success:false, error: 'User not found'});
+            res.json({success:false, message: 'User not found.'});
         }
     }).catch(error => {
-        res.send({success:false, error : error});
+        res.send({success:false, error : error, message:"An error occured."});
     });
 }
 
