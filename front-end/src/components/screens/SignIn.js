@@ -36,7 +36,7 @@ class SignIn extends Component{
                     this.setState({bool:true, _id:res.data._id});
                 }
                 this.messages = [res.data.message];
-                this.msgType = "nagative";
+                this.msgType = "negative";
                 this.setState({msgBox:true});
             }
         }).catch(e => {
