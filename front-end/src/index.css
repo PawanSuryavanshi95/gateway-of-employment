@@ -257,7 +257,7 @@ body{
 .center {
   position: absolute;
   top:10%;
-  background-color: #3281dba2;
+  background-color: #22add4b7;
   box-shadow: 1px 1px 8px 1px #062dadb0;
   padding: 40px;
   padding-left: 80px;
@@ -349,6 +349,32 @@ body{
 .offer h3 span {
   color: #626363;
   font-size: 10px;
+}
+.offer.loading{
+  width: 50%;
+  height: 50%;
+  box-shadow: none;
+  background-color: #dbf7ff;
+}
+.offer.loading .item::before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  left: -10px;
+  height: inherit;
+  width: 100px;
+  background: linear-gradient(to right, transparent 0%, #E8E8E8 50%, transparent 100%);
+  animation: load 1s cubic-bezier(0.4, 0.0, 0.2, 1);
+  animation-iteration-count: infinite;
+}
+
+@keyframes load {
+  from {
+      left: -10px;
+  }
+  to   {
+      left: 90%;
+  }
 }
 
 .offer-info {
@@ -994,4 +1020,22 @@ body{
 
 .bg1{
   background-color: #f0f3f5;
+}
+
+.ReactModal__Overlay{
+  display: flex;
+}
+
+.modal{
+  align-self: center;
+  width: max-content;
+  height: max-content;
+  max-width: 60%;
+  margin: auto;
+}
+
+.modal .offer{
+  width: fit-content;
+  height: fit-content;
+  margin: 0;
 }

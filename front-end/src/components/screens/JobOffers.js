@@ -12,6 +12,7 @@ class JobOffers extends Component{
         this.state = {
             jobs:"",
             modal:false,
+            loading:true,
         }
         this.job = {};
     }
@@ -19,8 +20,9 @@ class JobOffers extends Component{
     componentDidMount(){
         Axios.get('https://goe-server.herokuapp.com/api/offer/job-List').then(res=>{
             this.setState({
-                jobs:res.data.jobs
-            })
+                jobs:res.data.jobs,
+                loading:false,
+            });
         }).catch(e=>{
             console.log(e);
         });
@@ -40,6 +42,8 @@ class JobOffers extends Component{
                 bool=true;
             }
         }
+        const loadingBlock = <div className="offer loading"><div className="item 1"></div></div>;
+        const loadingList = [loadingBlock, loadingBlock, loadingBlock,];
         const jobs = this.state.jobs;
         const jobList = jobs.length ? (
             jobs.map(job => {
@@ -63,8 +67,8 @@ class JobOffers extends Component{
         return(
             <main className="main">
             <div className="content offers">
-                {jobList}
-                <Modal isOpen={this.state.modal || bool} onRequestClose={() => {this.setState({ modal:false }); this.props.history.push('/jobs'); }}>
+                {this.state.loading?loadingList:jobList}
+                <Modal className="modal offer" isOpen={this.state.modal || bool} onRequestClose={() => {this.setState({ modal:false }); this.props.history.push('/jobs'); }}>
                     <JobDetails job={this.job} />
                 </Modal>
             </div>
