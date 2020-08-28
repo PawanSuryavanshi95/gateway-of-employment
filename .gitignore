@@ -4,5 +4,6 @@
 /front-end/node_modules
 /back-end/node_modules
 /back-end/master-admin-credentials.txt
+/templates
 /.pnp
 .pnp.js

@@ -83,7 +83,7 @@ exports.signin = (req, res) => {
                 }
             }
             else{
-                res.json({success:false, message: 'Passwords did not matched.'});
+                res.json({success:false, message: 'Incorrect username or password'});
             }
         }
         else{
