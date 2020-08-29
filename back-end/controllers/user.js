@@ -132,6 +132,7 @@ const createPublicProfile = function(user){
     userData = {
         userName: user.userName,
         category: user.category,
+        confirmed: user.confirmed,
     }
     if(user.category==="Employer"){ userData.userEmployerInfo = user.userEmployerInfo }
     else if(user.category==="Employee"){

@@ -47,22 +47,28 @@ class Profile extends Component{
         axios.get('https://goe-server.herokuapp.com/api/user/profile', { headers: headers, params: params })
         .then(res => {
             if(!res.error){
-                this.setState({
-                    userData: res.data.userData,
-                    public: res.data.public,
-                    stats: res.data.stats,
-                });
-                const employer = res.data.userData._id
-                axios.get('https://goe-server.herokuapp.com/api/offer/job-list', { params: { employer: employer ? employer : null } }).then(res =>{
+                if(res.data.userData.confirmed){
+                    this.props.history.push(`/error/404`);
+                window.location.reload(false);  
+                }
+                else{
                     this.setState({
-                        jobs:res.data.jobs,
-                    })
-                });
-                axios.get('https://goe-server.herokuapp.com/api/offer/internship-list', { params: { employer: employer ? employer : null } }).then(res =>{
-                    this.setState({
-                        internships:res.data.internships,
-                    })
-                });
+                        userData: res.data.userData,
+                        public: res.data.public,
+                        stats: res.data.stats,
+                    });
+                    const employer = res.data.userData._id
+                    axios.get('https://goe-server.herokuapp.com/api/offer/job-list', { params: { employer: employer ? employer : null } }).then(res =>{
+                        this.setState({
+                            jobs:res.data.jobs,
+                        })
+                    });
+                    axios.get('https://goe-server.herokuapp.com/api/offer/internship-list', { params: { employer: employer ? employer : null } }).then(res =>{
+                        this.setState({
+                            internships:res.data.internships,
+                        })
+                    });
+                }
             }
             else{
                 return <div>

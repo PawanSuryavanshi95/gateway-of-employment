@@ -14,6 +14,7 @@ import Register from './components/screens/register/Register';
 import CreateEmployer from './components/screens/register/CreateEmployer';
 import CreateJobOffer from './components/screens/CreateJobOffer';
 import CreateInternship from './components/screens/CreateInternship';
+import ErrorScreen from './components/screens/ErrorScreen';
 
 class App extends Component {
   render(){
@@ -34,6 +35,7 @@ class App extends Component {
               <Route path="/register/:reg_id/person" component={RegisterPerson}/>
               <Route path="/register/:reg_id/firm" component={RegisterFirm}/>
               <Route path="/register/:reg_id" component={RegisterPerson}/>
+              <Route exact path="/error/:error_code" component={ErrorScreen} />
             </Switch>   
             <Footer/>
       </BrowserRouter>
