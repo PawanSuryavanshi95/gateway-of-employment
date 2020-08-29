@@ -47,9 +47,11 @@ class Profile extends Component{
         axios.get('https://goe-server.herokuapp.com/api/user/profile', { headers: headers, params: params })
         .then(res => {
             if(!res.error){
+                console.log(res.data.userData.confirmed);
                 if(res.data.userData.confirmed){
                     this.props.history.push(`/error/404`);
-                window.location.reload(false);  
+                    window.location.reload(false);
+                    console.log(res.data.userData.confirmed);
                 }
                 else{
                     this.setState({
