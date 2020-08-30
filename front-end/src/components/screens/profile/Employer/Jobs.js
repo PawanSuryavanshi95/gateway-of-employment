@@ -13,7 +13,7 @@ class Jobs extends Component{
         jobs = bool ? jobs.map(job => {
             ++key;
             return(
-                <div key={key}>
+                <div className={key%2===1?"wbg":""} key={key}>
                     <div className="title">{job.title}</div>
                 </div>
             )

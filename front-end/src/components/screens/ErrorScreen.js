@@ -8,7 +8,7 @@ class ErrorScreen extends Component{
 
     render(){
         return(
-            <main>{this.props.history.params.error_code}</main>
+            <main>{this.props.match.params.error_code}</main>
         )
     }
 }

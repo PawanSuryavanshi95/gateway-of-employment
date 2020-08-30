@@ -7,9 +7,7 @@ const MessageBox = (props) => {
         return <div className="msg" key={key++}>{message}<br/></div>
     }) : null : null
     return(
-        <div>
-            {displayContent(messages,type)}
-        </div>
+            displayContent(messages,type)
     )
 }
 
