@@ -1,3 +1,12 @@
+@viewport{
+  zoom: 1.0;
+  width: extend-to-zoom;
+}
+@-ms-viewport{
+  zoom: 1.0;
+  width: extend-to-zoom;
+}
+
 html{
   font-size: 62.5%;
   box-sizing: border-box;
@@ -28,7 +37,7 @@ body{
 
 .brand{
   height: 6rem;
-  width: 460px;
+  width: 30%;
   background-color: #c7f2ff;
   display: flex;
   flex-direction: row;
@@ -409,7 +418,7 @@ body{
   height: 25px;
   background: rgba(255, 255, 255, 0.2);
   animation: animate 20s linear infinite;
-  bottom: 0px;
+  bottom: -150px;
 }
 
 .box-area li:nth-child(1){
