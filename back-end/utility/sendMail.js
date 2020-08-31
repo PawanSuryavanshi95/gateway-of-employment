@@ -1,25 +1,24 @@
 const nodemailer = require('nodemailer');
 
-exports.sendMail = (to,subject,text) => {
+exports.sendMail = async (to,subject,text) => {
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'pawansuryavanshi95@gmail.com',
-            pass: 'blackfish95',
+            user: 'goe.cohest@gmail.com',
+            pass: 'R*U#V22$@',
         }
     });
     
     let mailOptions = {
-        from: 'pawansuryavanshi95@gmail.com',
-        to: 'suryavanshi.1@iitj.ac.in',
+        from: 'goe.cohest@gmail.com',
+        to: to,
         subject: subject,
         text: text,
     }
-    
     transporter.sendMail(mailOptions, (e, data)=>{
         if(e){
-            return {"Error": e};
+            return {error:e};
         }
-        return "Mail Sent Successfuly";
+        return "Sent !";
     });
 }

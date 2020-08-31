@@ -107,13 +107,13 @@ exports.confirmMail = async (req,res) => {
 }
 
 exports.sendLink = async (req,res)=>{
-    const emailToken = jwt.sign({ _id: req.body._id }, authConfig.email_secret, { expiresIn:'1d' });
+    const emailToken = await jwt.sign({ _id: req.body._id }, authConfig.email_secret, { expiresIn:'1d' });
     const confirmLink = authConfig.confirmLink + emailToken;
     const text = "Click this link to confirm your email and activate your Gateway of Employment ID " + confirmLink;
     var email="";
-    User.findById(req.body._id).then(async user=>{
+    await User.findById(req.body._id).then(async user=>{
         email = user.email;
     });
     const result = await sendMail.sendMail(email, "Confirm Email", text);
-    return res.send({message:"Link Sent", resulst:result});
+    res.send({message:"Link Sent !", result:result});
 }

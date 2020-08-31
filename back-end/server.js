@@ -35,7 +35,6 @@ app.use(
   })
 )
 
-console.log(process.env);
 /*
 app.use(function (req, res, next) {
 

@@ -7,6 +7,8 @@ const controller = require('../controllers/auth');
 // -------  To be removed Later  --------
 const database = require('../models/model');
 const { isMaster } = require('cluster');
+const { send } = require('process');
+const { sendMail } = require('../utility/sendMail');
 const User = database.User;
 // ---------------------------------------
 
@@ -43,10 +45,6 @@ authRouter.get('/create-admin', async (req,res)=>{
             return res.json(user);
         });
     })
-});
-
-authRouter.get("/test", (req,res)=>{
-    res.send("Working !!!!!!");
 });
 
 module.exports = authRouter;

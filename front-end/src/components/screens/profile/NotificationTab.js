@@ -41,7 +41,7 @@ class NotificationTab extends Component{
             'X-access-token': localStorage.getItem('userToken')
         };
         const type = "Job";
-        Axios.post('/api/user/select-user', { headers: headers, ntfData:ntf }).then(res => {
+        Axios.post('https://goe-server.herokuapp.com/api/user/select-user', { headers: headers, ntfData:ntf }).then(res => {
             console.log(res);
         }).catch(e => {
             console.log(e);
