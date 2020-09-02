@@ -58,8 +58,15 @@ class Navbar extends Component{
                 <div className="img-container"><img src={process.env.PUBLIC_URL + '/images/logo_G.o.e_1.png'}/></div>
                 <Link to="/">Gateway<span>of Employment</span></Link>
             </div>
+            <input type="checkbox" id="menu-btn" className="menu-btn" />
+            <label for="menu-btn" id="menu-btn-icon" className="menu-btn-icon">
+            <i class="fa fa-bars"></i>
+            </label>
+            <div className="brand2"><Link to="/">Gateway of Employment</Link></div>
             <div className="header-links">
+            <nav>
                 {admin ==="/admin" ? <ul></ul> : content}
+            </nav>
             </div>
             </header>
         )
