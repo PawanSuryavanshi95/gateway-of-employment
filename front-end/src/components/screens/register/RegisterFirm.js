@@ -14,6 +14,7 @@ class RegisterFirm extends Component{
             password:'',
             password2:'',
             msgBox: false,
+            _id:"",
         }
 
         this.messages = [];
@@ -40,19 +41,27 @@ class RegisterFirm extends Component{
                 create: reg==="1"?"USER_EMPLOYER_FIRM":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
             }).then(res => {
                 if(res.data.success===true){
-                    this.setState({msgBox:true});
-                    this.messages = ["Your id has been registered"];
+                    this.setState({
+                        msgBox:true,
+                        _id:res.data._id,
+                    });
+                    this.messages = [res.data.message,"You need to confirm your email to use this id, a confirmation mail was sent to you. ( Check your spam if it is not in your inbox )"];
                     this.msgType = "positive";
-                    api.post('/auth/send-link', { _id: res.data._id }).then(res => {
-                        console.log(res.message);
-                    }).catch(e=>{ console.log(e) });
+                    this.sendConfirmLink();
                 }
                 else{
-                    console.log("Registration Failed");
+                    this.setState({
+                        msgBox: true
+                    });
+                    this.msgType = "negative";
+                    this.messages = [`Registration failed, ${res.data.error}`,];
                 }
-                console.log('Registeration API call Successfull');
             }).catch(e => {
-                console.log('Error',e);
+                this.setState({
+                    msgBox: true
+                });
+                this.msgType = "negative";
+                this.messages = [e.message];
             });
         }
         else{
@@ -61,6 +70,13 @@ class RegisterFirm extends Component{
             });
             this.msgType = "negative";
         }
+    }
+
+    sendConfirmLink = ()=>{
+        console.log("send-link");
+        api.post('/auth/send-link', { _id: this.state._id }).then(res => {
+            console.log(res.data);
+        }).catch(e=>{ console.log(e) });
     }
 
     checkForm(info, password2){

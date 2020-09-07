@@ -17,4 +17,8 @@ userRouter.post('/details', controller.details);
 
 userRouter.post('/select-user', controller.selectUser);
 
+userRouter.post('/change-email', controller.changeEmail);
+
+userRouter.post('/toggle-receive-mail', controller.toggleReceiveMail);
+
 module.exports = userRouter;

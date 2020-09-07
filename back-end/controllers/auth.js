@@ -46,15 +46,15 @@ exports.register = async (req,res) => {
                 User.create(newUser).then(user => {
                     res.json({success:true, message: `${user.email} has been registered.`, _id:user._id});
                 }).catch(error => {
-                    res.send({success:false, error:`${error}`});
+                    res.send({success:false, message:`${error.message}`});
                 });
             });
         }
         else{
-            res.json({status: 'This email or username has been already registered.'});
+            res.json({success:false,message: 'This email or username has been already registered.'});
         }
     }).catch(error => {
-        res.send({success:false, error:`${error}`});
+        res.send({success:false, message:`${error.message}`});
     });
 }
 

@@ -94,7 +94,7 @@ class Profile extends Component{
         return(
             <div className="user-content">
                 <h1><span>{info.firstName}</span>{" "}{info.lastName}</h1>
-                <UserNav setNav={this.setNav} type="employee" />
+                <UserNav setNav={this.setNav} type="employee" public={this.state.public} />
                 {this.state.nav==="Info" ? <Details details={info.details} public={this.state.public} /> :
                 this.state.nav==="Set" ? <Settings type="employee" />: null}
             </div>
@@ -108,7 +108,7 @@ class Profile extends Component{
         return(
             <div className="user-content">
                 <h1><span>{employerName}</span></h1>
-                <UserNav setNav={this.setNav} type="employer" />
+                <UserNav setNav={this.setNav} type="employer" public={this.state.public} />
                 {this.state.nav==="Job" ? <Jobs jobs={this.state.jobs} /> : this.state.nav==="In" ? <Internships internships={this.state.internships}/> :
                 this.state.nav==="Set" ? <Settings type="employer" />: null}
                 <div className="create-offers">

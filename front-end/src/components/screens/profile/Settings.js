@@ -82,7 +82,8 @@ class Settings extends Component{
         else{
             const userToken = localStorage.getItem("userToken");
             const headers = { 'X-access-token': userToken }
-            api.post("/user/toggle-receive-mail", {headers: headers, receiveMail:this.state.receiveMail}, (res)=>{
+            const bool = this.state.receiveMail==="Yes"? true : false;
+            api.post("/user/toggle-receive-mail", {headers: headers, receiveMail:bool}, (res)=>{
                 console.log(res);
             }).catch(e => {
                 this.setMsgBox([e.message],"negative");

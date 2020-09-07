@@ -127,6 +127,51 @@ exports.selectUser = (req,res) => {
     });
 }
 
+exports.changeEmail = (req,res) => {
+    const token = req.body.headers['X-access-token'];
+    jwt.verify(token, authConfig.user_secret, (e,decoded) => {
+        if(e){
+            return res.status(403).send({success:false, message:e.message});
+        }
+        if(decoded){
+            User.findById(decoded._id).then(user1 => {
+                User.findOne({email:req.body.email}).then(user2 => {
+                    if(!user2){
+                        user1.email = req.body.email;
+                        user1.save();
+                        res.send({success:true, message:"Email has been changed."});
+                    }
+                    else{
+                        res.send({success:false, message:"This email has already been registered."});
+                    }
+                });
+            });
+        }
+        else{
+            res.send({success:false, message:"Something went wrong"});
+        }
+    });
+}
+
+exports.toggleReceiveMail = (req,res) => {
+    const token = req.body.headers['X-access-token'];
+    jwt.verify(token, authConfig.user_secret, (e,decoded) => {
+        if(e){
+            return res.status(403).send({success:false, message:e.message});
+        }
+        if(decoded){
+            User.findById(decoded._id).then(user => {
+                user.receiveMail = req.body.receiveMail;
+                user.save();
+                res.send({success:true, message:req.body.receiveMail?"You won't receive emails from us.":"You will now receive emails from us"});
+            });
+        }
+        else{
+            res.send({success:false, message:"Something went wrong"});
+        }
+    });
+}
+
 const createPublicProfile = function(user){
     var userData = {};
     userData = {

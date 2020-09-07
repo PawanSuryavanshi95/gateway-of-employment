@@ -16,6 +16,7 @@ class RegisterPerson extends Component{
             password2:'',
             gender: undefined,
             msgBox:false,
+            _id:"",
         }
 
         this.messages = [];
@@ -40,29 +41,41 @@ class RegisterPerson extends Component{
             this.setState({
                 msgBox: false
             });
-            return api.post('/auth/register', {
+            this.messages = [];
+            api.post('/auth/register', {
                 info: info,
                 create: reg==="1"?"USER_EMPLOYER_INDIVIDUAL":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
             }).then(res => {
                 if(res.data.success===true){
-                    this.setState({msgBox:true});
-                    this.messages = ["Your id has been registered"];
+                    this.setState({
+                        msgBox:true,
+                        _id:res.data._id,
+                    });
+                    this.messages.push(res.data.message);
+                    this.messages.push("You need to confirm your email to use this id, a confirmation mail was sent to you. ( Check your spam if it is not in your inbox )");
                     this.msgType = "positive";
                     this.sendConfirmLink();
                 }
                 else{
-                    console.log("Registration Failed");
+                    this.setState({
+                        msgBox: true
+                    });
+                    this.msgType = "negative";
+                    this.messages.push(`Registration failed, ${res.data.message}`);
                 }
-                console.log('Registeration API call Successfull');
             }).catch(e => {
-                console.log('Error ',e);
+                this.setState({
+                    msgBox: true
+                });
+                this.msgType = "negative";
+                this.messages.push(e.message);
             })
         }
         else{
             this.setState({
                 msgBox: true
             });
-            this.msgType = "negative"
+            this.msgType = "negative";
         }
     }
 
@@ -126,6 +139,7 @@ class RegisterPerson extends Component{
     }
 
     render(){
+        console.log(this.messages,this.msgType);
         return(
             <main className="main">
             <div className="content">

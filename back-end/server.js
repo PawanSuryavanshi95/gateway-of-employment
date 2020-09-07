@@ -21,7 +21,7 @@ mongoose.connect(mongoURI, {
     }, () => console.log('MongoDB Connected')).catch((error) => console.log(error.reason) );
 
 
-const cors_white_list = ["https://www.findpathway.com/","https://www.findpathway.com"];
+const cors_white_list = ["https://www.findpathway.com/","https://www.findpathway.com", "http://localhost:3000/", "http://localhost:3000"];
 
 app.use(express.json());
 app.use(bodyParser.json())
