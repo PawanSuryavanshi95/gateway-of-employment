@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import Axios from 'axios';
+import api from '../../api/index';
 import MessageBox from '../MessageBox';
 
 class CreateJobOffer extends Component{
@@ -52,7 +52,7 @@ class CreateJobOffer extends Component{
         }
         if(this.checkForm(info)){
             console.log(info);
-            return Axios.post('https://goe-server.herokuapp.com/api/offer/create-job', { info:info, headers:headers }).then(res => {
+            return api.post('/offer/create-job', { info:info, headers:headers }).then(res => {
                 if(res.data.success){
                     this.messages=["Job created successfully"];
                     this.msgType = "positive";

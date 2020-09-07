@@ -440,6 +440,13 @@ body{
 
 .offer-info {
   padding: 10px;
+  padding-left: 15%;
+  padding-right: 15%;
+  background-color: #dcf4fa;
+  text-align: left;
+}
+
+.offer-apply {
   background-color: #dcf4fa;
 }
 

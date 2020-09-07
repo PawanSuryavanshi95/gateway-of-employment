@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import { withRouter, Link } from "react-router-dom";
-import Axios from 'axios';
+import api from '../../api/index';
 import MessageBox from '../MessageBox';
 
 class SignIn extends Component{
@@ -20,7 +20,7 @@ class SignIn extends Component{
 
     submitHandler = (e) =>{
         e.preventDefault();
-        return Axios.post('https://goe-server.herokuapp.com/api/auth/signin', {
+        return api.post('/auth/signin', {
             id: this.state.id,
             password: this.state.password,
         }).then(res => {
@@ -46,13 +46,8 @@ class SignIn extends Component{
 
     sendConfirmLink = (e)=>{
         e.preventDefault();
-        const service = Axios.create({
-            baseURL: "https://goe-server.herokuapp.com",
-            withCredentials: false,
-            timeout: 5000,
-        });
         console.log("send-link");
-        service.post('/api/auth/send-link', { _id: this.state._id }).then(res => {
+        api.post('/auth/send-link', { _id: this.state._id }).then(res => {
             console.log(res.data);
         }).catch(e=>{ console.log(e) });
     }

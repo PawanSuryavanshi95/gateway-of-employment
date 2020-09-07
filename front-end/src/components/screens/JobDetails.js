@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
+import api from '../../api/index';
 import MessageBox from '../MessageBox';
 
 class JobDetails extends Component{
@@ -10,6 +10,13 @@ class JobDetails extends Component{
             msgBox:false,
         };
         this.messages = [];
+        this.msgType = "neutral";
+    }
+
+    setMsgBox = (msg,type) => {
+        this.setState({ msgBox: true});
+        this.messages = [msg];
+        this.msgType = type;
     }
 
     handleApply = (e) => {
@@ -25,7 +32,7 @@ class JobDetails extends Component{
         if(proposal){
             this.messages = [];
             this.setState({msgBox:false});
-            Axios.post('https://goe-server.herokuapp.com/api/offer/apply-job', {headers : headers, employer: employer, jobTitle: title, proposal: proposal}).then(res => {
+            api.post('/offer/apply-job', {headers : headers, employer: employer, jobTitle: title, proposal: proposal}).then(res => {
                 if(res.error){
                     return <div>
                         Error occurered {res.error}
@@ -34,10 +41,7 @@ class JobDetails extends Component{
             });
         }
         else{
-            this.setState({
-                msgBox:true
-            });
-            this.messages = ["Proposal cannot be empty"];
+            this.setMsgBox(["Proposal cannot be empty."], "negative");
         }
     }
 
@@ -67,11 +71,13 @@ class JobDetails extends Component{
                     <span>{job.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
                     {job.fromHome?"":<p>Workplace Address : {job.address}</p>}
                     <p>Other Details : {job.otherDetails}</p>
-                    <div className="form no-box"><form>
+                </div>
+                <div className="offer-apply">
+                <div className="form no-box"><form>
                     <textarea id="proposal" placeholder="Enter a proposal" onChange={(e)=>{this.handleChange(e)}} />
                     {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}
                     <input type="submit" value="Apply" onClick={this.handleApply}/>
-                    </form></div>
+                </form></div>
                 </div>
             </div>
         )

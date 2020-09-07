@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import Axios from 'axios';
+import api from '../../../api/index';
 import MessageBox from '../../MessageBox';
 
 class RegisterPerson extends Component{
@@ -40,7 +40,7 @@ class RegisterPerson extends Component{
             this.setState({
                 msgBox: false
             });
-            return Axios.post('https://goe-server.herokuapp.com/api/auth/register', {
+            return api.post('/auth/register', {
                 info: info,
                 create: reg==="1"?"USER_EMPLOYER_INDIVIDUAL":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
             }).then(res => {
@@ -67,13 +67,8 @@ class RegisterPerson extends Component{
     }
 
     sendConfirmLink = ()=>{
-        const service = Axios.create({
-            baseURL: "https://goe-server.herokuapp.com",
-            withCredentials: false,
-            timeout: 5000,
-        });
         console.log("send-link");
-        service.post('/api/auth/send-link', { _id: this.state._id }).then(res => {
+        api.post('/auth/send-link', { _id: this.state._id }).then(res => {
             console.log(res.data);
         }).catch(e=>{ console.log(e) });
     }

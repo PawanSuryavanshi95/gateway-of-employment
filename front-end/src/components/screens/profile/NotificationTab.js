@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import Axios from 'axios';
+import api from '../../../api/index';
 
 class NotificationTab extends Component{
     constructor(props){
@@ -15,7 +15,7 @@ class NotificationTab extends Component{
         const headers = {
             'X-access-token': localStorage.getItem('userToken')
         }
-        Axios.get('https://goe-server.herokuapp.com/api/user/notifications', { headers : headers }).then(res => {
+        api.get('/user/notifications', { headers : headers }).then(res => {
             this.setState({
                 notifications: res.data.notifications
             });
@@ -41,7 +41,7 @@ class NotificationTab extends Component{
             'X-access-token': localStorage.getItem('userToken')
         };
         const type = "Job";
-        Axios.post('https://goe-server.herokuapp.com/api/user/select-user', { headers: headers, ntfData:ntf }).then(res => {
+        api.post('/user/select-user', { headers: headers, ntfData:ntf }).then(res => {
             console.log(res);
         }).catch(e => {
             console.log(e);

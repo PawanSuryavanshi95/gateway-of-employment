@@ -55,6 +55,7 @@ const userSchema = new mongoose.Schema({
     created: { type:Date, default: Date.now },
     reported: [reportSchema],
     confirmed: { type:Boolean, default:false },
+    receiveMails: { type:Boolean, default:true },
 
     userEmployeeInfo: userEmployeeSchema,
 

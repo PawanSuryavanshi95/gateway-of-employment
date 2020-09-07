@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import LogIn from './LogIn';
 import Panel from './Panel';
-import Axios from 'axios';
+import api from '../../../api/index';
 
 class Admin extends Component{
 
@@ -44,7 +44,7 @@ class Admin extends Component{
             type:type,
         }
         var data = this.state.data;
-        Axios.post('https://goe-server.herokuapp.com/api/admin/remove', { headers:headers, query:query }).then(res => {
+        api.post('/admin/remove', { headers:headers, query:query }).then(res => {
             if(res.data.success){
                 if(type==="User"){
                     data.userList = this.removeItem(data.userList,id);

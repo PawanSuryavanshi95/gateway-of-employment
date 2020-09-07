@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MessageBox from '../../MessageBox';
-import Axios from 'axios';
+import api from '../../../api/index';
 
 class LogIn extends Component{
     constructor(props){
@@ -43,7 +43,7 @@ class LogIn extends Component{
         if(this.checkForm(info)){
             this.setState({ msgBox:false });
             this.messages = [];
-            Axios.post("https://goe-server.herokuapp.com/api/admin/login", { userName:info.userName, password:info.password }).then(res => {
+            api.post("/admin/login", { userName:info.userName, password:info.password }).then(res => {
                 if(!res.error){
                     if(res.data.verified){
                         const data = {

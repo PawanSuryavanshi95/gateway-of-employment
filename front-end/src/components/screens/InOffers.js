@@ -1,7 +1,8 @@
 import React,{ Component } from 'react';
-import Axios from 'axios';
+import api from '../../api/index';
 import Modal from 'react-modal';
 import InDetails from './InDetails';
+import MessageBox from '../MessageBox';
 
 Modal.setAppElement("#root");
 
@@ -15,23 +16,36 @@ class InOffers extends Component{
             loading:true,
         }
         this.internship = {};
+        this.messages = [];
+        this.msgType = "neutral";
     }
 
     componentDidMount(){
-        Axios.get('https://goe-server.herokuapp.com/api/offer/internship-list').then(res=>{
+        api.get('/offer/internship-list').then(res=>{
             this.setState({
                 internships:res.data.internships,
                 loading:false,
             });
         }).catch(e=>{
-            console.log(e);
+            this.setMsgBox([e.message], "negative");
         });
     }
 
+    setMsgBox = (msg,type) => {
+        this.setState({ msgBox: true});
+        this.messages = [msg];
+        this.msgType = type;
+    }
+
     handleApply = (internship) => {
-        this.props.history.push(`/internships/${internship.title}`);
-        this.setState({ modal:true });
-        this.internship = internship;
+        if(localStorage.getItem("userToken")!==null){
+            this.props.history.push(`/internships/${internship.title}`);
+            this.setState({ modal:true });
+            this.internship = internship;
+        }
+        else{
+            this.setMsgBox(["You need to login with an employee's account to apply."], "negative");
+        }
     }
 
     render(){
@@ -56,7 +70,10 @@ class InOffers extends Component{
                             <span>Stipend is {internship.stipend.available?"available":"not available"}.</span><br/>
                             {internship.stipend.available?<p>Amount : {internship.stipend.amount} Rs.</p>:null}
                             <span>{internship.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
-                            <button className="button" onClick={() => { this.internship = internship; this.setState({ modal:true }); }}><span>Apply</span></button>
+                        </div>
+                        <div className="offer-apply">
+                            {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}
+                            <button className="button" onClick={() => { this.handleApply(internship); }}><span>Apply</span></button>
                         </div>
                     </div>
                 )

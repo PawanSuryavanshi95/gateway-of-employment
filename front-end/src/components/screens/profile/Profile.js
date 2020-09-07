@@ -1,14 +1,15 @@
 import React,{ Component } from 'react';
-import axios from 'axios';
+import api from '../../../api/index';
 import {Link} from 'react-router-dom';
 import NotificationTab from './NotificationTab';
-import EmployerNav from "./Employer/EmployerNav";
+import UserNav from "./UserNav";
 import Stats from "./Stats";
 import SideNav from './SideNav';
 import Chats from './Chats';
 import Details from './Employee/Details';
 import Jobs from './Employer/Jobs';
 import Internships from './Employer/Internships'
+import Settings from './Settings';
 
 class Profile extends Component{
 
@@ -44,7 +45,7 @@ class Profile extends Component{
             userName: this.props.match.params.userName,
             public: bool,
         }
-        axios.get('https://goe-server.herokuapp.com/api/user/profile', { headers: headers, params: params })
+        api.get('/user/profile', { headers: headers, params: params })
         .then(res => {
             if(!res.error){
                 console.log(res.data.userData.confirmed);
@@ -60,12 +61,12 @@ class Profile extends Component{
                         stats: res.data.stats,
                     });
                     const employer = res.data.userData._id
-                    axios.get('https://goe-server.herokuapp.com/api/offer/job-list', { params: { employer: employer ? employer : null } }).then(res =>{
+                    api.get('/offer/job-list', { params: { employer: employer ? employer : null } }).then(res =>{
                         this.setState({
                             jobs:res.data.jobs,
                         })
                     });
-                    axios.get('https://goe-server.herokuapp.com/api/offer/internship-list', { params: { employer: employer ? employer : null } }).then(res =>{
+                    api.get('/offer/internship-list', { params: { employer: employer ? employer : null } }).then(res =>{
                         this.setState({
                             internships:res.data.internships,
                         })
@@ -93,7 +94,9 @@ class Profile extends Component{
         return(
             <div className="user-content">
                 <h1><span>{info.firstName}</span>{" "}{info.lastName}</h1>
-                {<Details details={info.details} public={this.state.public} setEditDetails={this.setEditDetails} />}
+                <UserNav setNav={this.setNav} type="employee" />
+                {this.state.nav==="Info" ? <Details details={info.details} public={this.state.public} /> :
+                this.state.nav==="Set" ? <Settings type="employee" />: null}
             </div>
         )
     }
@@ -105,8 +108,9 @@ class Profile extends Component{
         return(
             <div className="user-content">
                 <h1><span>{employerName}</span></h1>
-                <EmployerNav setNav={this.setNav} />
-                {this.state.nav ? <Jobs jobs={this.state.jobs} /> : <Internships internships={this.state.internships}/>}
+                <UserNav setNav={this.setNav} type="employer" />
+                {this.state.nav==="Job" ? <Jobs jobs={this.state.jobs} /> : this.state.nav==="In" ? <Internships internships={this.state.internships}/> :
+                this.state.nav==="Set" ? <Settings type="employer" />: null}
                 <div className="create-offers">
                 {this.state.public===true ? null : <Link to={url+'-job'}><button className="button"><span>Post a Job</span></button></Link> }
                 {this.state.public===true ? null : <Link to={url+'-internship'}><button className="button"><span>Post an Internship</span></button></Link> }

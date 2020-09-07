@@ -1,7 +1,8 @@
 import React,{ Component } from 'react';
-import Axios from 'axios';
+import api from '../../api/index';
 import Modal from 'react-modal';
 import JobDetails from './JobDetails';
+import MessageBox from '../MessageBox';
 
 Modal.setAppElement("#root");
 
@@ -15,23 +16,36 @@ class JobOffers extends Component{
             loading:true,
         }
         this.job = {};
+        this.messages = [];
+        this.msgType = "neutral";
     }
 
     componentDidMount(){
-        Axios.get('https://goe-server.herokuapp.com/api/offer/job-List').then(res=>{
+        api.get('/offer/job-List').then(res=>{
             this.setState({
                 jobs:res.data.jobs,
                 loading:false,
             });
         }).catch(e=>{
-            console.log(e);
+            this.setMsgBox([e.message], "negative");
         });
     }
 
+    setMsgBox = (msg,type) => {
+        this.setState({ msgBox: true});
+        this.messages = [msg];
+        this.msgType = type;
+    }
+
     handleApply = (job) => {
-        this.props.history.push(`/jobs/${job.title}`);
-        this.setState({ modal:true });
-        this.job=job
+        if(localStorage.getItem("userToken")!==null){
+            this.props.history.push(`/jobs/${job.title}`);
+            this.setState({ modal:true });
+            this.job=job;
+        }
+        else{
+            this.setMsgBox(["You need to login with an employee's account to apply."], "negative");
+        }
     }
 
     render(){
@@ -56,7 +70,10 @@ class JobOffers extends Component{
                             <p>Salary : {job.salary} Rs.</p>
                             <span>This is a {job.fullTime?"Full Time":"Part Time"} job.</span><br/>
                             <span>{job.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
-                            <button className="button" onClick={() => { this.job = job; this.setState({ modal:true }); }}><span>Apply</span></button>
+                        </div>
+                        <div className="offer-apply">
+                            {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}
+                            <button className="button" onClick={() => { this.handleApply(job); }}><span>Apply</span></button>
                         </div>
                     </div>
                 )

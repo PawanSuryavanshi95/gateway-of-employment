@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import Axios from 'axios';
+import api from '../../../api/index';
 import MessageBox from '../../MessageBox';
 
 class RegisterFirm extends Component{
@@ -35,7 +35,7 @@ class RegisterFirm extends Component{
                 msgBox:false
             });
 
-            return Axios.post('https://goe-server.herokuapp.com/api/auth/register', {
+            return api.post('/auth/register', {
                 info: info,
                 create: reg==="1"?"USER_EMPLOYER_FIRM":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
             }).then(res => {
@@ -43,7 +43,7 @@ class RegisterFirm extends Component{
                     this.setState({msgBox:true});
                     this.messages = ["Your id has been registered"];
                     this.msgType = "positive";
-                    Axios.post('https://goe-server.herokuapp.com/api/auth/send-link', { _id: res.data._id }).then(res => {
+                    api.post('/auth/send-link', { _id: res.data._id }).then(res => {
                         console.log(res.message);
                     }).catch(e=>{ console.log(e) });
                 }

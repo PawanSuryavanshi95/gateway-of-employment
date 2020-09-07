@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import Modal from 'react-modal';
-import Axios from 'axios';
+import api from '../../../../api/index';
 import MessageBox from '../../../MessageBox';
 
 class EditDetails extends Component{
@@ -53,8 +53,8 @@ class EditDetails extends Component{
             const headers = {
                 "X-access-token": localStorage.getItem('userToken')
             }
-            Axios.post('https://goe-server.herokuapp.com/api/user/details', { headers: headers, details: details}).then(res => {
-                this.props.setModal(false);
+            api.post('/user/details', { headers: headers, details: details}).then(res => {
+                this.props.setModal("");
             }).catch(e => {
                 console.log(e);
             });
@@ -178,7 +178,7 @@ class EditDetails extends Component{
                     {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}
 
                     <input type="submit" value="Submit"></input>
-                    <input type="button" value="Cancel" onClick={()=>{ this.props.setModal(false); }}></input>
+                    <input type="button" value="Cancel" onClick={()=>{ this.props.setModal(""); }}></input>
                 </form>
             </div>
             </div>

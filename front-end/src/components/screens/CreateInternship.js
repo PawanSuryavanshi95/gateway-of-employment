@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import Axios from 'axios';
+import api from '../../api/index';
 import MessageBox from '../MessageBox';
 
 class CreateInternship extends Component{
@@ -52,7 +52,7 @@ class CreateInternship extends Component{
         }
 
         if(this.checkForm(info)){
-            return Axios.post('https://goe-server.herokuapp.com/api/offer/create-internship', { info:info, headers:headers }).then(res => {
+            return api.post('/offer/create-internship', { info:info, headers:headers }).then(res => {
                 if(res.data.success){
                     this.messages=["Internship created successfully"];
                     this.msgType = "positive";
