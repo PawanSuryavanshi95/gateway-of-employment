@@ -16,11 +16,11 @@ class EmployerNav extends Component {
                 <ul>
                     <li className={this.state.selected==="Job"?"Y1":"N"}><a onClick={()=>{ this.props.setNav("Job"); this.setState({selected:"Job"}); }} >Jobs</a></li>
                     <li className={this.state.selected==="In"?"Y1":"N"}><a onClick={()=>{ this.props.setNav("In"); this.setState({selected:"In"}); }} >Internships</a></li>
-                    {this.props.public? <li className={this.state.selected==="Set"?"Y1":"N"}><a onClick={()=>{ this.props.setNav("Set"); this.setState({selected:"Set"}); }} >Settings</a></li>: null}
+                    {!this.props.public? <li className={this.state.selected==="Set"?"Y1":"N"}><a onClick={()=>{ this.props.setNav("Set"); this.setState({selected:"Set"}); }} >Settings</a></li>: null}
                 </ul> : this.props.type==="employee"?
                 <ul>
                     <li className={this.state.selected==="Info"?"Y1":"N"}><a onClick={()=>{ this.props.setNav("Info"); this.setState({selected:"Info"}); }} >Info</a></li>
-                    {this.props.public? <li className={this.state.selected==="Set"?"Y1":"N"}><a onClick={()=>{ this.props.setNav("Set"); this.setState({selected:"Set"}); }} >Settings</a></li>: null}
+                    {!this.props.public? <li className={this.state.selected==="Set"?"Y1":"N"}><a onClick={()=>{ this.props.setNav("Set"); this.setState({selected:"Set"}); }} >Settings</a></li>: null}
                 </ul> : null}
             </div>
         )
