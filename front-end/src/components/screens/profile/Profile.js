@@ -21,7 +21,7 @@ class Profile extends Component{
             stats: null,
             public: true,
             side:"ntf",
-            nav:true,
+            nav:"",
             jobs:null,
             internships:null,
         };
@@ -59,6 +59,7 @@ class Profile extends Component{
                         userData: res.data.userData,
                         public: res.data.public,
                         stats: res.data.stats,
+                        nav: res.data.userData.category==="Employee"? "Info" : res.data.userData.category==="Employer"? "Job" : "",
                     });
                     const employer = res.data.userData._id
                     api.get('/offer/job-list', { params: { employer: employer ? employer : null } }).then(res =>{
@@ -95,7 +96,7 @@ class Profile extends Component{
             <div className="user-content">
                 <h1><span>{info.firstName}</span>{" "}{info.lastName}</h1>
                 <UserNav setNav={this.setNav} type="employee" public={this.state.public} />
-                {this.state.nav==="Info" ? <Details details={info.details} public={this.state.public} /> :
+                {this.state.nav==="Info" ? <Details details={info.details} pub={this.state.public} /> :
                 this.state.nav==="Set" ? <Settings type="employee" />: null}
             </div>
         )

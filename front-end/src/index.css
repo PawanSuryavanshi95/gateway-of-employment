@@ -188,7 +188,8 @@ body{
   text-align: center;
   font-size: 28px;
   padding: 20px;
-  width: 200px;
+  min-width: 300px;
+  width: min-content;
   transition: all 0.5s;
   cursor: pointer;
   margin: 15px;
@@ -711,6 +712,7 @@ body{
     'user user user side'
     'user user user stats';
   grid-template-columns: .21fr .21fr .21fr .37fr;
+  grid-template-rows: 0.5fr 0.5fr;
   grid-gap: 10px;
   margin-left: 10%;
   margin-right: 10%;
@@ -770,13 +772,13 @@ body{
 .side-tab{
   border-top-right-radius: 20px;
   position: relative;
-  height: 400px;
+  height: fit-content;
   display: grid;
   grid-template-areas:
   'nav'
   'tab'
   'foot';
-  grid-template-rows: .2fr .74fr .06fr;
+  grid-template-rows: .16fr .76fr .08fr;
 }
 
 .nav{
@@ -836,35 +838,90 @@ body{
   border-right-style: solid;
   border-color: gray;
   border-width: 1.5px;
-  height: 300px;
+  min-height: 300px;
+  height: fit-content;
   background-color: #dbf7ff;
 }
 
-.user-tab div{
+.user-tab.offers {
   font-size:25px;
-  padding-left:5%;
   padding-top:10px;
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.user-tab.offers div{
+  width: 100%;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 0px;
 }
 
 .user-tab .wbg{
   background-color: #fff;
 }
 
+.user-tab.details {
+  padding: 15px;
+  font-size: 20px;
+}
+
+.user-tab.details .field-name {
+  padding-right: 10px;
+}
+
+.user-tab.details .field-value {
+  padding-left: 10px;
+}
+
+.user-tab.settings{
+  color: #2e2f30;
+  font-size: 20px;
+}
+
+.user-tab.settings ul{
+  list-style-type: none;
+  padding: 30px;
+  margin: 0px;
+}
+
+.user-tab.settings li {
+  padding-bottom: 10px;
+  display: block;
+}
+
+.user-tab.settings h2 {
+  width: 100%; 
+  text-align: center; 
+  font-weight: 500;
+  color: #00a2ff;
+  border-bottom: 1px solid #000; 
+  line-height: 0.1em;
+  margin: 10px 0 20px; 
+} 
+
+.user-tab.settings h2 span {
+   background:#dbf7ff; 
+   padding:0 10px; 
+}
+
+.user-tab.settings li .option:hover{
+  color: #0094d9;
+}
+
 .tab{
   grid-area: tab;
+  margin: 0px;
   background-color: lightskyblue;
   margin-right: 7%;
   margin-left: 7%;
   border-left-style: solid;
   border-color: gray;
   border-width: 1.5px;
-}
-
-.tab{
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
-  height: 100%;
+  height: 300px;
 }
 
 .tab .notification{
@@ -886,7 +943,7 @@ body{
 
 .foot{
   grid-area: foot;
-  height: 100%;
+  height: 20px;
   width: auto;
   background-color: #2e2f30;
 }
@@ -1024,6 +1081,10 @@ body{
   transition: all .3s;
 }
 
+.nav-menu-items.side-menu {
+  height: inherit;
+}
+
 .entries {
   padding-right: 5%;
   padding-left: 5%;
@@ -1116,12 +1177,13 @@ body{
 
 .ReactModal__Overlay{
   display: flex;
+  z-index: 1000;
 }
 
 .modal{
   align-self: center;
   width: max-content;
-  height: max-content;
+  height: auto;
   max-width: 60%;
   margin: auto;
 }

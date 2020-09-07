@@ -19,7 +19,7 @@ class Jobs extends Component{
             )
         }) : <div className="no-content">Nothing to show</div>;
         return(
-            <div className="user-tab">
+            <div className="user-tab offers">
                 {jobs}
             </div>
         )

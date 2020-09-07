@@ -120,19 +120,19 @@ class Settings extends Component{
     render(){
         // <li onClick={()=>{ this.setState({ modal: "changePass" }) }}>Change Password</li>
         return(
-            <div className="settings">
+            <div className="user-tab settings">
                 <ul>
                     <li>
-                    <h3>Personal Info :</h3>
+                    <h2><span>Personal Info</span></h2>
                     <ul>
-                        {this.props.type==="employee"? <li onClick={()=>{ this.setState({ modal: "editDetails" }) }}>Edit your Additional Details</li> :null}
-                        <li onClick={()=>{ this.setState({ modal: "changeEmail" }) }}>Change Email</li>
+                        {this.props.type==="employee"? <li onClick={()=>{ this.setState({ modal: "editDetails" }) }}><div className="option">Edit your Additional Details</div></li> :null}
+                        <li onClick={()=>{ this.setState({ modal: "changeEmail" }) }}><div className="option">Change Email</div></li>
                     </ul>
                     </li>
                     <li>
-                    <h3>Notifications :</h3>
+                    <h2><span>Notifications</span></h2>
                     <ul>
-                        <li onClick={()=>{ this.setState({ modal: "email" }) }}>Do you want to recieve mails from us?</li>
+                        <li onClick={()=>{ this.setState({ modal: "email" }) }}><div className="option">Do you want to recieve mails from us?</div></li>
                     </ul>
                     </li>
                 </ul>

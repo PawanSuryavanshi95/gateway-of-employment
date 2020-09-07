@@ -187,9 +187,7 @@ class EditDetails extends Component{
 
     render(){
         return(
-            <div className="user-details">
-                {this.showForm()}
-            </div>
+            this.showForm()
         )
     }
 }

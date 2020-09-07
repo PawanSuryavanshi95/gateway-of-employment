@@ -163,7 +163,7 @@ exports.toggleReceiveMail = (req,res) => {
             User.findById(decoded._id).then(user => {
                 user.receiveMail = req.body.receiveMail;
                 user.save();
-                res.send({success:true, message:req.body.receiveMail?"You won't receive emails from us.":"You will now receive emails from us"});
+                res.send({success:true, message:!req.body.receiveMail?"You won't receive emails from us.":"You will now receive emails from us"});
             });
         }
         else{
