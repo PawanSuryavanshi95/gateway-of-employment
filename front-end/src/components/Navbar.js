@@ -10,6 +10,7 @@ class Navbar extends Component{
             currentUser : undefined,
             userName : undefined,
             selected:'',
+            sidebar:false,
         }
     }
 
@@ -40,15 +41,15 @@ class Navbar extends Component{
         const admin = this.props.location.pathname,selected=this.state.selected;
         const content = this.state.currentUser===undefined?(
                 <ul>
-                    <li className={selected==="signin" ? "Y":"N" }><NavLink to="/signin" onClick={()=>{this.setState({selected:"signin"})}}>Sign In</NavLink></li>
-                    <li className={selected==="in" ? "Y":"N" }><NavLink to="/internships" onClick={()=>{this.setState({selected:"in"})}}>Internships</NavLink></li>
-                    <li className={selected==="job" ? "Y":"N" }><NavLink to="/jobs" onClick={()=>{this.setState({selected:"job"})}}>Jobs</NavLink></li>
+                    <li className={selected==="signin" ? "Y":"N" }><NavLink to="/signin" onClick={()=>{this.setState({sidebar:false,selected:"signin"})}}>Sign In</NavLink></li>
+                    <li className={selected==="in" ? "Y":"N" }><NavLink to="/internships" onClick={()=>{this.setState({sidebar:false,selected:"in"})}}>Internships</NavLink></li>
+                    <li className={selected==="job" ? "Y":"N" }><NavLink to="/jobs" onClick={()=>{this.setState({sidebar:false,selected:"job"})}}>Jobs</NavLink></li>
                 </ul>
             ):(
                 <ul>
-                    <li className={selected==="profile" ? "Y":"N" }><NavLink to={`/profile/${this.state.userName}`} onClick={()=>{this.setState({selected:"profile"})}}>{this.state.userName}</NavLink></li>
-                    <li className={selected==="in" ? "Y":"N" }><NavLink to="/internships" onClick={()=>{this.setState({selected:"in"})}}>Internships</NavLink></li>
-                    <li className={selected==="job" ? "Y":"N" }><NavLink to="/jobs" onClick={()=>{this.setState({selected:"job"})}}>Jobs</NavLink></li>
+                    <li className={selected==="profile" ? "Y":"N" }><NavLink to={`/profile/${this.state.userName}`} onClick={()=>{this.setState({sidebar:false,selected:"profile"})}}>{this.state.userName}</NavLink></li>
+                    <li className={selected==="in" ? "Y":"N" }><NavLink to="/internships" onClick={()=>{this.setState({sidebar:false,selected:"in"})}}>Internships</NavLink></li>
+                    <li className={selected==="job" ? "Y":"N" }><NavLink to="/jobs" onClick={()=>{this.setState({sidebar:false,selected:"job"})}}>Jobs</NavLink></li>
                     <li className="N"><NavLink to="/" onClick={this.userLogout}>Logout</NavLink></li>
                 </ul>
             );
@@ -58,13 +59,10 @@ class Navbar extends Component{
                 <div className="img-container"><img src={process.env.PUBLIC_URL + '/images/logo_G.o.e_1.png'}/></div>
                 <Link to="/">Gateway<span>of Employment</span></Link>
             </div>
-            <input type="checkbox" id="menu-btn" className="menu-btn" />
-            <label htmlFor="menu-btn" id="menu-btn-icon" className="menu-btn-icon">
-            <i className="fa fa-bars"></i>
-            </label>
-            <div className="brand2"><Link to="/">Gateway of Employment</Link></div>
+            <button onClick={()=>{ this.setState({ sidebar:!this.state.sidebar }) }}>&#9776;</button>
+            <div className="brand2"><Link to="/" onClick={()=>{this.setState({sidebar:false,})}}>Gateway of Employment</Link></div>
             <div className="header-links">
-            <nav>
+            <nav className={this.state.sidebar?"side":""}>
                 {admin ==="/admin" ? <ul></ul> : content}
             </nav>
             </div>
