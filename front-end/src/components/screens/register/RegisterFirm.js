@@ -15,10 +15,9 @@ class RegisterFirm extends Component{
             password2:'',
             msgBox: false,
             _id:"",
+            messages:[],
+            msgType:"neutral",
         }
-
-        this.messages = [];
-        this.msgType = "neutral";
     }
 
     submitHandler = (e) =>{
@@ -31,7 +30,8 @@ class RegisterFirm extends Component{
             password: this.state.password,
             category: "Employer",
         }
-        if(this.checkForm(info, this.state.password2)){
+        const { submit, messages } = this.checkForm(info, this.state.password2);
+        if(submit){
             this.setState({
                 msgBox:false
             });
@@ -44,31 +44,32 @@ class RegisterFirm extends Component{
                     this.setState({
                         msgBox:true,
                         _id:res.data._id,
+                        messages: [res.data.message,"You need to confirm your email to use this id, a confirmation mail was sent to you. ( Check your spam if it is not in your inbox )"],
+                        msgType: "positive",
                     });
-                    this.messages = [res.data.message,"You need to confirm your email to use this id, a confirmation mail was sent to you. ( Check your spam if it is not in your inbox )"];
-                    this.msgType = "positive";
                     this.sendConfirmLink();
                 }
                 else{
                     this.setState({
-                        msgBox: true
+                        msgBox: true,
+                        msgType: "negative",
+                        messages: [`Registration failed, ${res.data.error}`,],
                     });
-                    this.msgType = "negative";
-                    this.messages = [`Registration failed, ${res.data.error}`,];
                 }
             }).catch(e => {
                 this.setState({
-                    msgBox: true
+                    msgBox: true,
+                    msgType: "negative",
+                    messages: [e.message,],
                 });
-                this.msgType = "negative";
-                this.messages = [e.message];
             });
         }
         else{
             this.setState({
-                msgBox:true
+                msgBox:true,
+                msgType:"negative",
+                messages:messages,
             });
-            this.msgType = "negative";
         }
     }
 
@@ -81,32 +82,32 @@ class RegisterFirm extends Component{
 
     checkForm(info, password2){
         var submit = true;
-        this.messages = [];
+        var messages = [];
         if(!info.firmName){
             submit = false;
-            this.messages.push("First Name's field is empty.");
+            messages.push("First Name's field is empty.");
         }
         if(!info.userName){
             submit = false;
-            this.messages.push("User Name's field is empty.");
+            messages.push("User Name's field is empty.");
         }
         if(!info.password){
             submit = false;
-            this.messages.push("Password field is empty.");
+            messages.push("Password field is empty.");
         }
         if(!password2){
             submit = false;
-            this.messages.push("Please confirm the password");
+            messages.push("Please confirm the password");
         }
         if(!info.email){
             submit = false;
-            this.messages.push("Email's field is empty.");
+            messages.push("Email's field is empty.");
         }
         if(info.password!==password2 && info.password!=="" && password2!==""){
             submit=false;
-            this.messages.push("Passwords don't match");
+            messages.push("Passwords don't match");
         }
-        return submit;
+        return { submit, messages };
     }
 
     changeHandler = (type,e) =>{
@@ -151,7 +152,7 @@ class RegisterFirm extends Component{
                         onChange={(e) => { this.changeHandler("password2",e) }}>
                         </input><br/>
                     
-                    {this.state.msgBox?<MessageBox messages={this.messages} type={this.msgType} /> : <div></div>}
+                    {this.state.msgBox?<MessageBox messages={this.state.messages} type={this.state.msgType} /> : <div></div>}
 
                     <input type="submit" value="Register"></input><br/>
                 </form>

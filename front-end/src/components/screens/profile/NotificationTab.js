@@ -40,7 +40,6 @@ class NotificationTab extends Component{
         const headers = {
             'X-access-token': localStorage.getItem('userToken')
         };
-        const type = "Job";
         api.post('/user/select-user', { headers: headers, ntfData:ntf }).then(res => {
             console.log(res);
         }).catch(e => {

@@ -38,6 +38,13 @@ class Settings extends Component{
         }
     }
 
+    sendConfirmLink = (_id)=>{
+        console.log("send-link");
+        api.post('/auth/send-link', { _id: _id }).then(res => {
+            console.log(res.data);
+        }).catch(e=>{ console.log(e) });
+    }
+
     setMsgBox = (msg,type) => {
         this.setState({ msgBox: true});
         this.messages = [msg];
@@ -53,7 +60,9 @@ class Settings extends Component{
             const userToken = localStorage.getItem("userToken");
             const headers = { 'X-access-token': userToken }
             api.post("/user/change-email", {headers: headers, email:this.state.email1}, (res)=>{
-                console.log(res);
+                if(res.data.success){
+                    this.sendConfirmLink(res.data._id);
+                }
             }).catch(e => {
                 this.setMsgBox([e.message],"negative");
             });

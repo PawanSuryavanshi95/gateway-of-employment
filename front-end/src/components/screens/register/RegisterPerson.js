@@ -15,12 +15,11 @@ class RegisterPerson extends Component{
             password:'',
             password2:'',
             gender: undefined,
-            msgBox:false,
+            msgBox: false,
+            messages: [],
+            msgType: "neutral",
             _id:"",
         }
-
-        this.messages = [];
-        this.msgType = "neutral";
     }
 
     submitHandler = (e) =>{
@@ -36,12 +35,12 @@ class RegisterPerson extends Component{
             gender: this.state.gender,
         }
         var password2 = this.state.password2;
-        
-        if(this.checkForm(info,password2)){
+        const { submit, messages } = this.checkForm(info,password2);
+        if(submit){
             this.setState({
-                msgBox: false
+                msgBox: false,
+                messages: [],
             });
-            this.messages = [];
             api.post('/auth/register', {
                 info: info,
                 create: reg==="1"?"USER_EMPLOYER_INDIVIDUAL":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
@@ -49,33 +48,34 @@ class RegisterPerson extends Component{
                 if(res.data.success===true){
                     this.setState({
                         msgBox:true,
+                        messages: [res.data.message,"You need to confirm your email to use this id, a confirmation mail was sent to you. ( Check your spam if it is not in your inbox )",],
+                        msgType:"positive",
                         _id:res.data._id,
                     });
-                    this.messages.push(res.data.message);
-                    this.messages.push("You need to confirm your email to use this id, a confirmation mail was sent to you. ( Check your spam if it is not in your inbox )");
-                    this.msgType = "positive";
                     this.sendConfirmLink();
                 }
                 else{
                     this.setState({
-                        msgBox: true
+                        msgBox: true,
+                        messages:[`Registration failed, ${res.data.message}`,],
+                        msgType:"negative",
                     });
-                    this.msgType = "negative";
-                    this.messages.push(`Registration failed, ${res.data.message}`);
                 }
             }).catch(e => {
                 this.setState({
-                    msgBox: true
+                    msgBox: true,
+                    messages: [e.message,],
+                    msgType:"negative",
                 });
-                this.msgType = "negative";
-                this.messages.push(e.message);
             })
         }
         else{
+            console.log(messages);
             this.setState({
-                msgBox: true
+                msgBox: true,
+                msgType:"negative",
+                messages: messages,
             });
-            this.msgType = "negative";
         }
     }
 
@@ -88,40 +88,40 @@ class RegisterPerson extends Component{
 
     checkForm(info,password2){
         var submit = true;
-        this.messages = [];
+        const messages = [];
         if(!info.firstName){
             submit = false;
-            this.messages.push("First Name's field is empty.");
+            messages.push("First Name's field is empty.");
         }
         if(!info.lastName){
             submit = false;
-            this.messages.push("Last Name's field is empty.");
+            messages.push("Last Name's field is empty.");
         }
         if(!info.userName){
             submit = false;
-            this.messages.push("User Name's field is empty.");
+            messages.push("User Name's field is empty.");
         }
         if(!info.password){
             submit = false;
-            this.messages.push("Password field is empty.");
+            messages.push("Password field is empty.");
         }
         if(!password2){
             submit = false;
-            this.messages.push("Please confirm the password");
+            messages.push("Please confirm the password");
         }
         if(!info.email){
             submit = false;
-            this.messages.push("Email's field is empty.");
+            messages.push("Email's field is empty.");
         }
         if(!info.gender){
             submit = false;
-            this.messages.push("Please select your gender");
+            messages.push("Please select your gender");
         }
         if(info.password!==password2 && info.password!=="" && password2!==""){
             submit=false;
-            this.messages.push("Passwords don't match");
+            messages.push("Passwords don't match");
         }
-        return submit;
+        return {submit, messages};
     }
 
     changeHandler = (type,e) =>{
@@ -139,7 +139,6 @@ class RegisterPerson extends Component{
     }
 
     render(){
-        console.log(this.messages,this.msgType);
         return(
             <main className="main">
             <div className="content">
@@ -197,7 +196,7 @@ class RegisterPerson extends Component{
                         onChange={ (e) => { this.changeHandler("radio2",e) } }/>
                         <label htmlFor="female">Female</label><br/>
 
-                    {this.state.msgBox?<MessageBox messages={this.messages} type={this.msgType} />:null}
+                    {this.state.msgBox?<MessageBox messages={this.state.messages} type={this.state.msgType} />:null}
                     
                     <input type="submit" value="Register"></input><br/>
                 </form>

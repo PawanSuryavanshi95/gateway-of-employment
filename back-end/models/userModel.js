@@ -41,6 +41,7 @@ const notificationSchema = new mongoose.Schema({
     new: { type:Boolean, default:true },
     candidate: { type:String, required:false},
     workName: { type:String, required:false },
+    selected: { type:Boolean, required:false },
 });
 
 const reportSchema = new mongoose.Schema({

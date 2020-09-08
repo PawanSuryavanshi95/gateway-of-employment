@@ -1178,6 +1178,7 @@ body{
 .ReactModal__Overlay{
   display: flex;
   z-index: 1000;
+  overflow-y: scroll;
 }
 
 .modal{

@@ -48,7 +48,6 @@ class Profile extends Component{
         api.get('/user/profile', { headers: headers, params: params })
         .then(res => {
             if(!res.error){
-                console.log(res.data.userData.confirmed);
                 if(!res.data.userData.confirmed){
                     this.props.history.push(`/error/404`);
                     window.location.reload(false);

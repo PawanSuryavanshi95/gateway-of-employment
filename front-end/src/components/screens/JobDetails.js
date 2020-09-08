@@ -28,7 +28,6 @@ class JobDetails extends Component{
             'X-access-token' : userToken
         }
         var proposal = this.state.proposal;
-        console.log(localStorage);
         if(proposal){
             this.messages = [];
             this.setState({msgBox:false});

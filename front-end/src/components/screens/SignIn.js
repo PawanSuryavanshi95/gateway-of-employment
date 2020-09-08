@@ -76,7 +76,7 @@ class SignIn extends Component{
                                 onChange={(e) => { this.changeHandler("password",e) }}>
                                 </input>
                             {this.state.bool===true?<div className="confirm-id">
-                                This id has not been activated, to use it you must confirm your email id.<br/>
+                                This id has not been activated, to use it you must confirm your email id. (Please check inside spam if not found inside your inbox)<br/>
                                 Do you want us to send another confirmation link. <button onClick={this.sendConfirmLink}>Send</button>
                             </div> : null }
                             {this.state.msgBox?<MessageBox messages={this.messages} type={this.msgType} />:""}

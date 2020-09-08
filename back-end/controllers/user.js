@@ -92,34 +92,37 @@ exports.selectUser = (req,res) => {
     var success = true, message;
     jwt.verify(token, authConfig.user_secret, (e,decoded) => {
         if(e){
-            return res.status(403).send({success:false, error:e});
+            return res.status(403).send({success:false, message:e});
         }
         if(decoded){
             User.findById(decoded._id).then(user => {
                 if(user.category==="Employer"){
                     var ntfData = req.body.ntfData;
-                    var type = ntfData.category ? ntfData.category.substr(12) : "Nothing";
+                    var type = ntfData.category ? ntfData.category.substr(12) : "Nil";
                     var notification = {
                         msg: `You have been selected for the ${type} ${ntfData.workName} by ${decoded.userName}`,
                         category: "SELECTION",
                     };
-                    User.updateOne({ userName: ntfData.candidate }, { $push: { 'notifications' : notification } }).then(user => {
+                    User.updateOne({ userName: ntfData.candidate }, { $push: { 'notifications' : notification } }).then(object => {
                         message = `Notification Sent to ${ntfData.candidate} by ${decoded.userName}`;
-                        
-                        var text = `You have been selected for the ${type} ${ntfData.workName} posted by ${decoded.userName}.\nWe advise you to get in touch with them and get started with your work.`;
-                        var to = `${user.email}`;
-                        var subject = `You have been selected for ${type==="JOB"?"a":"an"} ${type}`;
-                        const mailResult1 = sendMail.sendMail(to, subject, text);
-                        
-                        text = `You have selected a recruit ${decoded.userName} for the ${type} ${ntfData.workName}.\nWe advice that you start communicating with the recruit and start your work as soon as possible.`;
-                        to = `${decoded.email}`;
-                        subject = `You selected a recruit for ${type==="JOB"?"a":"an"} ${type}`;
+                        User.findOne({userName:ntfData.candidate}).then(async employee=>{
+                            var text1 = `You have been selected for the ${type} ${ntfData.workName} posted by ${user.userName}.\nWe advise you to get in touch with them and get started with your work.`;
+                            var to1 = employee.email;
+                            var subject1 = `You have been selected for ${type==="JOB"?"a":"an"} ${type}`;
+                            const mailResult1 = await sendMail.sendMail(to1, subject1, text1);
+                            
+                            var text2 = `You have selected a recruit ${employee.userName} for the ${type} ${ntfData.workName}.\nWe advice that you start communicating with the recruit and start your work as soon as possible.`;
+                            to2 = user.email;
+                            subject2 = `You selected a recruit for ${type==="JOB"?"a":"an"} ${type}`;
+                            const mailResult2 = await sendMail.sendMail(to2, subject2, text2);
 
-                        const mailResult2 = sendMail.sendMail(to, subject, text);
-                        return res.send({success:success, message:{ntf: message, mail:{ recruit: mailResult1, employer:mailResult2}}});
+                            return res.send({success:true, message:{ntf: message, mail:{ recruit: mailResult1, employer:mailResult2}}});
+                        }).catch(e =>{
+                            res.send({success:false, message:e.message});
+                        });
                     }).catch(e => {
                         console.log(e);
-                        return res.send({success:success, error:e.message});
+                        return res.send({success:false, message:e.message});
                     })
                 }
             });
@@ -139,7 +142,7 @@ exports.changeEmail = (req,res) => {
                     if(!user2){
                         user1.email = req.body.email;
                         user1.save();
-                        res.send({success:true, message:"Email has been changed."});
+                        res.send({success:true, message:"Email has been changed.", _id:user1._id});
                     }
                     else{
                         res.send({success:false, message:"This email has already been registered."});
