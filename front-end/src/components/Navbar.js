@@ -57,10 +57,10 @@ class Navbar extends Component{
             <header className="header">
             <div className="brand">
                 <div className="img-container"><img src={process.env.PUBLIC_URL + '/images/logo_G.o.e_1.png'}/></div>
-                <Link to="/">Gateway<span>of Employment</span></Link>
+                <Link to="/" onClick={()=>{this.setState({selected:''})}} >Gateway<span>of Employment</span></Link>
             </div>
             <button onClick={()=>{ this.setState({ sidebar:!this.state.sidebar }) }}>&#9776;</button>
-            <div className="brand2"><Link to="/" onClick={()=>{this.setState({sidebar:false,})}}>Gateway of Employment</Link></div>
+            <div className="brand2"><Link to="/" onClick={()=>{this.setState({sidebar:false,selected:''})}}>Gateway of Employment</Link></div>
             <div className="header-links">
             <nav className={this.state.sidebar?"side":""}>
                 {admin ==="/admin" ? <ul></ul> : content}

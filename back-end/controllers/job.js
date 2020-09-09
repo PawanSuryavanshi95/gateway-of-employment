@@ -18,6 +18,7 @@ exports.createJob = async (req, res) => {
             User.findById(decoded._id).then(async user => {
                 if(user.category==="Employer"){
                     newJob.employer = decoded._id;
+                    newJob.employerName = user.userName;
                     Job.create(newJob).then(async (job) => {
                         User.updateOne({ _id:decoded._id }, { $push: { 'userEmployerInfo.jobs' : job._id } }).then(async user=>{
                             success = true;

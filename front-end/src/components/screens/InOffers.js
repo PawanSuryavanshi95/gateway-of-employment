@@ -64,7 +64,7 @@ class InOffers extends Component{
                 return (
                     <div key={internship._id} className="offer" onClick={()=>{this.handleApply(internship)}}>
                         <h2>{internship.title}</h2>
-                        <h3><span>from</span> Employer</h3>
+                        <h3><span>from</span>{" "+internship.employerName}</h3>
                         <div className="offer-info">
                             <p>Requirement : {internship.reqs}</p>
                             <span>Stipend is {internship.stipend.available?"available":"not available"}.</span><br/>

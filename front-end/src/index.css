@@ -3,7 +3,7 @@
   width: extend-to-zoom;
 }
 @-ms-viewport{
-  zoom: 1.0;
+  zoom: 2.0;
   width: extend-to-zoom;
 }
 
@@ -104,13 +104,16 @@ body{
   margin-left: 18px;
   width: 100vh;
 }
-i{
-  font-size: 40px;
-  color: #032d41;
-  padding-right: 10px;
-  cursor: pointer;
+
+.header button{
   display: none;
+  background: none;
+  border: none;
+  font-size: 40px;
+  font-weight: lighter;
+  color: #034766;
 }
+
 .header-links a{
   color: #ffffff;
   font-size: 20px;
@@ -138,23 +141,25 @@ i{
 }
 
 @media (max-width: 940px){
+  .header button{
+    display: block;
+  }
   .header nav ul{
     position: fixed;
     top:6rem;
-    transform: translateX(-400vw);
+    left:-100%;
     height: 200vh;
     width: 100%;
     display: block;
     z-index: 100;
     transition: 0.5s;
   }
-
   .header nav a {
     padding-top: 40px;
     font-size: 30px;
   }
   .header .side ul{
-    transform: translateX(-191vw);
+    left:0%;
   }
   .header-links li{
     float: none;
@@ -168,8 +173,11 @@ i{
   .brand2 a{
     font-size: 45px;
   }
-  .menu-btn-icon i{
-    display: block;
+  .grid-container{
+    grid-template-rows: 8rem 1fr 14rem;
+  }
+  .offer{
+    width:90%;
   }
 }
 
@@ -194,11 +202,15 @@ i{
   text-align: center;
   font-size: 28px;
   padding: 20px;
-  min-width: 300px;
+  min-width: 200px;
   width: min-content;
   transition: all 0.5s;
   cursor: pointer;
   margin: 15px;
+}
+
+.button.large {
+  min-width: 300px;
 }
 
 .button.white{
@@ -253,6 +265,7 @@ i{
 .form {
   box-shadow: 1px 1px 8px 1px #888888;
   background-color: #ffffff;
+  padding: 20px;
 }
 
 .form.no-box{
@@ -261,7 +274,8 @@ i{
 }
 
 .form form {
-  width:500px;
+  width:fit-content;
+  min-width: 400px;
   padding:10px;
   padding-right: 50px;
   padding-left: 50px;
@@ -323,7 +337,6 @@ i{
 }
 
 .center {
-  position: absolute;
   top:10%;
   background-color: #22add4b7;
   box-shadow: 1px 1px 8px 1px #062dadb0;
@@ -389,10 +402,8 @@ i{
 
 .offers{
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   flex-direction: column;
-  align-items: center;
-  align-content: space-around;
 }
 
 .offer {
@@ -400,7 +411,6 @@ i{
   width: 50%;
   text-align: center;
   box-shadow: 1px 1px 8px 1px #888888;
-  margin: 30px;
 }
 
 .offer h2 {
@@ -463,6 +473,7 @@ i{
   width: 100%;
   height: auto;
   margin:0;
+  justify-content: center;
 }
 
 .box-area {

@@ -112,8 +112,8 @@ class Profile extends Component{
                 {this.state.nav==="Job" ? <Jobs jobs={this.state.jobs} /> : this.state.nav==="In" ? <Internships internships={this.state.internships}/> :
                 this.state.nav==="Set" ? <Settings type="employer" />: null}
                 <div className="create-offers">
-                {this.state.public===true ? null : <Link to={url+'-job'}><button className="button"><span>Post a Job</span></button></Link> }
-                {this.state.public===true ? null : <Link to={url+'-internship'}><button className="button"><span>Post an Internship</span></button></Link> }
+                {this.state.public===true ? null : <Link to={url+'-job'}><button className="button large"><span>Post a Job</span></button></Link> }
+                {this.state.public===true ? null : <Link to={url+'-internship'}><button className="button large"><span>Post an Internship</span></button></Link> }
                 </div>
             </div>
         )

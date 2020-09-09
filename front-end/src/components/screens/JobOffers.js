@@ -64,7 +64,7 @@ class JobOffers extends Component{
                 return (
                     <div key={job._id} className="offer" onClick={()=>{this.handleApply(job)}}>
                         <h2>{job.title}</h2>
-                        <h3><span>from</span> Employer</h3>
+                        <h3><span>from</span>{" "+job.employerName}</h3>
                         <div className="offer-info">
                             <p>Requirement : {job.reqs}</p>
                             <p>Salary : {job.salary} Rs.</p>
