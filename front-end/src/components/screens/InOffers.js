@@ -66,10 +66,10 @@ class InOffers extends Component{
                         <h2>{internship.title}</h2>
                         <h3><span>from</span>{" "+internship.employerName}</h3>
                         <div className="offer-info">
-                            <p>Requirement : {internship.reqs}</p>
-                            <span>Stipend is {internship.stipend.available?"available":"not available"}.</span><br/>
-                            {internship.stipend.available?<p>Amount : {internship.stipend.amount} Rs.</p>:null}
-                            <span>{internship.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
+                            <div><p className="title">Requirement : </p> {internship.reqs}</div>
+                            <div><span>Stipend is {internship.stipend.available?"available":"not available"}.</span></div>
+                            <div>{internship.stipend.available?<p>Amount : {internship.stipend.amount} Rs.</p>:null}</div>
+                            <div><span>{internship.fromHome?"You can work from home.":"You will have to come to the office"}</span></div>
                         </div>
                         <div className="offer-apply">
                             {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}
@@ -83,13 +83,11 @@ class InOffers extends Component{
         )
         return(
             <main className="main">
-            <div className="content">
-            <div className="offers">
+            <div className="content offers">
                 {this.state.loading?loadingList:inList}
-                <Modal isOpen={this.state.modal || bool} onRequestClose={() => { this.setState({ modal:false }); this.props.history.push('/jobs'); }}>
+                <Modal isOpen={this.state.modal || bool} onRequestClose={() => { this.setState({ modal:false }); this.props.history.push('/internships'); }}>
                     <InDetails internship={this.internship} />
                 </Modal>
-            </div>
             </div>
             </main>
         )

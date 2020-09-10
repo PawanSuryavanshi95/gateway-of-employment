@@ -66,10 +66,10 @@ class JobOffers extends Component{
                         <h2>{job.title}</h2>
                         <h3><span>from</span>{" "+job.employerName}</h3>
                         <div className="offer-info">
-                            <p>Requirement : {job.reqs}</p>
-                            <p>Salary : {job.salary} Rs.</p>
-                            <span>This is a {job.fullTime?"Full Time":"Part Time"} job.</span><br/>
-                            <span>{job.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
+                            <div><p className="title">Requirement : </p>{job.reqs}</div>
+                            <div><p className="title">Salary : </p>{job.salary} Rs.</div>
+                            <div><span>This is a {job.fullTime?"Full Time":"Part Time"} job.</span></div>
+                            <div><span>{job.fromHome?"You can work from home.":"You will have to come to the office"}</span></div>
                         </div>
                         <div className="offer-apply">
                             {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}

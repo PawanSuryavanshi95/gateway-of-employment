@@ -60,16 +60,16 @@ class JobDetails extends Component{
         return(
             <div className="offer" >
                 <h2>{job.title}</h2>
-                <h3><span>from</span> Employer</h3>
+                <h3><span>from</span>{" "+job.employerName}</h3>
                 <div className="offer-info">
-                    <span>This is a {job.permanent?"long term ,":""} {job.fullTime?"full time":"part time"} job {job.permanent?"":` for ${job.duration} days`}.</span><br/>
-                    <p>Description : {job.desc}</p>
-                    <p>Requirement : {job.reqs}</p>
-                    <p>What's in it for you ? <br/>{job.reason}</p>
-                    <p>Salary : {job.salary} Rs.</p>
-                    <span>{job.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
-                    {job.fromHome?"":<p>Workplace Address : {job.address}</p>}
-                    <p>Other Details : {job.otherDetails}</p>
+                    <div><span>This is a {job.permanent?"long term ,":""} {job.fullTime?"full time":"part time"} job {job.permanent?"":` for ${job.duration} days`}.</span></div>
+                    <div><p className="title">Description : </p>{job.desc}</div>
+                    <div><p className="title">Requirement : </p>{job.reqs}</div>
+                    <div><p className="title">What's in it for you ? </p>{job.reason}</div>
+                    <div><p className="title">Salary : {job.salary} Rs.</p></div>
+                    <div><span>{job.fromHome?"You can work from home.":"You will have to come to the office"}</span></div>
+                    <div>{job.fromHome?"":<p className="title">Workplace Address : </p>}{job.address}</div>
+                    <div><p className="title">Other Details :</p>{job.otherDetails}</div>
                 </div>
                 <div className="offer-apply">
                 <div className="form no-box"><form>

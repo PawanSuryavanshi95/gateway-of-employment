@@ -96,7 +96,8 @@ class Profile extends Component{
                 <h1><span>{info.firstName}</span>{" "}{info.lastName}</h1>
                 <UserNav setNav={this.setNav} type="employee" public={this.state.public} />
                 {this.state.nav==="Info" ? <Details details={info.details} pub={this.state.public} /> :
-                this.state.nav==="Set" ? <Settings type="employee" />: null}
+                this.state.nav==="Set" ? <Settings type="employee" />: this.state.nav==="Ntf" ? <NotificationTab category="Employee" /> :
+                this.state.nav==="Chat" ? <Chats /> : null}
             </div>
         )
     }
@@ -110,7 +111,8 @@ class Profile extends Component{
                 <h1><span>{employerName}</span></h1>
                 <UserNav setNav={this.setNav} type="employer" public={this.state.public} />
                 {this.state.nav==="Job" ? <Jobs jobs={this.state.jobs} /> : this.state.nav==="In" ? <Internships internships={this.state.internships}/> :
-                this.state.nav==="Set" ? <Settings type="employer" />: null}
+                this.state.nav==="Set" ? <Settings type="employer" />: this.state.nav==="Ntf" ? <NotificationTab category="Employer" /> :
+                this.state.nav==="Chat" ? <Chats /> : null}
                 <div className="create-offers">
                 {this.state.public===true ? null : <Link to={url+'-job'}><button className="button large"><span>Post a Job</span></button></Link> }
                 {this.state.public===true ? null : <Link to={url+'-internship'}><button className="button large"><span>Post an Internship</span></button></Link> }

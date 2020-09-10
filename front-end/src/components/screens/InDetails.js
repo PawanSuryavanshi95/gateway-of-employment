@@ -61,17 +61,17 @@ class InDetails extends Component{
         return(
             <div className="offer" >
                 <h2>{internship.title}</h2>
-                <h3><span>from</span> Employer</h3>
+                <h3><span>from</span>{" "+internship.employerName}</h3>
                 <div className="offer-info">
-                    <p>Description : {internship.desc}</p>
-                    <p>Requirement : {internship.reqs}</p>
-                    <span>This will be a {internship.duration} day internship.</span>
-                    <p>What's in it for you ?<br/>{internship.reason}</p>
-                    <span>Stipend is {internship.stipend.available?"available":"not available"}.</span><br/>
-                    {internship.stipend.available?<p>Amount : {internship.stipend.amount} Rs.</p>:null}
-                    <span>{internship.fromHome?"You can work from home.":"You will have to come to the office"}</span><br/>
-                    {internship.fromHome?"":<p>Workplace Address : {internship.address}</p>}
-                    <p>Other Details : {internship.otherDetails}</p>
+                    <div><p className="title">Description :</p> {internship.desc}</div>
+                    <div><p className="title">Requirement : </p>{internship.reqs}</div>
+                    <div><span>This will be a {internship.duration} day internship.</span></div>
+                    <div><p className="title">What's in it for you ?</p>{internship.reason}</div>
+                    <div><span>Stipend is {internship.stipend?internship.stipend.available?"available":"not available":"not available"}.</span></div>
+                    <div>{internship.stipend?internship.stipend.available?<p className="title">Amount :  Rs.</p>:null:null}{internship.stipend.amount}</div>
+                    <div><span>{internship.fromHome?"You can work from home.":"You will have to come to the office"}</span></div>
+                    <div>{internship.fromHome?"":<p className="title">Workplace Address : </p>} {internship.address}</div>
+                    <div><p className="title">Other Details : </p>{internship.otherDetails}</div>
                 </div>
                 <div className="offer-apply">
                 <div className="form no-box"><form>

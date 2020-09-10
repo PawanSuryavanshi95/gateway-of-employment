@@ -140,47 +140,6 @@ body{
   background-color: #46c1e3;
 }
 
-@media (max-width: 940px){
-  .header button{
-    display: block;
-  }
-  .header nav ul{
-    position: fixed;
-    top:6rem;
-    left:-100%;
-    height: 200vh;
-    width: 100%;
-    display: block;
-    z-index: 100;
-    transition: 0.5s;
-  }
-  .header nav a {
-    padding-top: 40px;
-    font-size: 30px;
-  }
-  .header .side ul{
-    left:0%;
-  }
-  .header-links li{
-    float: none;
-  }
-  .brand{
-    display: none;
-  }
-  .brand2{
-    display: flex;
-  }
-  .brand2 a{
-    font-size: 45px;
-  }
-  .grid-container{
-    grid-template-rows: 8rem 1fr 14rem;
-  }
-  .offer{
-    width:90%;
-  }
-}
-
 .main{
   grid-area: main;
   background-color: #dbf7ff;
@@ -428,6 +387,11 @@ body{
   color: #626363;
   font-size: 10px;
 }
+
+.offer-info div .title {
+  font-weight: bold;
+}
+
 .offer.loading{
   width: 50%;
   height: 50%;
@@ -849,6 +813,10 @@ body{
   background-color: #0ba4db;
 }
 
+.nav-menu-items .mob{
+  display: none;
+}
+
 .user-tab{
   border-bottom-style: solid;
   border-left-style: solid;
@@ -1218,4 +1186,67 @@ body{
 
 .fb {
   background-image: url("/images/facebook.png");
+}
+
+@media (max-width: 940px){
+  .header button{
+    display: block;
+  }
+  .header nav ul{
+    position: fixed;
+    top:6rem;
+    left:-100%;
+    height: 200vh;
+    width: 100%;
+    display: block;
+    z-index: 100;
+    transition: 0.5s;
+  }
+  .header nav a {
+    padding-top: 40px;
+    font-size: 30px;
+  }
+  .header .side ul{
+    left:0%;
+  }
+  .header-links li{
+    float: none;
+  }
+  .brand{
+    display: none;
+  }
+  .brand2{
+    display: flex;
+  }
+  .brand2 a{
+    font-size: 45px;
+  }
+  .grid-container{
+    grid-template-rows: 8rem 1fr 14rem;
+  }
+  .offer{
+    width:90%;
+  }
+  .nav-menu-items .mob{
+    display: flex;
+  }
+  .side-container{
+    display: none;
+  }
+  .profile-content{
+    display: grid;
+    grid-template-areas:none;
+    grid-template-areas:
+      'user'
+      'user'
+      'user'
+      'stats';
+    grid-template-columns: .21fr .21fr .21fr .37fr;
+    grid-template-rows: 0.5fr 0.5fr;
+    grid-gap: 10px;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 2%;
+    margin-bottom: 3%;
+  }
 }
