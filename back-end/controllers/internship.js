@@ -21,14 +21,14 @@ exports.createIn = async (req, res) => {
                     newIn.employer = decoded._id;
                     newIn.employerName = user.userName;
                     Internship.create(newIn).then(async (internship) => {
-                        User.updateOne({ _id:decoded._id }, { $push: { 'userEmployerInfo.internships' : internship._id } }).then(async user=>{
+                        User.updateOne({ _id:decoded._id }, { $push: { 'userEmployerInfo.internships' : internship._id } }).then(user=>{
                             success = true;
                             message = `${internship.title} internship has been created by ${decoded._id}.`;
 
-                            const to = user.email;
+                            /*const to = user.email;
                             const subject = "You have created an internship";
                             const text = "You have created an internship " + internship.title + "at gateway of employment, you have made an effort in eradicating unemployment in India.";
-                            const res = await sendMail.sendMail(to,subject,text);
+                            const res = sendMail.sendMail(to,subject,text);*/
 
                             return res.send({ success:success,message:message })
                         }).catch(e =>{

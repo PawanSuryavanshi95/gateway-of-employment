@@ -21,18 +21,18 @@ exports.createJob = async (req, res) => {
                     newJob.employer = decoded._id;
                     newJob.employerName = user.userName;
                     Job.create(newJob).then(async (job) => {
-                        User.updateOne({ _id:decoded._id }, { $push: { 'userEmployerInfo.jobs' : job._id } }).then(async user=>{
+                        User.updateOne({ _id:decoded._id }, { $push: { 'userEmployerInfo.jobs' : job._id } }).then(user=>{
                             success = true;
                             message = `${job.title} has been created by ${decoded._id}.`;
 
-                            const to = user.email;
+                            /*const to = user.email;
                             const subject = "You have created a job";
                             const text = "You have created a job " + job.title + "at gateway of employment, you have made an effort in eradicating unemployment in India.";
-                            const res = await sendMail.sendMail(to,subject,text);
+                            const res = sendMail.sendMail(to,subject,text);*/
                             
-                            return res.send({ success:success,message:message })
+                            return res.send({ success:true,message:message })
                         }).catch(e =>{
-                            message = e;
+                            return res.send({ success:false,message:e.message })
                         });
                       }).catch(error => {
                             return res.send({ success:false, message:`${newJob.title} could not be created.`, error:error});
