@@ -52,7 +52,7 @@ class CreateJobOffer extends Component{
         }
         if(this.checkForm(info)){
             console.log(info);
-            return api.post('/offer/create-job', { info:info, headers:headers }).then(res => {
+            return api.post('/offer/create-job', { info:info, headers:headers }, {timeout:1000}).then(res => {
                 if(res.data.success){
                     this.messages=["Job created successfully"];
                     this.msgType = "positive";

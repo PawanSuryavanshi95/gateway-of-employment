@@ -52,14 +52,14 @@ class CreateInternship extends Component{
         }
 
         if(this.checkForm(info)){
-            return api.post('/offer/create-internship', { info:info, headers:headers }).then(res => {
+            return api.post('/offer/create-internship', { info:info, headers:headers }, {timeout:1000}).then(res => {
                 if(res.data.success){
                     this.messages=["Internship created successfully"];
                     this.msgType = "positive";
                     this.setState({msgBox:true});
                 }
             }).catch(e => {
-                this.messages=["Internship could not be created"];
+                this.messages=["Internship could not be created",e.message];
                 this.msgType = "negative";
                 this.setState({msgBox:true});
             })
