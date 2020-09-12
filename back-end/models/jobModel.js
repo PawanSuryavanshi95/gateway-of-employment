@@ -10,7 +10,7 @@ const jobSchema = new mongoose.Schema({
     fullTime: { type: Boolean, required:true },
     fromHome: { type: Boolean, required:true },
     permanent: { type:Boolean, required:true },
-    duration: { type:Number, required:false },
+    duration: { type:String, required:false },
     address: { type:String, required:false },
     otherDetails: { type:String, required:false },
     salary: { type:Number, required:true },

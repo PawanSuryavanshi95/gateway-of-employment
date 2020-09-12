@@ -11,9 +11,9 @@ const internshipSchema = new mongoose.Schema({
     address: { type:String, required:false },
     stipend: {
         available: { type: Boolean, required:true },
-        amount: { type: Number, default:0 },
+        amount: { type: String, default:0 },
     },
-    duration: { type:Number, required:true },
+    duration: { type:String, required:true },
     otherDetails: { type:String, required:false },
 });
 

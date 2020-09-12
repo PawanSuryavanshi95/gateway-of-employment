@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const authConfig = require('../configs/auth');
+const sendMail = require('../utility/sendMail');
 
 const database = require('../models/model');
 
@@ -23,6 +24,12 @@ exports.createJob = async (req, res) => {
                         User.updateOne({ _id:decoded._id }, { $push: { 'userEmployerInfo.jobs' : job._id } }).then(async user=>{
                             success = true;
                             message = `${job.title} has been created by ${decoded._id}.`;
+
+                            const to = user.email;
+                            const subject = "You have created a job";
+                            const text = "You have created a job " + job.title + "at gateway of employment, you have made an effort in eradicating unemployment in India.";
+                            const res = await sendMail.sendMail(to,subject,text);
+                            
                             return res.send({ success:success,message:message })
                         }).catch(e =>{
                             message = e;

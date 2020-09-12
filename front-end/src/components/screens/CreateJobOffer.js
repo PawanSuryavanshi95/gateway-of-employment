@@ -143,7 +143,7 @@ class CreateJobOffer extends Component{
                             <label htmlFor="r6">No</label><br/>
                         
                         { this.state.permanent===false ? 
-                        <input id="duration" type="number" placeholder="Duration in days" onChange={(e) => { this.changeHandler("duration",e) }} />
+                        <input id="duration" type="text" placeholder="Duration" onChange={(e) => { this.changeHandler("duration",e) }} />
                         : <div></div> }
 
                         <input id="part-time" type="radio" checked={this.state.fullTime===false}

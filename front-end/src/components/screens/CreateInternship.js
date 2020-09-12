@@ -120,7 +120,7 @@ class CreateInternship extends Component{
                                 onChange={(e) => { this.changeHandler("desc",e) }} />
                         <br/>
 
-                        <input id="duration" type="text" placeholder="Duration in days" onChange={(e) => { this.changeHandler("duration",e) }} /><br/>
+                        <input id="duration" type="text" placeholder="Duration" onChange={(e) => { this.changeHandler("duration",e) }} /><br/>
 
                         <textarea id="req" placeholder="Requirements" rows="4" cols="50"
                                 onChange={(e) => { this.changeHandler("req",e) }} />
