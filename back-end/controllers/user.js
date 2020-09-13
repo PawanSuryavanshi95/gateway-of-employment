@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
 const authConfig = require('../configs/auth');
-
+const bcrypt = require('bcrypt');
 const sendMail = require('../utility/sendMail');
 const database = require('../models/model');
+const auth = require('../configs/auth');
 
 const User = database.User;
 
@@ -167,6 +168,38 @@ exports.toggleReceiveMail = (req,res) => {
                 user.receiveMail = req.body.receiveMail;
                 user.save();
                 res.send({success:true, message:!req.body.receiveMail?"You won't receive emails from us.":"You will now receive emails from us"});
+            });
+        }
+        else{
+            res.send({success:false, message:"Something went wrong"});
+        }
+    });
+}
+
+exports.changepassword = (req,res) => {
+    const text = "Your password has been changed. ";
+    const token =req.body.headers['X-access-token'];
+    jwt.verify(token,authConfig.user_secret,(e,decoded) => {
+        if (e){
+            return res.status(403).send({success:false,message:e.message});
+        }
+        if(decoded){
+            User.findById(decoded._id).then(user => {
+                if(bcrypt.compareSync(req.body.password, user.password)){
+                    const new_password = req.body.new_password;
+                    
+
+                    bcrypt.hash(new_password, 10, (error, hash) => {
+                        user.password = hash;
+                        
+                    });
+                    email=user.email;
+                    user.save();
+                    const result =  sendMail.sendMail(email, "Password changed ", text);
+                    res.send({succes:true,message:"Your password has been changed"});
+                    
+                }
+            res.send({success:false,message: "current password is incorrect!!"})    
             });
         }
         else{
