@@ -21,4 +21,6 @@ userRouter.post('/change-email', controller.changeEmail);
 
 userRouter.post('/toggle-receive-mail', controller.toggleReceiveMail);
 
+userRouter.post('/forgot-password', controller.forgotPassword);
+
 module.exports = userRouter;

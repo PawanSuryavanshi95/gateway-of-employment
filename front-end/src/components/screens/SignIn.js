@@ -81,6 +81,7 @@ class SignIn extends Component{
                             </div> : null }
                             {this.state.msgBox?<MessageBox messages={this.messages} type={this.msgType} />:""}
                             <input type="submit" value="Sign In"></input>
+                            <button className="forgot-password" onClick={()=>{this.setState({modal:"forgotPassword"})}}>Forgot Password?</button>
                         </form>
                         <div className="register-link">
                             <h2> Don't have an account? </h2>

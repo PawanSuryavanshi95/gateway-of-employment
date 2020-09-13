@@ -130,6 +130,35 @@ exports.selectUser = (req,res) => {
     });
 }
 
+exports.forgotPassword = (req,res) => {
+    User.findOne({
+        $or: [
+            { userName: req.body.id },
+            { email: req.body.id },
+        ]
+    }).then(async user => {
+        if(user){
+            const to = user.email;
+            const subject = "Forgot Password Code";
+            var digits = '0123456789';
+            var OTP = ''; 
+            for (let i = 0; i < 4; i++ ) { 
+                OTP += digits[Math.floor(Math.random() * 10)]; 
+            }
+            const text = "Here is your code to change your password : "+OTP;
+            user.forgotPasswordCode = OTP;
+            user.save();
+            const res = await sendMail.sendMail(to,subject,text);
+            res.send({success:true, message:"OTP Sent"});
+        }
+        else{
+            res.json({success:false, message: 'User not found.'});
+        }
+    }).catch(error => {
+        res.send({success:false, message:e.message});
+    });
+}
+
 exports.changeEmail = (req,res) => {
     const token = req.body.headers['X-access-token'];
     jwt.verify(token, authConfig.user_secret, (e,decoded) => {

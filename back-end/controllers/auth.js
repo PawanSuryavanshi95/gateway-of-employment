@@ -59,7 +59,6 @@ exports.register = async (req,res) => {
 }
 
 exports.signin = (req, res) => {
-    console.log(req.body.id);
     User.findOne({
         $or: [
             { userName: req.body.id },

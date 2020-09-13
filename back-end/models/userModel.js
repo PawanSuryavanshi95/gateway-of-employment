@@ -57,6 +57,7 @@ const userSchema = new mongoose.Schema({
     reported: [reportSchema],
     confirmed: { type:Boolean, default:false },
     receiveMails: { type:Boolean, default:true },
+    forgotPasswordCode: { type:String, required:false },
 
     userEmployeeInfo: userEmployeeSchema,
 
