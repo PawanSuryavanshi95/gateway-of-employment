@@ -13,6 +13,8 @@ offerRouter.use(cors());
 
 offerRouter.post('/create-job', controllerJob.createJob);
 
+offerRouter.post('/edit-job', controllerJob.editJob);
+
 offerRouter.post('/apply-job', controllerJob.applyJob);
 
 offerRouter.get('/job-list', controllerJob.jobList);

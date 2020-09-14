@@ -89,7 +89,7 @@ class Settings extends Component{
                 <input type="text" placeholder="Current Password" onChange={(e) => { this.changeHandler("pass1",e) }} />
                 <input type="text" placeholder="New Password" onChange={(e) => { this.changeHandler("pass2",e) }} />
                 {this.state.msgBox?<MessageBox messages={this.state.messages} type={this.state.msgType} />:""}
-                <input type="submit" value="Change Email"></input>
+                <input type="submit" value="Change Password"></input>
             </form>
         </div> )
     }
@@ -182,7 +182,6 @@ class Settings extends Component{
                     <h2><span>Notifications</span></h2>
                     <ul>
                         <li onClick={()=>{ this.setState({ modal: "email" }) }}><div className="option">Do you want to recieve mails from us?</div></li>
-                        <li onClick={()=>{ this.setState({ modal: "changePass" }) }}><div className="option">Change Password</div></li>
                     </ul>
                     </li>
                 </ul>
