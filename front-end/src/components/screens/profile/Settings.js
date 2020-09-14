@@ -11,11 +11,12 @@ class Settings extends Component{
             modal: "",
             email1: "",
             msgBox: false,
+            messages:[],
+            msgType:"neutral",
             receiveMail: "",
+            pass1:"",
+            pass2:"",
         };
-
-        this.messages = [];
-        this.msgType = "neutral";
     }
 
     setModal = (value) => {
@@ -46,9 +47,7 @@ class Settings extends Component{
     }
 
     setMsgBox = (msg,type) => {
-        this.setState({ msgBox: true});
-        this.messages = [msg];
-        this.msgType = type;
+        this.setState({ msgBox: true, messages:msg, type:type});
     }
 
     changeEmailSubmit = (e) => {
@@ -62,6 +61,7 @@ class Settings extends Component{
             api.post("/user/change-email", {headers: headers, email:this.state.email1}, (res)=>{
                 if(res.data.success){
                     this.sendConfirmLink(res.data._id);
+                    this.setMsgBox(["Email has been changed, please confirm your email."],"positive");
                 }
             }).catch(e => {
                 this.setMsgBox([e.message],"negative");
@@ -77,10 +77,49 @@ class Settings extends Component{
                     placeholder="Email"
                     onChange={(e) => { this.changeHandler("email1",e) }} >
                     </input>
-                {this.state.msgBox?<MessageBox messages={this.messages} type={this.msgType} />:""}
+                {this.state.msgBox?<MessageBox messages={this.state.messages} type={this.state.msgType} />:""}
                 <input type="submit" value="Change Email"></input>
             </form>
         </div> )
+    }
+
+    changePassModal = () => {
+        return( <div className="form">
+            <form onSubmit={this.changePassSubmit}>
+                <input type="text" placeholder="Current Password" onChange={(e) => { this.changeHandler("pass1",e) }} />
+                <input type="text" placeholder="New Password" onChange={(e) => { this.changeHandler("pass2",e) }} />
+                {this.state.msgBox?<MessageBox messages={this.state.messages} type={this.state.msgType} />:""}
+                <input type="submit" value="Change Email"></input>
+            </form>
+        </div> )
+    }
+
+    changePassSubmit = (e) => {
+        e.preventDefault();
+        if(!this.state.pass1 || !this.state.pass2){
+            const messages = [];
+            if(!this.state.pass1){
+                messages.push("Enter your current password");
+            }
+            if(!this.state.pass2){
+                messages.push("Enter your new password");
+            }
+            this.setMsgBox(messages,"negative");
+        }
+        else{
+            const userToken = localStorage.getItem("userToken");
+            const headers = { 'X-access-token': userToken }
+            api.post("/user/change-password", {headers: headers, password:this.state.pass1, new_password:this.state.pass2}, (res)=>{
+                if(res.data.success===true){
+                    this.setMsgBox(["Password Changed"],"positive");
+                }
+                else{
+                    this.setMsgBox([res.body.message],"negative");
+                }
+            }).catch(e => {
+                this.setMsgBox([e.message],"negative");
+            });
+        }
     }
 
     receiveMailSubmit = (e) => {
@@ -120,7 +159,7 @@ class Settings extends Component{
                 onChange={ (e) => { this.changeHandler("radio2",e) } }/>
                 <label htmlFor="no">No</label><br/>
 
-            {this.state.msgBox?<MessageBox messages={this.messages} type={this.msgType} />:""}
+            {this.state.msgBox?<MessageBox messages={this.state.messages} type={this.state.msgType} />:""}
             <input type="submit" value="Confirm" />
             </form>
         </div> )
@@ -136,12 +175,14 @@ class Settings extends Component{
                     <ul>
                         {this.props.type==="employee"? <li onClick={()=>{ this.setState({ modal: "editDetails" }) }}><div className="option">Edit your Additional Details</div></li> :null}
                         <li onClick={()=>{ this.setState({ modal: "changeEmail" }) }}><div className="option">Change Email</div></li>
+                        <li onClick={()=>{ this.setState({ modal: "changePass" }) }}><div className="option">Change Password</div></li>
                     </ul>
                     </li>
                     <li>
                     <h2><span>Notifications</span></h2>
                     <ul>
                         <li onClick={()=>{ this.setState({ modal: "email" }) }}><div className="option">Do you want to recieve mails from us?</div></li>
+                        <li onClick={()=>{ this.setState({ modal: "changePass" }) }}><div className="option">Change Password</div></li>
                     </ul>
                     </li>
                 </ul>

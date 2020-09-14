@@ -213,26 +213,24 @@ exports.changepassword = (req,res) => {
             return res.status(403).send({success:false,message:e.message});
         }
         if(decoded){
-            User.findById(decoded._id).then(user => {
+            User.findById(decoded._id).then(async user => {
                 if(bcrypt.compareSync(req.body.password, user.password)){
                     const new_password = req.body.new_password;
-                    
-
-                    bcrypt.hash(new_password, 10, (error, hash) => {
+                    var a=1;
+                    await bcrypt.hash(new_password, 10, async (error, hash) => {
                         user.password = hash;
-                        
+                        a=0;
+                        await user.save();
                     });
-                    email=user.email;
-                    user.save();
-                    const result =  sendMail.sendMail(email, "Password changed ", text);
-                    res.send({succes:true,message:"Your password has been changed"});
-                    
+                    const email=user.email;
+                    const result = sendMail.sendMail(email, "Password changed ", text);
+                    return await res.send({success:true,message:"Your password has been changed",a:a,new:new_password,current:req.body.password});
                 }
-            res.send({success:false,message: "current password is incorrect!!"})    
+            return res.send({success:false,message: "current password is incorrect!!"})    
             });
         }
         else{
-            res.send({success:false, message:"Something went wrong"});
+            return res.send({success:false, message:"Something went wrong"});
         }
     });
 }
