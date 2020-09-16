@@ -80,3 +80,26 @@ exports.inList = (req,res) => {
         });
     }
 }
+
+exports.editInternship = (req,res) => {
+    const token = req.body.headers['X-access-token'];
+    var internship = req.body.info;
+    jwt.verify(token, authConfig.user_secret, async (e,decoded) => {
+        if(e){
+            return res.status(403).send({success:false, message:e.message})
+        }
+        if(decoded){
+            User.findById(decoded._id).then(async user => {
+                if(user.category==="Employer"){
+                    var query = { title:internship.title };
+                    Internship.updateOne(query, internship).then(_res=>{
+                        return res.send({success:true, message:"Edited !"});
+                    })
+                }
+                else{
+                    return res.send({success:false, message:"You are not an employer"});
+                }
+            })
+        }
+    })
+}
