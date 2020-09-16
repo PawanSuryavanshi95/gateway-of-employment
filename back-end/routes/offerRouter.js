@@ -21,6 +21,8 @@ offerRouter.get('/job-list', controllerJob.jobList);
 
 offerRouter.post('/create-internship', controllerIn.createIn);
 
+offerRouter.post('/edit-internship', controllerIn.editInternship);
+
 offerRouter.post('/apply-internship', controllerIn.applyIn);
 
 offerRouter.get('/internship-list', controllerIn.inList);
