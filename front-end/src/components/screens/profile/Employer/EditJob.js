@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import api from '../../.././../api/index';
+import api from '../../../../api/index';
 import MessageBox from '../../../MessageBox';
 
 class EditJob extends Component{
@@ -50,41 +50,17 @@ class EditJob extends Component{
         const headers = {
             'X-access-token': localStorage.getItem("userToken"),
         }
-        if(this.checkForm(info)){
-            console.log(info);
-            return api.post('/offer/edit-job', { info:info, headers:headers }, {timeout:5000}).then(res => {
-                if(res.data.success){
-                    this.messages=["Job has been edited"];
-                    this.msgType = "positive";
-                    this.setState({msgBox:true});
-                }
-            }).catch(e => {
-                this.messages=["Job could not be edited",e.message];
-                this.msgType = "negative";
+        return api.post('/offer/edit-job', { info:info, headers:headers }, {timeout:5000}).then(res => {
+            if(res.data.success){
+                this.messages=["Job has been edited"];
+                this.msgType = "positive";
                 this.setState({msgBox:true});
-            })
-        }
-        else{
-            this.setState({ msgBox:true });
-            this.msgType="negative";
-        }
-    }
-
-    checkForm = (info) =>{
-        if(info.title==='' || info.reqs==='' || info.desc==='' || info.reason==='' || info.fromHome==='' || info.fullTime==='' ||
-         info.salary==='' || info.permanent==='' ){
-            this.messages = ['Enter all the details to continue'];
-            return false;
-        }
-        if(info.permanent===false && info.duration===''){
-            this.messages = ['Enter all the details to continue'];
-            return false;
-        }
-        if(info.fromHome===false && info.address===''){
-            this.messages = ['Enter all the details to continue'];
-            return false;
-        }
-        return true;
+            }
+        }).catch(e => {
+            this.messages=["Job could not be edited",e.message];
+            this.msgType = "negative";
+            this.setState({msgBox:true});
+        })
     }
 
     changeHandler = (type,e) =>{

@@ -68,7 +68,6 @@ class CreateInternship extends Component{
             this.setState({ msgBox:true });
             this.msgType = "negative";
         }
-        console.log(info,headers);
     }
 
     checkForm = (info) => {

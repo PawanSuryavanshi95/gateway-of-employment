@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import Modal from 'react-modal';
+import EditIn from './EditIn';
 
 class Internships extends Component{
     constructor(props){
         super(props);
-        this.state = {}
+        this.state = {
+            modal:false,
+            inTitle:"",
+        }
     }
 
     render(){
@@ -15,7 +20,11 @@ class Internships extends Component{
             ++key;
             return(
                 <div key={key}>
-                    <div className="title">{internship.title}</div>
+                    <div className="title">{internship.title}
+                    <input type="button" value="Edit" onClick={()=>{ this.setState({ modal:true,inTitle:internship.title }) }} /></div>
+                    <Modal className="modal" isOpen={this.state.modal && this.state.inTitle===internship.title} onRequestClose={() => {this.setState({ modal:false,inTitle:"" }) }}>
+                        {this.state.modal? <EditIn internship = {internship} /> : "Wrong Modal"}
+                    </Modal>
                 </div>
             )
         }) : <div className="no-content">Nothing to show</div>;

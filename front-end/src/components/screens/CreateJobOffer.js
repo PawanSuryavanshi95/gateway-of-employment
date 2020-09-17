@@ -128,7 +128,7 @@ class CreateJobOffer extends Component{
                         <textarea id="req" placeholder="Requirements" rows="4" cols="50"
                             onChange={(e) => { this.changeHandler("req",e) }} /><br/>
 
-                        <input id="salary" type="number" placeholder="Salary in Rs per month" onChange={(e) => { this.changeHandler("salary",e) }} /> <br/>
+                        <input id="salary" type="text" placeholder="Salary in Rs per month" onChange={(e) => { this.changeHandler("salary",e) }} /> <br/>
 
                         <textarea id="reason" placeholder="What will the employee gain?" rows="3" cols="50"
                             onChange={(e) => { this.changeHandler("reason",e) }} /> <br/>
