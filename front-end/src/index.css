@@ -225,6 +225,8 @@ body{
   box-shadow: 1px 1px 8px 1px #888888;
   background-color: #ffffff;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 .form.no-box{
@@ -277,6 +279,7 @@ body{
   align-self: center;
   font-size: 2rem;
   margin-top: 20px;
+  cursor: pointer;
 }
 
 .form input[type=button] {
@@ -1249,4 +1252,12 @@ body{
     margin-top: 2%;
     margin-bottom: 3%;
   }
+}
+
+.forgot-password {
+  border: none;
+  background-color: #fff;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 20px;
 }

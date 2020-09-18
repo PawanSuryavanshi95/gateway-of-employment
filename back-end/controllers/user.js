@@ -148,15 +148,46 @@ exports.forgotPassword = (req,res) => {
             }
             const text = "Here is your code to change your password : "+OTP;
             user.forgotPasswordCode = OTP;
-            user.save();
-            const res = await sendMail.sendMail(to,subject,text);
-            res.send({success:true, message:"OTP Sent"});
+            await user.save();
+            const result = await sendMail.sendMail(to,subject,text);
+            return res.send({success:true, message:"OTP Sent"});
         }
         else{
-            res.json({success:false, message: 'User not found.'});
+            return res.json({success:false, message: 'User not found.'});
         }
     }).catch(error => {
-        res.send({success:false, message:e.message});
+        return res.send({success:false, message:error.message});
+    });
+}
+
+exports.changePassOtp = (req,res) => {
+    User.findOne({
+        $or: [
+            { userName: req.body.id },
+            { email: req.body.id },
+        ]
+    }).then(async user => {
+        if(user){
+            if(user.forgotPasswordCode===req.body.otp){
+                user.forgotPasswordCode = "";
+                bcrypt.hash(req.body.newPass, 10, async (error, hash) => {
+                    if(error){
+                        return res.send({success:false, message:error.message})
+                    }
+                    user.password = hash;
+                    await user.save();
+                    return res.send({success:true, message:"Password Changed"});
+                })
+            }
+            else{
+                return res.send({ success:false, message:"Wrong OTP"})
+            }
+        }
+        else{
+            return res.json({success:false, message: 'User not found.'});
+        }
+    }).catch(error => {
+        return res.send({success:false, message:error.message});
     });
 }
 
@@ -216,10 +247,8 @@ exports.changepassword = (req,res) => {
             User.findById(decoded._id).then(async user => {
                 if(bcrypt.compareSync(req.body.password, user.password)){
                     const new_password = req.body.new_password;
-                    var a=1;
                     await bcrypt.hash(new_password, 10, async (error, hash) => {
                         user.password = hash;
-                        a=0;
                         await user.save();
                     });
                     const email=user.email;

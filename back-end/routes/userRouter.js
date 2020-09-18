@@ -23,6 +23,8 @@ userRouter.post('/toggle-receive-mail', controller.toggleReceiveMail);
 
 userRouter.post('/forgot-password', controller.forgotPassword);
 
+userRouter.post('/forgot-pass-otp', controller.changePassOtp);
+
 userRouter.post('/change-password',controller.changepassword);
 
 module.exports = userRouter;

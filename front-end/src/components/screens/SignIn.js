@@ -15,7 +15,12 @@ class SignIn extends Component{
             _id:"",
             msgBox:false,
             forPassId:"",
-            modal:false,
+            otpID:"",
+            modal:"",
+            otpBox:false,
+            otp:"",
+            newPass1:"",
+            newPass2:"",
         }
         this.messages = [];
         this.msgType = [];
@@ -51,8 +56,14 @@ class SignIn extends Component{
         e.preventDefault();
         console.log("send-link");
         api.post('/auth/send-link', { _id: this.state._id }).then(res => {
-            console.log(res.data);
-        }).catch(e=>{ console.log(e) });
+            this.messages = ["Confirmation Link Sent, click on 'send link' to send again."];
+            this.msgType = "positive";
+            this.setState({msgBox:true});
+        }).catch(e=>{ 
+            this.messages = [e.message];
+            this.msgType = "nagative";
+            this.setState({msgBox:true});
+         });
     }
 
     changeHandler = (type,e) =>{
@@ -63,12 +74,58 @@ class SignIn extends Component{
 
     forgotPasswordModal = () =>{
         return ( <div className="form">
-            <form>
+            <form onSubmit={this.forgotPasswordSubmit}>
                 <input type="text" placeholder="Enter username or password" onChange={(e)=>{this.setState({forPassId:e.target.value});}} />
                 <input type="submit" value="Send OTP" />
             </form>
+            {this.state.otpBox? <form onSubmit={this.changePassword}>
+                <input type="number" placeholder="Enter otp" onChange={(e)=>{this.setState({otp:e.target.value});}} />
+                <input type="password" placeholder="Enter New Password" onChange={(e)=>{this.setState({newPass1:e.target.value});}} />
+                <input type="password" placeholder="Confirm New Password" onChange={(e)=>{this.setState({newPass2:e.target.value});}} />
+                <input type="submit" value="Change Password" />
+            </form> : null}
         </div>
         )
+    }
+
+    forgotPasswordSubmit = (e) => {
+        e.preventDefault();
+        const id = this.state.forPassId;
+        api.post("user/forgot-password", { id:id }).then(res => {
+            if(res.data.success){
+                console.log(res.data);
+                this.setState({ otpBox:true, otpID:id });
+            }
+            else{
+                this.messages = [res.data.message];
+                this.msgType = "negative";
+                this.setState({ msgBox:true, modal:"", otpID:"", otpBox:false });
+            }
+        }).catch(e => {
+            this.messages = [e.message];
+            this.msgType = "negative";
+            this.setState({msgBox:true, modal:""});
+        })
+    }
+
+    changePassword = (e) => {
+        e.preventDefault();
+        api.post("/user/forgot-pass-otp", { id:this.state.otpID, otp:this.state.otp, newPass:this.state.newPass1 }).then(res => {
+            if(res.data.success){
+                this.messages = ["Password Changed."];
+                this.msgType = "positive";
+                this.setState({msgBox:true, modal:""});
+            }
+            else{
+                this.messages = [res.data.message];
+                this.msgType = "negative";
+                this.setState({msgBox:true, modal:""});
+            }
+        }).catch(e => {
+            this.messages = [e.message];
+            this.msgType = "negative";
+            this.setState({msgBox:true, modal:""});
+        });
     }
 
     render(){
@@ -92,8 +149,8 @@ class SignIn extends Component{
                             <Link to="/register"><button className="button"><span>Register</span></button></Link>
                         </div>
                     </div>
-                    <Modal className="modal" isOpen={this.state.modal} onRequestClose={() => {this.setState({ modal:false }) }}>
-                        {this.state.modal? this.forgotPasswordModal() : "Wrong Modal"}
+                    <Modal className="modal" isOpen={this.state.modal!==""} onRequestClose={() => {this.setState({ modal:"" }) }}>
+                        {this.state.modal==="forgotPassword"? this.forgotPasswordModal() : "Wrong Modal"}
                     </Modal>
                 </div>
             </main>
