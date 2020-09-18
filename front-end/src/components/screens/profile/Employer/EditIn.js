@@ -9,7 +9,7 @@ class EditIn extends Component{
         this.state = {
             title:'',
             desc:'',
-            req:'',
+            reqs:'',
             reason:'',
             fromHome:'',
             address:'',
@@ -86,23 +86,24 @@ class EditIn extends Component{
     }
 
     render(){
-        const internship = this.props.internship;
+        const in1 = this.props.internship;
+        const in2 = this.state;
         return(
             <div className="edit-in">
-                <h2>{internship.title}</h2>
+                <h2>{in1.title}</h2>
                 <div className="form">
                     <form onSubmit={this.submitHandler}>
-                        <textarea id="desc"  placeholder="Description" rows="6" cols="500" value={internship.desc}
+                        <textarea id="desc"  placeholder="Description" rows="6" cols="500" value={in2.desc==="" ? in1.desc : in2.desc}
                                 onChange={(e) => { this.changeHandler("desc",e) }} />
                         <br/>
 
-                        <input id="duration" type="text" value={internship.duration} placeholder="Duration" onChange={(e) => { this.changeHandler("duration",e) }} /><br/>
+                        <input id="duration" type="text" value={in2.duration==="" ? in1.duration : in2.duration} placeholder="Duration" onChange={(e) => { this.changeHandler("duration",e) }} /><br/>
 
-                        <textarea id="req" placeholder="Requirements" rows="4" cols="50" value={internship.reqs}
+                        <textarea id="req" placeholder="Requirements" rows="4" cols="50" value={in2.reqs==="" ? in1.reqs : in2.reqs}
                                 onChange={(e) => { this.changeHandler("req",e) }} />
                         <br/>
 
-                        <textarea id="reason" placeholder="What will the employee gain?" rows="3" cols="50" value={internship.reason}
+                        <textarea id="reason" placeholder="What will the employee gain?" rows="3" cols="50" value={in2.reason==="" ? in1.reason : in2.reason}
                                 onChange={(e) => { this.changeHandler("reason",e) }} />
                         <br/>
 
@@ -116,7 +117,7 @@ class EditIn extends Component{
                             <label htmlFor="stipend-no">No</label><br/>
                         
                         { this.state.stipend===true ? 
-                        <input id="amount" type="text" placeholder="Amount" value={internship.stipend.amount} onChange={(e) => { this.changeHandler("amount",e) }} />
+                        <input id="amount" type="text" placeholder="Amount" value={in2.stipend.amount==="" ? in1.stipend.amount : in2.stipend.amount} onChange={(e) => { this.changeHandler("amount",e) }} />
                         : <div></div> }
                         
                         <label> Intern can work from home? ? </label>
@@ -129,10 +130,10 @@ class EditIn extends Component{
                             <label htmlFor="home-no">No</label><br/>
                         
                         { this.state.fromHome===false? 
-                        <textarea id="address" placeholder="Address of workplace" rows="3" cols="50" value={internship.address}
+                        <textarea id="address" placeholder="Address of workplace" rows="3" cols="50" value={in2.address==="" ? in1.address : in2.address}
                             onChange={(e) => { this.changeHandler("address",e) }} /> : <div></div> }
 
-                        <textarea id="otherDetails" placeholder="Other Details (optional)" rows="6" cols="500" value={internship.otherDetails}
+                        <textarea id="otherDetails" placeholder="Other Details (optional)" rows="6" cols="500" value={in2.otherDetails==="" ? in1.otherDetails : in2.otherDetails}
                             onChange={(e) => { this.changeHandler("otherDetails",e) }} /> <br/>
                         
                         {this.state.msgBox===true?<MessageBox messages={this.messages} type={this.msgType} />:<div></div>}

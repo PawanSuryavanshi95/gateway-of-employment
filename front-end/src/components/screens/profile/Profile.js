@@ -22,7 +22,6 @@ class Profile extends Component{
             public: true,
             side:"ntf",
             nav:"",
-            jobs:null,
             internships:null,
         };
 
@@ -59,17 +58,6 @@ class Profile extends Component{
                         public: res.data.public,
                         stats: res.data.stats,
                         nav: res.data.userData.category==="Employee"? "Info" : res.data.userData.category==="Employer"? "Job" : "",
-                    });
-                    const employer = res.data.userData._id
-                    api.get('/offer/job-list', { params: { employer: employer ? employer : null } }).then(res =>{
-                        this.setState({
-                            jobs:res.data.jobs,
-                        })
-                    });
-                    api.get('/offer/internship-list', { params: { employer: employer ? employer : null } }).then(res =>{
-                        this.setState({
-                            internships:res.data.internships,
-                        })
                     });
                 }
             }
@@ -110,7 +98,7 @@ class Profile extends Component{
             <div className="user-content">
                 <h1><span>{employerName}</span></h1>
                 <UserNav setNav={this.setNav} type="employer" public={this.state.public} />
-                {this.state.nav==="Job" ? <Jobs jobs={this.state.jobs} /> : this.state.nav==="In" ? <Internships internships={this.state.internships}/> :
+                {this.state.nav==="Job" ? <Jobs employer={this.state.userData? this.state.userData._id : null} /> : this.state.nav==="In" ? <Internships employer={this.state.userData? this.state.userData._id : null}/> :
                 this.state.nav==="Set" ? <Settings type="employer" />: this.state.nav==="Ntf" ? <NotificationTab category="Employer" /> :
                 this.state.nav==="Chat" ? <Chats /> : null}
                 <div className="create-offers">

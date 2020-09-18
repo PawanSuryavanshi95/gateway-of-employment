@@ -9,7 +9,7 @@ class EditJob extends Component{
         this.state = {
             title:'',
             desc:'',
-            req:'',
+            reqs:'',
             reason:'',
             fullTime:'',
             fromHome:'',
@@ -39,10 +39,10 @@ class EditJob extends Component{
             salary: this.state.salary==='' ? job.salary : this.state.salary,
         }
         if(this.state.otherDetails!==''){
-            info.otherDetails = this.setState.otherDetails==='' ? job.otherDetails : this.setState.otherDetails;
+            info.otherDetails = this.setState.otherDetails==='' ? job.otherDetails : this.state.otherDetails;
         }
         if(info.permanent===false){
-            info.duration = this.state.duration==='' ? job.duration : this.setState.duratiion;
+            info.duration = this.state.duration==='' ? job.duration : this.state.duratiion;
         }
         if(info.fromHome===false){
             info.address = this.state.address==='' ? job.address : this.state.address;
@@ -92,20 +92,21 @@ class EditJob extends Component{
 //<input id="title" type="text" placeholder="Title" onChange={(e) => { this.changeHandler("title",e) }} /> <br/>
     render(){
         const job = this.props.job;
+        const job2 = this.state;
         return(
             <div className="edit-job">
             <h2>{job.title}</h2>
             <div className="form">
                 <form onSubmit={this.submitHandler}>
                         <textarea id="desc" placeholder="Description" rows="6" cols="500"
-                            onChange={(e) => { this.changeHandler("desc",e) }} value={job.desc} /> <br/>
+                            onChange={(e) => { this.changeHandler("desc",e) }} value={job2.desc===""?job.desc:job2.desc} /> <br/>
                         
-                        <textarea id="req" placeholder="Requirements" rows="4" cols="50"
-                            onChange={(e) => { this.changeHandler("req",e) }} value={job.req} /><br/>
+                        <textarea id="reqs" placeholder="Requirements" rows="4" cols="50"
+                            onChange={(e) => { this.changeHandler("reqs",e) }} value={job2.reqs===""?job.reqs:job2.reqs} /><br/>
 
-                        <input id="salary" type="number" placeholder="Salary in Rs per month" onChange={(e) => { this.changeHandler("salary",e) }} value={job.salary} /> <br/>
+                        <input id="salary" type="number" placeholder="Salary in Rs per month" onChange={(e) => { this.changeHandler("salary",e) }} value={job2.desc===""?job.salary:job2.salary} /> <br/>
 
-                        <textarea id="reason" placeholder="What will the employee gain?" rows="3" cols="50" value={job.reason}
+                        <textarea id="reason" placeholder="What will the employee gain?" rows="3" cols="50" value={job2.reason===""?job.reason:job2.reason}
                             onChange={(e) => { this.changeHandler("reason",e) }} /> <br/>
                         
                         <label>This is a permanent job ?</label>
@@ -118,7 +119,7 @@ class EditJob extends Component{
                             <label htmlFor="r6">No</label><br/>
                         
                         { this.state.permanent===false ? 
-                        <input id="duration" type="text" placeholder="Duration" value={job.value} onChange={(e) => { this.changeHandler("duration",e) }} />
+                        <input id="duration" type="text" placeholder="Duration" value={job2.duration===""?job.duration:job2.duration} onChange={(e) => { this.changeHandler("duration",e) }} />
                         : <div></div> }
 
                         <input id="part-time" type="radio" checked={this.state.fullTime===false}
@@ -139,10 +140,10 @@ class EditJob extends Component{
                             <label htmlFor="office">No</label><br/>
                         
                         { this.state.fromHome===false ? 
-                        <input id="address" type="text" placeholder="Address of workplace" value={job.address} onChange={(e) => { this.changeHandler("address",e) }} />
+                        <input id="address" type="text" placeholder="Address of workplace" value={job2.address===""?job.address:job2.address} onChange={(e) => { this.changeHandler("address",e) }} />
                         : <div></div> }
                         
-                        <textarea id="otherDetails" placeholder="Any other details (opional)" rows="3" cols="50" value={job.otherDetails}
+                        <textarea id="otherDetails" placeholder="Any other details (opional)" rows="3" cols="50" value={job2.otherDetails===""?job.otherDetails:job2.otherDetails}
                             onChange={(e) => { this.changeHandler("otherDetails",e) }} /> <br/>
 
                         { this.state.msgBox ? <MessageBox messages={this.messages} type={this.msgType} /> : <div></div> }

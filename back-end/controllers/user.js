@@ -107,12 +107,12 @@ exports.selectUser = (req,res) => {
                     User.updateOne({ userName: ntfData.candidate }, { $push: { 'notifications' : notification } }).then(object => {
                         message = `Notification Sent to ${ntfData.candidate} by ${decoded.userName}`;
                         User.findOne({userName:ntfData.candidate}).then(async employee=>{
-                            var text1 = `You have been selected for the ${type} ${ntfData.workName} posted by ${user.userName}.\nWe advise you to get in touch with them and get started with your work.`;
+                            var text1 = `You have been selected for the ${type} ${ntfData.workName} posted by ${user.userName}.\nWe advise you to get in touch with them and get started with your work. Recruiter's email ${user.email}.`;
                             var to1 = employee.email;
                             var subject1 = `You have been selected for ${type==="JOB"?"a":"an"} ${type}`;
                             const mailResult1 = await sendMail.sendMail(to1, subject1, text1);
                             
-                            var text2 = `You have selected a recruit ${employee.userName} for the ${type} ${ntfData.workName}.\nWe advice that you start communicating with the recruit and start your work as soon as possible.`;
+                            var text2 = `You have selected a recruit ${employee.userName} for the ${type} ${ntfData.workName}.\nWe advice that you start communicating with the recruit and start your work as soon as possible. Recruit's email ${user.email}.`;
                             to2 = user.email;
                             subject2 = `You selected a recruit for ${type==="JOB"?"a":"an"} ${type}`;
                             const mailResult2 = await sendMail.sendMail(to2, subject2, text2);

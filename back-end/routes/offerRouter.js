@@ -15,6 +15,8 @@ offerRouter.post('/create-job', controllerJob.createJob);
 
 offerRouter.post('/edit-job', controllerJob.editJob);
 
+offerRouter.post('/remove-job', controllerJob.remove);
+
 offerRouter.post('/apply-job', controllerJob.applyJob);
 
 offerRouter.get('/job-list', controllerJob.jobList);
@@ -22,6 +24,8 @@ offerRouter.get('/job-list', controllerJob.jobList);
 offerRouter.post('/create-internship', controllerIn.createIn);
 
 offerRouter.post('/edit-internship', controllerIn.editInternship);
+
+offerRouter.post('/remove-in', controllerIn.remove);
 
 offerRouter.post('/apply-internship', controllerIn.applyIn);
 

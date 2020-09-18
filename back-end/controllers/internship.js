@@ -103,3 +103,16 @@ exports.editInternship = (req,res) => {
         }
     })
 }
+
+exports.remove = (req, res) => {
+    const token = req.body.headers['X-access-token'];
+    jwt.verify(token, authConfig.user_secret, async (e,decoded) => {
+        if(e){
+            return res.status(403).send({success:false, message:e.message})
+        }
+        if(decoded){
+            await Internship.deleteOne({_id:req.body._id});
+            return res.send({ success:true, message:"Internship Removed" })
+        }
+    })
+}
