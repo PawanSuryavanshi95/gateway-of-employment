@@ -1,6 +1,6 @@
 
 module.exports = {
-    user_secret: "#_AatmaNirbhar_India_Secret_483_#",
-    email_secret: "#_Aatma_Email_Nirbhar_363_#",
+    user_secret: "user_secret",
+    email_secret: "email_secret",
     confirmLink: `https://goe-server.herokuapp.com/api/auth/confirmation/`,
 }
