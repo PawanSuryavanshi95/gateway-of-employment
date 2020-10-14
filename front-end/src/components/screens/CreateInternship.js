@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import api from '../../api/index';
+import { createIn } from '../../api/Offer';
 import MessageBox from '../MessageBox';
 
 class CreateInternship extends Component{
@@ -25,7 +25,7 @@ class CreateInternship extends Component{
         this.msgType = "neutral";
     }
 
-    submitHandler = (e) =>{
+    submitHandler = async (e) =>{
         e.preventDefault();
         var info = {
             title: this.state.title,
@@ -47,22 +47,14 @@ class CreateInternship extends Component{
         if(info.stipend.available===true){
             info.stipend.amount = this.state.amount;
         }
-        const headers = {
-            'X-access-token': localStorage.getItem("userToken"),
-        }
 
         if(this.checkForm(info)){
-            return api.post('/offer/create-internship', { info:info, headers:headers }, {timeout:10000}).then(res => {
-                if(res.data.success){
-                    this.messages=["Internship created successfully"];
-                    this.msgType = "positive";
-                    this.setState({msgBox:true});
-                }
-            }).catch(e => {
-                this.messages=["Internship could not be created",e.message];
-                this.msgType = "negative";
+            const result = await createIn(info);
+            if(result.success){
+                this.messages=["Internship created successfully"];
+                this.msgType = "positive";
                 this.setState({msgBox:true});
-            })
+            }
         }
         else{
             this.setState({ msgBox:true });

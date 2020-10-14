@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import MessageBox from '../../MessageBox';
-import api from '../../../api/index';
+import {adminLogin} from '../../../api/Admin';
 
 class LogIn extends Component{
     constructor(props){
@@ -37,32 +37,27 @@ class LogIn extends Component{
         return submit;
     }
 
-    handleSubmit = (e)=>{
+    handleSubmit = async (e)=>{
         e.preventDefault();
         const {info} = this.state;
         if(this.checkForm(info)){
-            this.setState({ msgBox:false });
-            this.messages = [];
-            api.post("/admin/login", { userName:info.userName, password:info.password }).then(res => {
-                if(!res.error){
-                    if(res.data.verified){
-                        const data = {
-                            userList:res.data.userList,
-                            jobList:res.data.jobList,
-                            inList:res.data.inList,
-                        };
-                        this.setState({ msgBox:false });
-                        this.messages = [];
-                        this.props.onLogIn(true,res.data.token);
-                        this.props.getData(data);
-                    }
-                    else{
-                        this.messages.push(res.data.message);
-                        this.setState({ msgBox:true });
-                        this.props.onLogIn(false);
-                    }
-                }
-            });
+            const result = await adminLogin(info);
+            if(result.verified){
+                this.setState({ msgBox:false });
+                this.messages = [];
+                const data = {
+                    userList:result.userList,
+                    jobList:result.jobList,
+                    inList:result.inList,
+                };
+                this.props.onLogIn(true,result.token);
+                this.props.getData(data);
+            }
+            else{
+                this.messages.push(result.message);
+                this.setState({ msgBox:true });
+                this.props.onLogIn(false);
+            }
         }
         else{
             this.setState({ msgBox:true });

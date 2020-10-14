@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import api from '../../../api/index';
+import { register, sendConfirmLink } from '../../../api/Auth';
 import MessageBox from '../../MessageBox';
 
 class RegisterFirm extends Component{
@@ -20,7 +20,7 @@ class RegisterFirm extends Component{
         }
     }
 
-    submitHandler = (e) =>{
+    submitHandler = async (e) =>{
         e.preventDefault();
         const reg = this.props.match.params.reg_id;
         var info = {
@@ -31,37 +31,15 @@ class RegisterFirm extends Component{
             category: "Employer",
         }
         const { submit, messages } = this.checkForm(info, this.state.password2);
-        if(submit){
-            this.setState({
-                msgBox:false
-            });
 
-            return api.post('/auth/register', {
-                info: info,
-                create: reg==="1"?"USER_EMPLOYER_FIRM":(reg==="2"?"USER_EMPLOYEE":"Not Defined"),
-            }).then(res => {
-                if(res.data.success===true){
-                    this.setState({
-                        msgBox:true,
-                        _id:res.data._id,
-                        messages: [res.data.message,"You need to confirm your email to use this id, a confirmation mail was sent to you. ( Check your spam if it is not in your inbox )"],
-                        msgType: "positive",
-                    });
-                    this.sendConfirmLink();
-                }
-                else{
-                    this.setState({
-                        msgBox: true,
-                        msgType: "negative",
-                        messages: [`Registration failed, ${res.data.error}`,],
-                    });
-                }
-            }).catch(e => {
-                this.setState({
-                    msgBox: true,
-                    msgType: "negative",
-                    messages: [e.message,],
-                });
+        if(submit){
+            const result = await register(info, reg);
+            const _id = result._id? result._id: "";
+            const result2 = await sendConfirmLink(_id);
+            this.setState({
+                msgBox: true,
+                messages: [result.message, "Confirm your email to use this id."],
+                msgType: result.success? "positive" : "negative",
             });
         }
         else{
@@ -71,13 +49,6 @@ class RegisterFirm extends Component{
                 messages:messages,
             });
         }
-    }
-
-    sendConfirmLink = ()=>{
-        console.log("send-link");
-        api.post('/auth/send-link', { _id: this.state._id }).then(res => {
-            console.log(res.data);
-        }).catch(e=>{ console.log(e) });
     }
 
     checkForm(info, password2){

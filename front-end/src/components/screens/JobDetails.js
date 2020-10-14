@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import api from '../../api/index';
+import { applyJob } from '../../api/Offer';
 import MessageBox from '../MessageBox';
 
 class JobDetails extends Component{
@@ -19,25 +19,15 @@ class JobDetails extends Component{
         this.msgType = type;
     }
 
-    handleApply = (e) => {
+    handleApply = async (e) => {
         e.preventDefault();
         const {job} = this.props;
         const employer = job.employer, title = job.title;
-        const userToken = localStorage.getItem("userToken");
-        const headers = {
-            'X-access-token' : userToken
-        }
         var proposal = this.state.proposal;
         if(proposal){
             this.messages = [];
             this.setState({msgBox:false});
-            api.post('/offer/apply-job', {headers : headers, employer: employer, jobTitle: title, proposal: proposal}).then(res => {
-                if(res.error){
-                    return <div>
-                        Error occurered {res.error}
-                    </div>
-                }
-            });
+            const result = await applyJob(employer,  title, proposal);
         }
         else{
             this.setMsgBox(["Proposal cannot be empty."], "negative");

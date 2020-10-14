@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import EditJob from './EditJob';
-import api from '../../../../api/index';
+import { getJob, removeJob } from '../../../../api/Offer';
 
 class Jobs extends Component{
     constructor(props){
@@ -14,29 +14,24 @@ class Jobs extends Component{
     }
 
     componentDidMount(){
-        api.get('/offer/job-list', { params: { employer: this.props.employer ? this.props.employer : null } }).then(res =>{
-            this.setState({
-                jobs:res.data.jobs,
-            })
-        });
+        this.fetchJobs();
     }
 
-    remove = (_id) => {
-        const headers = {
-            'X-access-token': localStorage.getItem("userToken"),
+    fetchJobs = async () => {
+        const result = await getJob(this.props.employer);
+        this.setState({ jobs:result.jobs, });
+    }
+
+    remove = async (_id) => {
+        const result = await removeJob(_id);
+        if(result.success){
+            console.log("Removed");
+            var updatedJobs = this.state.jobs.map(job => { return job._id!==_id });
+            this.setState({ jobs: updatedJobs });
         }
-        api.post("/offer/remove-job", {headers:headers, _id:_id }).then(res => {
-            if(res.body.success){
-                console.log("Removed");
-                var updatedJobs = this.state.jobs.map(job => { return job._id!==_id });
-                this.setState({ jobs: updatedJobs });
-            }
-            else{
-                console.log(res.body.message);
-            }
-        }).catch(e => {
-            console.log(e.message);
-        })
+        else{
+            console.log(result.message);
+        }
     }
 
     render(){

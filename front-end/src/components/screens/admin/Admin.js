@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import LogIn from './LogIn';
 import Panel from './Panel';
-import api from '../../../api/index';
+import {adminRemove} from '../../../api/Admin';
 
 class Admin extends Component{
 
@@ -35,27 +35,22 @@ class Admin extends Component{
         return list;
     }
 
-    remove = (id,type) => {
-        const headers = {
-            'x-access-token':this.state.token,
-        };
-        const query = {
-            id:id,
-            type:type,
-        }
+    remove = async (id,type) => {
+        const headers = { 'x-access-token':this.state.token };
+        const query = { id:id, type:type, }
         var data = this.state.data;
-        api.post('/admin/remove', { headers:headers, query:query }).then(res => {
-            if(res.data.success){
-                if(type==="User"){
-                    data.userList = this.removeItem(data.userList,id);
-                    this.setState({ data:data });
-                }
-                else if(type==="Job"){
-                    data.jobList = this.removeItem(data.jobList,id);
-                    this.setState({ data:data });
-                }
+
+        const result = await adminRemove(headers, query);
+        if(result.success){
+            if(type==="User"){
+                data.userList = this.removeItem(data.userList,id);
+                this.setState({ data:data });
             }
-        });
+            else if(type==="Job"){
+                data.jobList = this.removeItem(data.jobList,id);
+                this.setState({ data:data });
+            }
+        }
     }
 
     render(){

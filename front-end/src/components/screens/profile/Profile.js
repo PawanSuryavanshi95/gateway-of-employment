@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import api from '../../../api/index';
+import { getProfile } from "../../../api/User";
 import {Link} from 'react-router-dom';
 import NotificationTab from './NotificationTab';
 import UserNav from "./UserNav";
@@ -29,46 +29,30 @@ class Profile extends Component{
     }
 
     componentDidMount(){
+        this.profile();
+    }
+
+    profile = async () =>{
         const userToken = localStorage.getItem('userToken');
-        const headers = {
-            'X-access-token': userToken,
-        }
-        var bool;
-        if(userToken){
-            bool = false;
-        }
-        else{
-            bool = true;
-        }
+        var bool = userToken? false: true;
         const params = {
             userName: this.props.match.params.userName,
             public: bool,
         }
-        api.get('/user/profile', { headers: headers, params: params })
-        .then(res => {
-            if(!res.error){
-                if(!res.data.userData.confirmed){
-                    this.props.history.push(`/error/404`);
-                    window.location.reload(false);
-                    console.log(res.data.userData.confirmed);
-                }
-                else{
-                    this.setState({
-                        userData: res.data.userData,
-                        public: res.data.public,
-                        stats: res.data.stats,
-                        nav: res.data.userData.category==="Employee"? "Info" : res.data.userData.category==="Employer"? "Job" : "",
-                    });
-                }
-            }
-            else{
-                return <div>
-                    Error occurered {res.error}
-                </div>
-            }
-        }).catch(e=>{
-            console.log(e)
-        });
+        const result = await getProfile(params);
+        if(!result.userData.confirmed){
+            this.props.history.push(`/error/404`);
+            window.location.reload(false);
+            console.log(result.userData.confirmed);
+        }
+        else{
+            this.setState({
+                userData: result.userData,
+                public: result.public,
+                stats: result.stats,
+                nav: result.userData.category==="Employee"? "Info" : result.userData.category==="Employer"? "Job" : "",
+            });
+        }
     }
 
     displayContent(category){

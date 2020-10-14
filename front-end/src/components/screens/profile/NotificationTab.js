@@ -1,5 +1,6 @@
 import React,{ Component } from 'react';
 import api from '../../../api/index';
+import { getNotifications } from "../../../api/User";
 
 class NotificationTab extends Component{
     constructor(props){
@@ -12,16 +13,17 @@ class NotificationTab extends Component{
     }
 
     componentDidMount(){
-        const headers = {
-            'X-access-token': localStorage.getItem('userToken')
-        }
-        api.get('/user/notifications', { headers : headers }).then(res => {
+        this.notifications();
+    }
+
+    notifications = async () => {
+        const result = await getNotifications();
+        console.log(result);
+        if(result.success){
             this.setState({
-                notifications: res.data.notifications
+                notifications: result.notifications,
             });
-        }).catch(e => {
-            console.log(e);
-        });
+        }
     }
 
     handleClick = (ntf) => {

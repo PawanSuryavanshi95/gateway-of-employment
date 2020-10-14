@@ -1,5 +1,5 @@
 import React,{ Component } from 'react';
-import api from '../../api/index';
+import { getJobList } from '../../api/Offer';
 import Modal from 'react-modal';
 import JobDetails from './JobDetails';
 import MessageBox from '../MessageBox';
@@ -21,13 +21,14 @@ class JobOffers extends Component{
     }
 
     componentDidMount(){
-        api.get('/offer/job-List').then(res=>{
-            this.setState({
-                jobs:res.data.jobs,
-                loading:false,
-            });
-        }).catch(e=>{
-            this.setMsgBox([e.message], "negative");
+        this.fetchJobs();
+    }
+
+    fetchJobs = async () => {
+        const result = await getJobList();
+        this.setState({
+            jobs:result.jobs,
+            loading:false,
         });
     }
 
@@ -73,7 +74,7 @@ class JobOffers extends Component{
                         </div>
                         <div className="offer-apply">
                             {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}
-                            <button className="button" onClick={() => { this.handleApply(job); }}><span>Apply</span></button>
+                            <button className="button" onClick={() => { this.handleApply(job); }}><span>More Details</span></button>
                         </div>
                     </div>
                 )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import api from '../../../../api/index';
+import { editIn } from '../../../../api/Offer';
 import MessageBox from '../../../MessageBox';
 
 class EditIn extends Component{
@@ -24,7 +24,7 @@ class EditIn extends Component{
         this.msgType = "neutral";
     }
 
-    submitHandler = (e) =>{
+    submitHandler = async (e) =>{
         e.preventDefault();
         const internship = this.props.internship;
         var info = {
@@ -47,20 +47,13 @@ class EditIn extends Component{
         if(info.stipend.available===true){
             info.stipend.amount = this.state.amount==='' ? this.state.amount : internship.stipend.amount;
         }
-        const headers = {
-            'X-access-token': localStorage.getItem("userToken"),
-        }
-        return api.post('/offer/edit-internship', { info:info, headers:headers }, {timeout:5000}).then(res => {
-            if(res.data.success){
-                this.messages=["Internship has been edited"];
-                this.msgType = "positive";
-                this.setState({msgBox:true});
-            }
-        }).catch(e => {
-            this.messages=["Internship could not be edited",e.message];
-            this.msgType = "negative";
+        
+        const result = await editIn(info);
+        if(result.success){
+            this.messages=["Internship has been edited"];
+            this.msgType = "positive";
             this.setState({msgBox:true});
-        })
+        }
     }
 
     changeHandler = (type,e) =>{

@@ -1,8 +1,8 @@
 import React,{ Component } from 'react';
-import api from '../../api/index';
 import Modal from 'react-modal';
 import InDetails from './InDetails';
 import MessageBox from '../MessageBox';
+import { getInList } from '../../api/Offer';
 
 Modal.setAppElement("#root");
 
@@ -21,13 +21,14 @@ class InOffers extends Component{
     }
 
     componentDidMount(){
-        api.get('/offer/internship-list').then(res=>{
-            this.setState({
-                internships:res.data.internships,
-                loading:false,
-            });
-        }).catch(e=>{
-            this.setMsgBox([e.message], "negative");
+        this.fetchIn();
+    }
+
+    fetchIn = async () => {
+        const result = await getInList();
+        this.setState({
+            internships:result.internships,
+            loading:false,
         });
     }
 
@@ -73,7 +74,7 @@ class InOffers extends Component{
                         </div>
                         <div className="offer-apply">
                             {this.state.msgBox?<MessageBox messages={this.messages} type="negative" />:null}
-                            <button className="button" onClick={() => { this.handleApply(internship); }}><span>Apply</span></button>
+                            <button className="button" onClick={() => { this.handleApply(internship); }}><span>More Details</span></button>
                         </div>
                     </div>
                 )

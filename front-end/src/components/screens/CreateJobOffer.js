@@ -1,5 +1,5 @@
 import React,{Component} from 'react';
-import api from '../../api/index';
+import { createJob } from '../../api/Offer';
 import MessageBox from '../MessageBox';
 
 class CreateJobOffer extends Component{
@@ -26,7 +26,7 @@ class CreateJobOffer extends Component{
         this.msgType = "neutral";
     }
 
-    submitHandler = (e) =>{
+    submitHandler = async (e) =>{
         e.preventDefault();
         var info = {
             title: this.state.title,
@@ -47,22 +47,13 @@ class CreateJobOffer extends Component{
         if(info.fromHome===false){
             info.address = this.state.address;
         }
-        const headers = {
-            'X-access-token': localStorage.getItem("userToken"),
-        }
         if(this.checkForm(info)){
-            console.log(info);
-            return api.post('/offer/create-job', { info:info, headers:headers }, {timeout:10000}).then(res => {
-                if(res.data.success){
-                    this.messages=["Job created successfully"];
-                    this.msgType = "positive";
-                    this.setState({msgBox:true});
-                }
-            }).catch(e => {
-                this.messages=["Job could not be created",e.message];
-                this.msgType = "negative";
+            const result = await createJob(info);
+            if(result.success){
+                this.messages=["Job created successfully"];
+                this.msgType = "positive";
                 this.setState({msgBox:true});
-            })
+            }
         }
         else{
             this.setState({ msgBox:true });

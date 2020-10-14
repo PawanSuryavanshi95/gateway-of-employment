@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import EditDetails from './Employee/EditDetails';
-import api from '../../../api/index';
 import MessageBox from '../../MessageBox';
+import { changeEmail, changePassword, toggleMail } from '../../../api/User';
+import { sendConfirmLink } from '../../../api/Auth';
 
 class Settings extends Component{
     constructor(props){
@@ -39,33 +40,26 @@ class Settings extends Component{
         }
     }
 
-    sendConfirmLink = (_id)=>{
-        console.log("send-link");
-        api.post('/auth/send-link', { _id: _id }).then(res => {
-            console.log(res.data);
-        }).catch(e=>{ console.log(e) });
+    sendConfirmLink = async (_id)=>{
+        const result = await sendConfirmLink(_id);
+        return result;
     }
 
     setMsgBox = (msg,type) => {
         this.setState({ msgBox: true, messages:msg, type:type});
     }
 
-    changeEmailSubmit = (e) => {
+    changeEmailSubmit = async (e) => {
         e.preventDefault();
         if(this.state.email1===""){
             this.setMsgBox(["Enter the email."],"negative");
         }
         else{
-            const userToken = localStorage.getItem("userToken");
-            const headers = { 'X-access-token': userToken }
-            api.post("/user/change-email", {headers: headers, email:this.state.email1}, (res)=>{
-                if(res.data.success){
-                    this.sendConfirmLink(res.data._id);
-                    this.setMsgBox(["Email has been changed, please confirm your email."],"positive");
-                }
-            }).catch(e => {
-                this.setMsgBox([e.message],"negative");
-            });
+            const result = await changeEmail(this.state.email1);
+            if(result.success){
+                const result2 = this.sendConfirmLink(result._id);
+                this.setMsgBox(["Email has been changed, please confirm your email."],"positive");
+            }
         }
     }
 
@@ -94,7 +88,7 @@ class Settings extends Component{
         </div> )
     }
 
-    changePassSubmit = (e) => {
+    changePassSubmit = async (e) => {
         e.preventDefault();
         if(!this.state.pass1 || !this.state.pass2){
             const messages = [];
@@ -107,35 +101,25 @@ class Settings extends Component{
             this.setMsgBox(messages,"negative");
         }
         else{
-            const userToken = localStorage.getItem("userToken");
-            const headers = { 'X-access-token': userToken }
-            api.post("/user/change-password", {headers: headers, password:this.state.pass1, new_password:this.state.pass2}, (res)=>{
-                if(res.data.success===true){
-                    this.setMsgBox(["Password Changed"],"positive");
-                }
-                else{
-                    this.setMsgBox([res.body.message],"negative");
-                }
-            }).catch(e => {
-                this.setMsgBox([e.message],"negative");
-            });
+            const result = await changePassword(this.state.pass1, this.state.pass2);
+            if(result.success===true){
+                this.setMsgBox(["Password Changed"],"positive");
+            }
+            else{
+                this.setMsgBox([result.message],"negative");
+            }
         }
     }
 
-    receiveMailSubmit = (e) => {
+    receiveMailSubmit = async (e) => {
         e.preventDefault();
         if(this.state.receiveMail===""){
             this.setMsgBox(["Select either of the two options to continue."], "negative");
         }
         else{
-            const userToken = localStorage.getItem("userToken");
-            const headers = { 'X-access-token': userToken }
             const bool = this.state.receiveMail==="Yes"? true : false;
-            api.post("/user/toggle-receive-mail", {headers: headers, receiveMail:bool}, (res)=>{
-                console.log(res);
-            }).catch(e => {
-                this.setMsgBox([e.message],"negative");
-            });
+            const result = await toggleMail(bool);
+            console.log(result);
         }
     }
 

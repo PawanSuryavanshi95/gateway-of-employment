@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-modal';
 import EditIn from './EditIn';
-import api from '../../../../api/index';
+import { getIn, removeIn } from '../../../../api/Offer';
 
 class Internships extends Component{
     constructor(props){
@@ -14,29 +14,23 @@ class Internships extends Component{
     }
 
     componentDidMount(){
-        api.get('/offer/internship-list', { params: { employer: this.props.employer ? this.props.employer : null } }).then(res =>{
-            this.setState({
-                internships:res.data.internships,
-            });
-        });
+        this.fetchIn();
+    }
+
+    fetchIn = async () => {
+        const result = await getIn(this.props.employer);
+        this.setState({ internships:result.internships, });
     }
 
     remove = (_id) => {
-        const headers = {
-            'X-access-token': localStorage.getItem("userToken"),
+        const result = removeIn(_id);
+        if(result.success){
+            var updatedIns = this.state.internships.map(internship => { return internship._id!==_id });
+            this.setState({ internships: updatedIns });
         }
-        api.post("/offer/remove-in", {headers:headers, _id:_id }).then(res => {
-            if(res.body.success){
-                console.log("Removed");
-                var updatedIns = this.state.internships.map(internship => { return internship._id!==_id });
-                this.setState({ internships: updatedIns });
-            }
-            else{
-                console.log(res.body.message);
-            }
-        }).catch(e => {
-            console.log(e.message);
-        })
+        else{
+            console.log(result.message);
+        }
     }
 
     render(){

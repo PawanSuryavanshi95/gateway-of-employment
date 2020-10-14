@@ -1,6 +1,6 @@
 import React,{ Component } from 'react';
 import Modal from 'react-modal';
-import api from '../../../../api/index';
+import { postDetails } from '../../../../api/User';
 import MessageBox from '../../../MessageBox';
 
 class EditDetails extends Component{
@@ -40,24 +40,19 @@ class EditDetails extends Component{
         this.setState({details});
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
         var details = { ...this.state.details };
         details.skilled = this.state.radioGroups[1] ? this.state.radioGroups[1]==="Yes" ? true : false : undefined;
         details.permanent = this.state.radioGroups[2] ? this.state.radioGroups[2]==="Permanent"? true : false : undefined;
         if(this.checkForm(details)){
-            console.log("Sending details to the server");
             this.setState({
                 msgBox:false
             });
-            const headers = {
-                "X-access-token": localStorage.getItem('userToken')
-            }
-            api.post('/user/details', { headers: headers, details: details}).then(res => {
+            const result = await postDetails(details);
+            if(result.success){
                 this.props.setModal("");
-            }).catch(e => {
-                console.log(e);
-            });
+            }
         }
         else{
             this.setState({

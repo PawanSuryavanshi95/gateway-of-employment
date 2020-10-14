@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import api from '../../../../api/index';
+import { editJob } from '../../../../api/Offer';
 import MessageBox from '../../../MessageBox';
 
 class EditJob extends Component{
@@ -25,7 +25,7 @@ class EditJob extends Component{
         this.msgType = "neutral";
     }
 
-    submitHandler = (e) =>{
+    submitHandler = async (e) =>{
         e.preventDefault();
         const job = this.props.job;
         var info = {
@@ -47,20 +47,13 @@ class EditJob extends Component{
         if(info.fromHome===false){
             info.address = this.state.address==='' ? job.address : this.state.address;
         }
-        const headers = {
-            'X-access-token': localStorage.getItem("userToken"),
-        }
-        return api.post('/offer/edit-job', { info:info, headers:headers }, {timeout:5000}).then(res => {
-            if(res.data.success){
-                this.messages=["Job has been edited"];
-                this.msgType = "positive";
-                this.setState({msgBox:true});
-            }
-        }).catch(e => {
-            this.messages=["Job could not be edited",e.message];
-            this.msgType = "negative";
+
+        const result = await editJob(info);
+        if(result.success){
+            this.messages=["Job has been edited"];
+            this.msgType = "positive";
             this.setState({msgBox:true});
-        })
+        }
     }
 
     changeHandler = (type,e) =>{
