@@ -1,5 +1,7 @@
 # Gateway of Employment
 
+A personal project.
+
 This is a MERN stack website which acts as a platform to connect recruiters with people looking for work.
 
 Download and install nodejs.
